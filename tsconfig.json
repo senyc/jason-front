@@ -29,8 +29,14 @@
       "@actions/*": [
         "./src/lib/actions/*"
       ],
+      "@annotations/*": [
+        "./src/lib/annotations/*"
+      ],
       "@utils": [
         "./src/lib/utils"
+      ],
+      "@auth": [
+        "./src/lib/auth"
       ]
     }
   },

@@ -4,35 +4,86 @@ import Link from 'next/link';
 import onLogin from "@actions/login";
 import { inputSetter } from '@utils';
 
-import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import UserAuthRequest from '@annotations/userAuthRequest';
+import { addJwtToCookies, getJwtToken } from '@auth';
+import { useRouter } from 'next/navigation';
 
-export default function Home() {
+
+export default function Login() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userAuthRequest, setUserAuthRequest] = useState<UserAuthRequest>({
+    pending: false,
+    completed: false,
+    err: undefined,
+    jwt: undefined
+  });
+
+  useEffect(() => {
+    if (getJwtToken() != undefined) {
+      router.replace('/tasks');
+    }
+
+    if (userAuthRequest.completed && userAuthRequest.err == undefined) {
+      addJwtToCookies(userAuthRequest.jwt as string);
+      router.replace('/tasks');
+    }
+  }, [userAuthRequest]);
 
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     setPassword("");
     setEmail("");
-    onLogin(email, password)(e);
+    onLogin(email, password, setUserAuthRequest);
   };
 
   return (
-    <div className='flex h-full flex-col items-center justify-center gap-16'>
-      <form onSubmit={onSubmit}>
-        <div className="label">
-          <span className="label-text">Email</span>
+    <div className='flex h-full flex-col items-center justify-center'>
+      <div className="min-w-96">
+        <h1 className="mb-4 w-full border-b-[0.2px] pb-2 text-3xl font-bold">
+          Login
+        </h1>
+        <form onSubmit={onSubmit}>
+          <div className="label">
+            <label
+              className="label-text"
+              htmlFor="email-input"
+            >Email</label>
+          </div>
+          <input
+            type="text"
+            id="email-input"
+            value={email}
+            placeholder="Email..."
+            className="input input-bordered w-full min-w-full"
+            onChange={inputSetter(setEmail)}
+          />
+          <div className="label">
+            <label
+              className="label-text"
+              htmlFor="password-input"
+            >Password</label>
+          </div>
+          <input
+            type="text"
+            id="password-input"
+            placeholder="password..."
+            value={password}
+            className="input input-bordered w-full min-w-full"
+            onChange={inputSetter(setPassword)}
+          />
+          <button
+            type="submit"
+            className="btn btn-s mb-8 mt-6"
+          >Login</button>
+        </form>
+        <div className="flex min-w-full justify-center">
+          <Link className="link " href='/login/new'>Sign up</Link>
         </div>
-        <input type="text" value={email} placeholder="What is your email address..." className="input input-bordered min-w-80 w-full" onChange={inputSetter(setEmail)} />
-        <div className="label">
-          <span className="label-text">Password</span>
-        </div>
-        <input type="text" placeholder="What is your password..." value={password} className="input input-bordered min-w-80 w-full" onChange={inputSetter(setPassword)} />
-        <button type="submit" className="btn btn-s mt-9">Login</button>
-      </form>
-
-      <Link className="link" href='/login/new'>Sign up</Link>
+      </div>
     </div>
   );
 };

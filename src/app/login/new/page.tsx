@@ -44,10 +44,11 @@ export default function New() {
           <div className="label">
             <label className="label-text" htmlFor="email-input">Email</label>
           </div>
-          <input type="text"
+          <input 
+            type="text"
             value={email}
             id="email-input"
-            placeholder="Email address..."
+            placeholder="Email..."
             className={`${showEmailError ? 'border-red-500' : ""} input input-bordered w-full min-w-full`}
             onChange={inputSetter(setEmail)}
           />
@@ -58,7 +59,8 @@ export default function New() {
           <div className="label">
             <label className="label-text" htmlFor="password-input">Password</label>
           </div>
-          <input type="text"
+          <input 
+            type="text"
             id="password-input"
             placeholder="Password..."
             value={password}
@@ -76,14 +78,15 @@ export default function New() {
           <div className="label">
             <label className="label-text" htmlFor="password-confirmation-input">Confirm password</label>
           </div>
-          <input type="text"
+          <input 
+            type="text"
             id="password-confirmation-input"
             placeholder="Confirm password..."
             value={passwordConfirmation}
             className="input input-bordered w-full min-w-full"
             onChange={inputSetter(setPasswordConfirmation)}
           />
-          <button type="submit" className="btn btn-s mt-9">Sign up</button>
+          <button type="submit" className="btn btn-s mt-6">Sign up</button>
         </form>
       </div>
     </div>

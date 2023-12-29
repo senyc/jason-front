@@ -1,12 +1,13 @@
-import { FormEvent } from "react";
+import { Dispatch } from "react";
 import { z } from 'zod';
+import UserAuthRequest from "@annotations/userAuthRequest";
 
 const jwtResponse = z.object({
   jwt: z.string()
 });
 
-const onLogin = (email: string, password: string) => {
-  return async (e: FormEvent<HTMLFormElement>) => {
+const onLogin = (email: string, password: string, setRequest: Dispatch<UserAuthRequest>) => {
+  const makeRequest = async () => {
     const data = {
       email: email,
       password: password,
@@ -23,12 +24,37 @@ const onLogin = (email: string, password: string) => {
       if (res.ok) {
         const resData = await res.json();
         const validData = jwtResponse.parse(resData);
-        console.log(validData.jwt);
+        setRequest({
+          pending: false,
+          completed: true,
+          jwt: validData.jwt
+        });
+
+      } else {
+        setRequest({
+          pending: false,
+          completed: true,
+          err: res.statusText
+        });
       }
     } catch (e) {
       console.log(e);
+      let message = "unknown error";
+      if (e instanceof Error) {
+        message = e.message;
+      }
+      setRequest({
+        pending: false,
+        completed: true,
+        err: message
+      });
     }
   };
+  setRequest({
+    pending: true,
+    completed: false,
+  });
+  makeRequest();
 
 };
 
