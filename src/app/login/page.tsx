@@ -25,7 +25,6 @@ export default function Login() {
     if (getJwtToken() != undefined) {
       router.replace('/tasks');
     }
-
     if (userAuthRequest.completed && userAuthRequest.err == undefined) {
       addJwtToCookies(userAuthRequest.jwt as string);
       router.replace('/tasks');
@@ -68,7 +67,7 @@ export default function Login() {
             >Password</label>
           </div>
           <input
-            type="text"
+            type="password"
             id="password-input"
             placeholder="password..."
             value={password}

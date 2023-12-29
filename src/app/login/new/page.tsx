@@ -60,7 +60,7 @@ export default function New() {
             <label className="label-text" htmlFor="password-input">Password</label>
           </div>
           <input 
-            type="text"
+            type="password"
             id="password-input"
             placeholder="Password..."
             value={password}
@@ -79,7 +79,7 @@ export default function New() {
             <label className="label-text" htmlFor="password-confirmation-input">Confirm password</label>
           </div>
           <input 
-            type="text"
+            type="password"
             id="password-confirmation-input"
             placeholder="Confirm password..."
             value={passwordConfirmation}
