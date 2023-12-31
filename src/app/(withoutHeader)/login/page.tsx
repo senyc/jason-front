@@ -18,7 +18,8 @@ export default function Login() {
     pending: false,
     completed: false,
     err: undefined,
-    jwt: undefined
+    jwt: undefined,
+    code: 200
   });
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export default function Login() {
     onLogin(email, password, setUserAuthRequest);
   };
 
+  const showPasswordFailure = userAuthRequest.completed && userAuthRequest.err != undefined && userAuthRequest.code == 401;
   return (
     <div className='flex h-full flex-col items-center justify-center'>
       <div className="min-w-96">
@@ -71,9 +73,13 @@ export default function Login() {
             id="password-input"
             placeholder="password..."
             value={password}
-            className="input input-bordered w-full min-w-full"
+            className={`${showPasswordFailure ? 'border-red-500' : ""} input input-bordered w-full min-w-full`}
             onChange={inputSetter(setPassword)}
           />
+          {(showPasswordFailure) && (
+            <span className="ml-1 mt-1 flex items-center text-xs font-medium tracking-wide text-red-500"
+            >{userAuthRequest.err}</span>
+          )}
           <button
             type="submit"
             className="btn btn-s mb-8 mt-6"

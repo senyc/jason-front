@@ -1,34 +1,29 @@
 import { Dispatch } from "react";
-import { z } from 'zod';
-import UserAuthRequest from "@annotations/userAuthRequest";
+import Task from "@annotations/task";
+import NewTaskRequest from "@annotations/newTaskRequest";
+import { getJwtToken } from "../auth";
 
-const jwtResponse = z.object({
-  jwt: z.string().optional(),
-  message: z.string().optional()
-});
-
-const onLogin = (email: string, password: string, setRequest: Dispatch<UserAuthRequest>) => {
+const onNewTask = (task: Task, setRequest: Dispatch<NewTaskRequest>) => {
   const makeRequest = async () => {
-    const data = {
-      email: email,
-      password: password,
+    const data: Task = {
+      title: task.title,
+      body: task.body,
     };
+
     try {
-      const res = await fetch('http://localhost:8080/api/user/login', {
+      const res = await fetch('http://localhost:8080/site/tasks/new', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getJwtToken()}`,
         },
         body: JSON.stringify(data), // body data type must match "Content-Type" header
       });
 
-      const resData = await res.json();
-      const parsedData = jwtResponse.parse(resData);
       if (res.ok) {
         setRequest({
           pending: false,
           completed: true,
-          jwt: parsedData.jwt,
           code: res.status
         });
 
@@ -36,7 +31,6 @@ const onLogin = (email: string, password: string, setRequest: Dispatch<UserAuthR
         setRequest({
           pending: false,
           completed: true,
-          err: parsedData.message,
           code: res.status
         });
       }
@@ -63,4 +57,4 @@ const onLogin = (email: string, password: string, setRequest: Dispatch<UserAuthR
 
 };
 
-export default onLogin;
+export default onNewTask;
