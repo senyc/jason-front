@@ -37,6 +37,15 @@
       ],
       "@auth": [
         "./src/lib/auth"
+      ],
+      "@components/*": [
+        "./src/lib/components/*"
+      ],
+      "@context/*": [
+        "./src/lib/context/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
       ]
     }
   },
