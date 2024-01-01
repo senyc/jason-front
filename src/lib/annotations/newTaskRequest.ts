@@ -1,4 +1,3 @@
-
 export default interface NewTaskRequest {
   pending: boolean;
   completed: boolean;

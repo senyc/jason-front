@@ -8,6 +8,7 @@ const onNewTask = (task: Task, setRequest: Dispatch<NewTaskRequest>) => {
     const data: Task = {
       title: task.title,
       body: task.body,
+      priority: task.priority
     };
 
     try {
