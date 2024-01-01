@@ -13,6 +13,6 @@ export default function FilterSelection({ currFilter, setFilterSelection }: Filt
     setFilterSelection(filterOrder[newIndex]);
   };
   return (
-    <button onClick={cycleFilterOptions}>{`${currFilter}`}</button>
+    <button className="w-24 rounded-lg p-2 text-sm font-normal" onClick={cycleFilterOptions}>{`${currFilter}`}</button>
   );
 }

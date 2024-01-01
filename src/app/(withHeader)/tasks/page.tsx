@@ -1,34 +1,39 @@
 'use client';
 
-import FilterDropdown from "@/src/lib/components/filterDropdown";
-import FilterSelection from "@/src/lib/components/filterSelection";
-import { Filter } from "@annotations/filter";
-import { FormEvent, useState } from "react";
 import TextareaAutosize from 'react-textarea-autosize';
-import Datepicker from "react-tailwindcss-datepicker";
-import { DateValueType } from "react-tailwindcss-datepicker";
-import PriorityDropdown from "@/src/lib/components/priorityDropdown";
-import { inputSetter } from "@/src/lib/utils";
-import NewTaskRequest from "@/src/lib/annotations/newTaskRequest";
-import onNewTask from "@/src/lib/actions/newTask";
-import Task from "@/src/lib/annotations/task";
+import { FormEvent, useEffect, useRef, useState } from "react";
+
+
+import FilterDropdown from "@components/filterDropdown";
+import FilterSelection from "@components/filterSelection";
+import NewTaskRequest from "@annotations/newTaskRequest";
+import PriorityDropdown from "@components/priorityDropdown";
+import Task from "@annotations/task";
+import onNewTask from "@actions/newTask";
+import { Filter } from "@annotations/filter";
+import { inputSetter } from "@utils";
+
 const maxHeight = 4;
+
 export default function Tasks() {
   const [filterOption, setFilterOption] = useState<Filter>(Filter.Daily);
   const [taskTitle, setTaskTitle] = useState<string>("");
   const [taskDescription, setTaskDescription] = useState<string>("");
   const [showNewTaskInput, setShowNewTaskInput] = useState<boolean>(false);
-  const [priorityOption, setPriorityOption] = useState<number>(2);
-  const [value, setValue] = useState<DateValueType>({
-    startDate: null,
-    endDate: null
-  });
+  const [priorityOption, setPriorityOption] = useState<number | undefined>(undefined);
+  const [dueDate, setDueDate] = useState<string>("");
+
+  const titleInputRef = useRef<HTMLInputElement>(null);
 
   const [newTaskRequest, setNewTaskRequest] = useState<NewTaskRequest>({
     completed: false,
     pending: false,
     code: 200
   });
+
+  useEffect(() => {
+    (titleInputRef.current && showNewTaskInput) && titleInputRef.current.focus();
+  }, [showNewTaskInput]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,8 +45,8 @@ export default function Tasks() {
       priority: priorityOption
     };
     onNewTask(newTask, setNewTaskRequest);
-    setTaskTitle("")
-    setTaskDescription("")
+    setTaskTitle("");
+    setTaskDescription("");
   };
 
   return (
@@ -54,14 +59,22 @@ export default function Tasks() {
         <FilterDropdown setFilterOption={setFilterOption} />
       </div>
       <div className="mt-11">
-        {!showNewTaskInput ? <button onClick={() => setShowNewTaskInput(true)}>+ Add task</button> : (
+        {!showNewTaskInput ? (
+          <button
+            className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+            onClick={() => {
+              setShowNewTaskInput(true);
+            }}
+          >+ Add task</button>
+        ) : (
           <form onSubmit={onSubmit} className="rounded-lg border-[.5px] border-gray-400">
             <input
+              ref={titleInputRef}
               type="text"
               value={taskTitle}
               onChange={inputSetter(setTaskTitle)}
               placeholder="New title"
-              className="input input-ghost h-10 w-full border-none focus:outline-none" />
+              className="input input-ghost h-10 w-full border-none font-bold focus:outline-none" />
             {/* make sure to change the scrollbar icon*/}
             <TextareaAutosize
               value={taskDescription}
@@ -69,26 +82,34 @@ export default function Tasks() {
               maxRows={maxHeight}
               placeholder="Description"
               className="input input-ghost h-10 w-full resize-none overflow-y-auto overflow-x-hidden border-none text-sm focus:outline-none" />
-            <div className="border-b-[.5px] border-gray-200" />
-            <div className="pj-3 flex h-12 flex-row gap-4 ">
-              <Datepicker
-                containerClassName={"relative w-36 border-none bg-transparent focus:outline-none"}
-                asSingle
-                inputClassName={"h-full w-full rounded-md bg-transparent bg-none px-3 text-sm focus:outline-none"}
-                useRange={false}
-                value={value}
-                placeholder="new Date"
-                displayFormat={"DD/MM/YYYY"}
-                onChange={(newValue) => setValue(newValue)}
+            <div className="m-3 flex h-12 flex-row place-items-center gap-4">
+              <input
+                className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+                type="date"
+                value={dueDate}
+                onChange={inputSetter(setDueDate)}
               />
-              <PriorityDropdown setNewPriority={setPriorityOption} />
+              <PriorityDropdown
+                setNewPriority={setPriorityOption}
+                text={`${priorityOption == undefined ? 'Priority' : `${priorityOption}/5`}`}
+              />
             </div>
-            <div className="m-1 w-full pb-3">
-              <button type="submit" className="btn btn-sm">Add task</button>
+            <div className="border-b-[.5px] border-gray-200" />
+            <div className="flex w-full flex-row justify-between p-3">
+              <button
+                type="submit"
+                className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+              >Add task</button>
+              <button
+                onClick={() => setShowNewTaskInput(() => false)}
+                type="button"
+                className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+              >Cancel</button>
             </div>
           </form>
         )}
       </div>
+      <div className="border-b-[.5px] border-gray-200 py-4" />
     </main>
   );
 }
