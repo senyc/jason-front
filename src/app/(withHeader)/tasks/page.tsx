@@ -3,7 +3,6 @@
 import TextareaAutosize from 'react-textarea-autosize';
 import { FormEvent, useEffect, useRef, useState } from "react";
 
-
 import FilterDropdown from "@components/filterDropdown";
 import FilterSelection from "@components/filterSelection";
 import NewTaskRequest from "@annotations/newTaskRequest";
@@ -12,6 +11,9 @@ import Task from "@annotations/task";
 import onNewTask from "@actions/newTask";
 import { Filter } from "@annotations/filter";
 import { inputSetter } from "@utils";
+import TaskDisplay from '@components/taskDisplay';
+import getTasks from '@actions/getTasks';
+import { Priority } from '@annotations/priority';
 
 const maxHeight = 4;
 
@@ -22,6 +24,7 @@ export default function Tasks() {
   const [showNewTaskInput, setShowNewTaskInput] = useState<boolean>(false);
   const [priorityOption, setPriorityOption] = useState<number | undefined>(undefined);
   const [dueDate, setDueDate] = useState<string>("");
+  const [tasks, setTasks] = useState<undefined | Array<Task>>(undefined);
 
   const titleInputRef = useRef<HTMLInputElement>(null);
 
@@ -35,6 +38,10 @@ export default function Tasks() {
     (titleInputRef.current && showNewTaskInput) && titleInputRef.current.focus();
   }, [showNewTaskInput]);
 
+  useEffect(() => {
+    getTasks(setTasks);
+  }, []);
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (taskTitle.length <= 0) {
@@ -42,7 +49,8 @@ export default function Tasks() {
     }
     const newTask: Task = {
       title: taskTitle,
-      priority: priorityOption
+      priority: priorityOption,
+      body: taskDescription
     };
     onNewTask(newTask, setNewTaskRequest);
     setTaskTitle("");
@@ -110,6 +118,19 @@ export default function Tasks() {
         )}
       </div>
       <div className="border-b-[.5px] border-gray-200 py-4" />
-    </main>
+      <ul>
+        {tasks != undefined && tasks.map((task) => (
+          <li
+            key={`key-task-${task.id}`}
+          >
+            <TaskDisplay
+              title={task.title}
+              priority={task.priority as Priority | undefined}
+              body={task.body}
+            />
+          </li>
+        ))}
+      </ul>
+    </main >
   );
 }
