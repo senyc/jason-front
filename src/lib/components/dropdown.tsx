@@ -37,6 +37,7 @@ export default function Dropdown({ options, text, setter }: DropdownProps) {
               key={`key-${val}`}
             >
               <button
+                type="button"
                 onClick={() => {
                   toggleOpen();
                   setter(val);
