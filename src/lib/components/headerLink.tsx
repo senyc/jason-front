@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 interface HeaderLinkProps {
+  size?: 'lg' | 'sm' | 'md' | 'xs' | 'xl'
   href: string;
   label: string;
   openInNewTab?: boolean;
@@ -8,11 +9,11 @@ interface HeaderLinkProps {
   underline?: boolean;
   onClick?: () => void;
 }
-export default function HeaderLink({ href, label, openInNewTab = false, className = '', underline = true, onClick}: HeaderLinkProps) {
+export default function HeaderLink({ size = 'lg', href, label, openInNewTab = false, className = '', underline = true, onClick}: HeaderLinkProps) {
   return (
     <>
       <Link
-        className={`text-lg ${ underline && 'hover:underline'} ${className}`.replace('false','')}
+        className={`text-${size} ${ underline && 'hover:underline'} ${className}`.replace('false','')}
         href={href}
         target={openInNewTab ? '_blank' : '_self'}
         onClick={onClick}
