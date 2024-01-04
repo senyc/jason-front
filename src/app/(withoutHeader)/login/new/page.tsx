@@ -3,15 +3,27 @@
 import { inputSetter } from "@utils";
 import onNewUser from "@actions/newUser";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { addJwtToCookies, getJwtToken } from "@/src/lib/auth";
+import UserAuthRequest from "@/src/lib/annotations/userAuthRequest";
 
 export default function New() {
+
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [showEmailError, setShowEmailError] = useState(false);
   const [showConfirmationError, setShowConfirmationError] = useState(false);
   const [showPasswordSecurityError, setShowPasswordSecurityError] = useState(false);
+  const [userAuthRequest, setUserAuthRequest] = useState<UserAuthRequest>({
+    pending: false,
+    completed: false,
+    err: undefined,
+    jwt: undefined,
+    code: 200
+  });
 
   const areInputsValid = (): boolean => {
     const emailValid = email.length > 0;
@@ -23,15 +35,26 @@ export default function New() {
     return passwordConfirmed && passwordValid && emailValid;
   };
 
+
+  useEffect(() => {
+    if (getJwtToken() != undefined) {
+      router.replace('/tasks');
+    }
+    if (userAuthRequest.completed && userAuthRequest.err == undefined) {
+      addJwtToCookies(userAuthRequest.jwt as string);
+      router.replace('/tasks');
+    }
+  }, [userAuthRequest]);
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!areInputsValid()) {
       return;
     }
     setPassword("");
     setEmail("");
     setPasswordConfirmation("");
-    onNewUser(email, password)(e);
+    onNewUser(email, password, setUserAuthRequest);
   };
 
   return (
@@ -44,7 +67,7 @@ export default function New() {
           <div className="label">
             <label className="label-text" htmlFor="email-input">Email</label>
           </div>
-          <input 
+          <input
             type="text"
             value={email}
             id="email-input"
@@ -59,7 +82,7 @@ export default function New() {
           <div className="label">
             <label className="label-text" htmlFor="password-input">Password</label>
           </div>
-          <input 
+          <input
             type="password"
             id="password-input"
             placeholder="Password..."
@@ -78,7 +101,7 @@ export default function New() {
           <div className="label">
             <label className="label-text" htmlFor="password-confirmation-input">Confirm password</label>
           </div>
-          <input 
+          <input
             type="password"
             id="password-confirmation-input"
             placeholder="Confirm password..."
