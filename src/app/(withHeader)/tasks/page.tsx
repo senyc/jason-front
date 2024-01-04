@@ -16,6 +16,7 @@ import getTasks from '@actions/getTasks';
 import { Priority } from '@annotations/priority';
 
 const maxHeight = 4;
+const defaultPriority = 3;
 
 export default function Tasks() {
   const [filterOption, setFilterOption] = useState<Filter>(Filter.Daily);
@@ -49,8 +50,9 @@ export default function Tasks() {
     }
     const newTask: Task = {
       title: taskTitle,
-      priority: priorityOption,
-      body: taskDescription
+      priority: priorityOption || defaultPriority,
+      body: taskDescription,
+      due: dueDate
     };
     onNewTask(newTask, setNewTaskRequest);
     setTaskTitle("");
