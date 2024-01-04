@@ -1,12 +1,14 @@
-import { FormEvent } from "react";
+import { Dispatch } from "react";
 import { z } from 'zod';
+import UserAuthRequest from "@annotations/userAuthRequest";
 
 const jwtResponse = z.object({
-  jwt: z.string()
+  jwt: z.string().optional(),
+  message: z.string().optional()
 });
 
-const onNewUser = (email: string, password: string ) => {
-  return async (e: FormEvent<HTMLFormElement>) => {
+const onNewUser = (email: string, password: string, setRequest: Dispatch<UserAuthRequest>) => {
+  const makeRequest = async () => {
     const data = {
       email: email,
       password: password,
@@ -17,18 +19,47 @@ const onNewUser = (email: string, password: string ) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
+        body: JSON.stringify(data),
       });
 
+      const resData = await res.json();
+      const parsedData = jwtResponse.parse(resData);
       if (res.ok) {
-        const resData = await res.json();
-        const validData = jwtResponse.parse(resData);
-        console.log(validData.jwt);
+        setRequest({
+          pending: false,
+          completed: true,
+          jwt: parsedData.jwt,
+          code: res.status
+        });
+
+      } else {
+        setRequest({
+          pending: false,
+          completed: true,
+          err: parsedData.message,
+          code: res.status
+        });
       }
     } catch (e) {
       console.log(e);
+      let message = "unknown error";
+      if (e instanceof Error) {
+        message = e.message;
+      }
+      setRequest({
+        pending: false,
+        completed: true,
+        err: message,
+        code: 500
+      });
     }
   };
+  setRequest({
+    pending: true,
+    completed: false,
+    code: 200
+  });
+  makeRequest();
 
 };
 
