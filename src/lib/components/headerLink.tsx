@@ -12,7 +12,7 @@ export default function HeaderLink({ size = 'lg', href, label, openInNewTab = fa
   return (
     <>
       <Link
-        className={`text-${size} ${className} duration-150 transition hover:text-gray-900`}
+        className={`text-${size} ${className} duration-150 ease-in transition hover:text-gray-900`}
         href={href}
         target={openInNewTab ? '_blank' : '_self'}
         onClick={onClick}

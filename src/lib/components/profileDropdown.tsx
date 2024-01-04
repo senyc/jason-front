@@ -1,8 +1,7 @@
 'use client';
 
 import OutsideClickHandler from "react-outside-click-handler";
-import HeaderLink from "./headerLink";
-import LogoLink from "./userLogoLink";
+import UserLogoLink from "./userLogoLink";
 import { Code, Home, LogOut, Settings } from "react-feather";
 import ThemeSwitcher from "./themeSwitcher";
 
@@ -43,25 +42,25 @@ export default function ProfileDropdown() {
             </div>
           </li>
           <div className="m-2 border-b-[.5px] border-gray-200" />
-          <LogoLink
+          <UserLogoLink
             href="/user/settings"
             label="Settings"
             icon={<Settings size={17} />}
           />
           <ThemeSwitcher />
           <div className=" m-2 border-b-[.5px] border-gray-200" />
-          <LogoLink
+          <UserLogoLink
             href="/user/developer"
             label="Developer"
             icon={<Code size={17} />}
           />
-          <LogoLink
+          <UserLogoLink
             href="/"
             label="Home"
             icon={<Home size={17} />}
           />
           <div className="m-2 border-b-[.5px] border-gray-200" />
-          <LogoLink
+          <UserLogoLink
             href="/"
             label="Log out"
             icon={<LogOut size={17} />}
