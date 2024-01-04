@@ -16,6 +16,7 @@ const priorityColorMatches = new Map<Priority, string>([
 
 export default function TaskDisplay({ title, body, priority = 3 }: TaskDisplayProps) {
   const borderColorStyle = `border-${priorityColorMatches.get(priority)}`;
+  // form-xxx allows for the default styles to be overridden
   return (
     <>
       <div
@@ -24,7 +25,7 @@ export default function TaskDisplay({ title, body, priority = 3 }: TaskDisplayPr
         <div className="flex flex-row place-items-center gap-2">
           <input
             type="checkbox"
-            className={`rounded-full ${borderColorStyle} p-2 checked:bg-none checked:${borderColorStyle.replace("border", "text")}`}
+            className={`rounded-full ${borderColorStyle} p-2 checked:bg-none checked:${borderColorStyle.replace("border", "text")} form-checkbox`}
           />
           <h2 className="text-md font-bold">
             {title}

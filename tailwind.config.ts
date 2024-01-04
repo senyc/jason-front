@@ -26,6 +26,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('daisyui'), require("@tailwindcss/forms")],
+  plugins: [require('daisyui'), require("@tailwindcss/forms")({
+    strategy: 'class', // only generate classes
+  })],
 };
 export default config;
