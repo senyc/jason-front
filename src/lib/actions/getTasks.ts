@@ -7,7 +7,7 @@ const taskResponse = z.array(z.object({
   id: z.number(),
   title: z.string(),
   body: z.string().optional(),
-  due: z.string().optional(),
+  due: z.string().nullish(),
   priority: z.number().optional()
 }));
 
@@ -15,7 +15,7 @@ const getTasks = (setTasks: Dispatch<Array<Task> | undefined>) => {
   let newData: Array<Task> = [];
   const makeRequest = async () => {
     try {
-      const res = await fetch('http://localhost:8080/site/tasks/incomplete', {
+      const res = await fetch('http://localhost:8080/site/tasks/all', {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
@@ -32,7 +32,8 @@ const getTasks = (setTasks: Dispatch<Array<Task> | undefined>) => {
             id: item.id,
             title: item.title,
             priority: item.priority,
-            body: item.body
+            body: item.body,
+            ...(item.due ? { due: new Date(item.due).toJSON() } : { due: null })
           });
         });
         setTasks(newData);

@@ -11,9 +11,8 @@ import Task from "@annotations/task";
 import onNewTask from "@actions/newTask";
 import { Filter } from "@annotations/filter";
 import { inputSetter } from "@utils";
-import TaskDisplay from '@components/taskDisplay';
 import getTasks from '@actions/getTasks';
-import { Priority } from '@annotations/priority';
+import TaskView from '@components/taskView';
 
 const maxHeight = 4;
 const defaultPriority = 3;
@@ -52,7 +51,7 @@ export default function Tasks() {
       title: taskTitle,
       priority: priorityOption || defaultPriority,
       body: taskDescription,
-      due: dueDate
+      ...(dueDate.length > 0 ? { due: dueDate } : { due: null })
     };
     onNewTask(newTask, setNewTaskRequest);
     setTaskTitle("");
@@ -120,19 +119,7 @@ export default function Tasks() {
         )}
       </div>
       <div className="border-b-[.5px] border-gray-200 py-4" />
-      <ul>
-        {tasks != undefined && tasks.map((task) => (
-          <li
-            key={`key-task-${task.id}`}
-          >
-            <TaskDisplay
-              title={task.title}
-              priority={task.priority as Priority | undefined}
-              body={task.body}
-            />
-          </li>
-        ))}
-      </ul>
+      <TaskView tasks={tasks} />
     </main >
   );
 }

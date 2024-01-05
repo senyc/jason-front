@@ -5,12 +5,12 @@ import { getJwtToken } from "../auth";
 
 const onNewTask = (task: Task, setRequest: Dispatch<NewTaskRequest>) => {
   const makeRequest = async () => {
-    const dueDate = task.due ? new Date(task.due) : "";
+    const dueDate = task.due && new Date(task.due)
     const data: Task = {
       title: task.title,
       body: task.body,
-      due: dueDate.toString(),
-      priority: task.priority
+      priority: task.priority,
+      ...(dueDate ? { due: dueDate.toJSON() } : {})
     };
 
     try {

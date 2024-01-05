@@ -1,9 +1,10 @@
 import { Priority } from "../annotations/priority";
 
 interface TaskDisplayProps {
-  title: string;
-  body?: string;
-  priority?: Priority;
+  body?: string,
+  title: string,
+  priority?: Priority,
+  due: string | null;
 }
 
 const priorityColorMatches = new Map<Priority, string>([
