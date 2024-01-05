@@ -1,11 +1,13 @@
+import completeTask from "../actions/completeTask";
 import { Priority } from "../annotations/priority";
 
 interface TaskDisplayProps {
+  id: number,
   body?: string,
   title: string,
   priority?: Priority,
   due: string | null,
-  isOverdue?: boolean
+  isOverdue?: boolean;
 }
 
 const priorityColorMatches = new Map<Priority, string>([
@@ -16,7 +18,7 @@ const priorityColorMatches = new Map<Priority, string>([
   [5, "sky-300"],
 ]);
 
-export default function TaskDisplay({ title, body, priority = 3 }: TaskDisplayProps) {
+export default function TaskDisplay({ title, body, priority = 3, id }: TaskDisplayProps) {
   const borderColorStyle = `border-${priorityColorMatches.get(priority)}`;
   // form-xxx allows for the default styles to be overridden
   return (
@@ -28,6 +30,7 @@ export default function TaskDisplay({ title, body, priority = 3 }: TaskDisplayPr
           <input
             type="checkbox"
             className={`rounded-full ${borderColorStyle} p-2 checked:bg-none checked:${borderColorStyle.replace("border", "text")} form-checkbox`}
+            onClick={() => completeTask(id)}
           />
           <h2 className="text-md font-bold">
             {title.charAt(0).toUpperCase() + title.slice(1)}

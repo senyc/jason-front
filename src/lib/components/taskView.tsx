@@ -38,6 +38,7 @@ const renderTasks = (datedTasks: DatedTasks) => {
           {tasks.map(task => (
             <li key={`key-task-${task.id}`}>
               <TaskDisplay
+                id={task.id}
                 title={task.title}
                 priority={task.priority as Priority | undefined}
                 body={task.body}

@@ -1,5 +1,5 @@
 export default interface Task {
-  id?: number,
+  id: number,
   title: string,
   body?: string,
   priority?: number,

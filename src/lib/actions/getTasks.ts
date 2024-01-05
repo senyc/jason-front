@@ -15,7 +15,7 @@ const getTasks = (setTasks: Dispatch<Array<Task> | undefined>) => {
   let newData: Array<Task> = [];
   const makeRequest = async () => {
     try {
-      const res = await fetch('http://localhost:8080/site/tasks/all', {
+      const res = await fetch('http://localhost:8080/site/tasks/incomplete', {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
