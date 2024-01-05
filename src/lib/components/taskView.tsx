@@ -14,12 +14,25 @@ const renderTasks = (datedTasks: DatedTasks) => {
   }
 
   for (const [key, tasks] of datedTasks) {
+    let header: string;
+    if (key == "") {
+      header = "No due date";
+    } else if (key != "Overdue") {
+      const headerDate = new Date(key);
+
+      header = `${headerDate.toLocaleString('default', { month: 'long' })} ${headerDate.getDate()}`;
+    } else {
+      header = "Overdue";
+    }
     elements.push(
       <div
+        className="mb-6"
         key={`${key === "" ? 'key-no-due-date' : `key-${key}`}`}
       >
-        <h2>
-          {key === "" ? 'No due date' : key.toString()}
+        <h2
+          className="border-b-[.5px] border-b-gray-100 p-1.5"
+        >
+          {header}
         </h2>
         <ul>
           {tasks.map(task => (
@@ -57,9 +70,15 @@ export default function TaskView({ tasks }: TaskViewProps) {
       newElement.push(task);
       datedTasks.set("", newElement);
     } else {
-      const newElement = datedTasks.get(task.due) || [];
-      newElement.push(task);
-      datedTasks.set(task.due, newElement);
+      if (new Date(task.due) < new Date()) {
+        const newElement = datedTasks.get("Overdue") || [];
+        newElement.push(task);
+        datedTasks.set("Overdue", newElement);
+      } else {
+        const newElement = datedTasks.get(task.due) || [];
+        newElement.push(task);
+        datedTasks.set(task.due, newElement);
+      }
     }
   });
   return (

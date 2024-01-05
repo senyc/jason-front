@@ -4,7 +4,8 @@ interface TaskDisplayProps {
   body?: string,
   title: string,
   priority?: Priority,
-  due: string | null;
+  due: string | null,
+  isOverdue?: boolean
 }
 
 const priorityColorMatches = new Map<Priority, string>([
@@ -21,7 +22,7 @@ export default function TaskDisplay({ title, body, priority = 3 }: TaskDisplayPr
   return (
     <>
       <div
-        className="mt-3"
+        className="mt-2"
       >
         <div className="flex flex-row place-items-center gap-2">
           <input
@@ -29,7 +30,7 @@ export default function TaskDisplay({ title, body, priority = 3 }: TaskDisplayPr
             className={`rounded-full ${borderColorStyle} p-2 checked:bg-none checked:${borderColorStyle.replace("border", "text")} form-checkbox`}
           />
           <h2 className="text-md font-bold">
-            {title}
+            {title.charAt(0).toUpperCase() + title.slice(1)}
           </h2>
         </div>
         <p
@@ -38,7 +39,7 @@ export default function TaskDisplay({ title, body, priority = 3 }: TaskDisplayPr
           {body}
         </p>
       </div>
-      <div className="border-b-[.5px] border-gray-200 py-2.5" />
+      <div className="border-b-[.5px] border-b-gray-100 pb-5" />
     </>
   );
 

@@ -118,7 +118,7 @@ export default function Tasks() {
           </form>
         )}
       </div>
-      <div className="border-b-[.5px] border-gray-200 py-4" />
+      <div className="mb-3" />
       <TaskView tasks={tasks} />
     </main >
   );
