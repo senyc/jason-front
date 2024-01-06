@@ -1,10 +1,12 @@
 import Task from "@annotations/task";
 import TaskDisplay from "./taskDisplay";
 import { Priority } from "@annotations/priority";
-
+import { Dispatch, SetStateAction, } from "react";
 
 type DatedTasks = Map<string, Task[]>;
-const renderTasks = (datedTasks: DatedTasks) => {
+const renderTasks = (
+  datedTasks: DatedTasks,
+  setTasks: Dispatch<SetStateAction<Task[] | undefined>>) => {
   const elements = [];
   // Puts items without a due date last (instead of first)
   if (datedTasks.has("")) {
@@ -38,7 +40,24 @@ const renderTasks = (datedTasks: DatedTasks) => {
           {tasks.map(task => (
             <li key={`key-task-${task.id}`}>
               <TaskDisplay
-                id={task.id}
+                onClick={() => {
+                  setTasks((prev) => {
+                    if (prev === undefined) {
+                      return [];
+                    }
+                    const indexToRemove = prev.findIndex((val) => val.id === task.id);
+                    if (indexToRemove !== -1) {
+                      // Use slice to create a new array excluding the item to remove
+
+                      return [
+                        ...prev.slice(0, indexToRemove),
+                        ...prev.slice(indexToRemove + 1) // Start from indexToRemove + 1 to exclude the item
+                      ];
+                    }
+                    return prev; // Return the original array if the task is not found
+                  });
+                }}
+                id={task.id as number}
                 title={task.title}
                 priority={task.priority as Priority | undefined}
                 body={task.body}
@@ -50,14 +69,15 @@ const renderTasks = (datedTasks: DatedTasks) => {
       </div>
     );
   }
-
   return elements;
 };
-interface TaskViewProps {
-  tasks?: Task[];
-}
 
-export default function TaskView({ tasks }: TaskViewProps) {
+interface TaskViewProps {
+  tasks: Array<Task> | undefined;
+  setTasks: Dispatch<SetStateAction<Array<Task> | undefined>>;
+}
+export default function TaskView({ tasks, setTasks }: TaskViewProps) {
+
   if (!tasks) {
     return <> </>;
   }
@@ -84,7 +104,8 @@ export default function TaskView({ tasks }: TaskViewProps) {
   });
   return (
     <ul>
-      {renderTasks(datedTasks)}
+      {tasks && renderTasks(datedTasks, setTasks)}
+
     </ul>
   );
 };

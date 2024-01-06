@@ -10,15 +10,20 @@ const config: Config = {
   ],
   safelist: [
     'border-red-400',
-    'border-orange-300',
+    'border-orange-400',
     'border-green-400',
-    'border-blue-300',
-    'border-sky-300',
+    'border-blue-400',
+    'border-sky-400',
     'checked:text-red-400',
-    'checked:text-orange-300',
+    'checked:text-orange-400',
     'checked:text-green-400',
-    'checked:text-blue-300',
-    'checked:text-sky-300'
+    'checked:text-blue-400',
+    'checked:text-sky-400',
+    'bg-red-50',
+    'bg-orange-50',
+    'bg-green-50',
+    'bg-blue-50',
+    'bg-sky-50',
   ],
   theme: {
     extend: {

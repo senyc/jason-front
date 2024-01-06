@@ -11,8 +11,8 @@ import Task from "@annotations/task";
 import onNewTask from "@actions/newTask";
 import { Filter } from "@annotations/filter";
 import { inputSetter } from "@utils";
-import getTasks from '@actions/getTasks';
 import TaskView from '@components/taskView';
+import getTasks from '@/src/lib/actions/getTasks';
 
 const maxHeight = 4;
 const defaultPriority = 3;
@@ -24,9 +24,8 @@ export default function Tasks() {
   const [showNewTaskInput, setShowNewTaskInput] = useState<boolean>(false);
   const [priorityOption, setPriorityOption] = useState<number | undefined>(undefined);
   const [dueDate, setDueDate] = useState<string>("");
-  const [tasks, setTasks] = useState<undefined | Array<Task>>(undefined);
-
   const titleInputRef = useRef<HTMLInputElement>(null);
+  const [tasks, setTasks] = useState<undefined | Array<Task>>(undefined);
 
   const [newTaskRequest, setNewTaskRequest] = useState<NewTaskRequest>({
     completed: false,
@@ -34,13 +33,17 @@ export default function Tasks() {
     code: 200
   });
 
+
+  useEffect(() => {
+    (async () => {
+      setTasks(await getTasks());
+    })();
+  }, []);
+
   useEffect(() => {
     (titleInputRef.current && showNewTaskInput) && titleInputRef.current.focus();
   }, [showNewTaskInput]);
 
-  useEffect(() => {
-    getTasks(setTasks);
-  }, []);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,6 +51,7 @@ export default function Tasks() {
       return;
     }
     const newTask: Task = {
+
       title: taskTitle,
       priority: priorityOption || defaultPriority,
       body: taskDescription,
@@ -56,6 +60,9 @@ export default function Tasks() {
     onNewTask(newTask, setNewTaskRequest);
     setTaskTitle("");
     setTaskDescription("");
+    (async () => {
+      setTasks(await getTasks());
+    })();
   };
 
   return (
@@ -119,7 +126,10 @@ export default function Tasks() {
         )}
       </div>
       <div className="mb-3" />
-      <TaskView tasks={tasks} />
+      <TaskView
+        tasks={tasks}
+        setTasks={setTasks}
+      />
     </main >
   );
 }

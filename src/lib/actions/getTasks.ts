@@ -1,4 +1,3 @@
-import { Dispatch } from "react";
 import Task from "@annotations/task";
 import { getJwtToken } from "../auth";
 import { z } from 'zod';
@@ -11,45 +10,42 @@ const taskResponse = z.array(z.object({
   priority: z.number().optional()
 }));
 
-const getTasks = (setTasks: Dispatch<Array<Task> | undefined>) => {
+const getTasks = async (): Promise<Array<Task>> => {
   let newData: Array<Task> = [];
-  const makeRequest = async () => {
-    try {
-      const res = await fetch('http://localhost:8080/site/tasks/incomplete', {
-        method: "GET",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${getJwtToken()}`,
-        },
-      });
+  try {
+    const res = await fetch('http://localhost:8080/site/tasks/incomplete', {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getJwtToken()}`,
+      },
+    });
 
-      if (res.ok) {
-        const resData = await res.json();
-        const data = taskResponse.parse(resData);
+    if (res.ok) {
+      const resData = await res.json();
+      const data = taskResponse.parse(resData);
 
-        data.forEach(item => {
-          newData.push({
-            id: item.id,
-            title: item.title,
-            priority: item.priority,
-            body: item.body,
-            ...(item.due ? { due: new Date(item.due).toJSON() } : { due: null })
-          });
+      data.forEach(item => {
+        newData.push({
+          id: item.id,
+          title: item.title,
+          priority: item.priority,
+          body: item.body,
+          ...(item.due ? { due: new Date(item.due).toJSON() } : { due: null })
         });
-        setTasks(newData);
-      }
-    } catch (e) {
-      console.log(e);
-      let message = "unknown error";
-      if (e instanceof Error) {
-        message = e.message;
-      }
-      return;
+      });
+      return newData;
     }
-  };
-  makeRequest();
-  return;
+  } catch (e) {
+    console.log(e);
+    let message = "unknown error";
+    if (e instanceof Error) {
+      message = e.message;
 
+    }
+  }
+  return newData;
 };
+
 
 export default getTasks;
