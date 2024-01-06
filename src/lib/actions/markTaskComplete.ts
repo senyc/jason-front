@@ -1,6 +1,6 @@
 import { getJwtToken } from "../auth";
 
-const completeTask = (id: number) => {
+const markTaskComplete = (id: number) => {
   const makeRequest = async () => {
     try {
       const res = await fetch(`http://localhost:8080/site/tasks/markComplete?id=${id}`, {
@@ -28,4 +28,4 @@ const completeTask = (id: number) => {
 
 };
 
-export default completeTask;
+export default markTaskComplete;

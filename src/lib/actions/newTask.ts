@@ -1,16 +1,16 @@
 import { Dispatch } from "react";
-import Task from "@annotations/task";
 import NewTaskRequest from "@annotations/newTaskRequest";
 import { getJwtToken } from "../auth";
+import NewTask from "../annotations/newTasks";
 
-const onNewTask = (task: Task, setRequest: Dispatch<NewTaskRequest>) => {
+const onNewTask = (task: NewTask, setRequest: Dispatch<NewTaskRequest>) => {
   const makeRequest = async () => {
-    const dueDate = task.due && new Date(task.due)
-    const data: Task = {
+    const dueDate = task.due && new Date(task.due);
+    const data: NewTask = {
       title: task.title,
       body: task.body,
       priority: task.priority,
-      ...(dueDate ? { due: dueDate.toJSON() } : {})
+      due: dueDate ? dueDate.toJSON() : undefined
     };
 
     try {

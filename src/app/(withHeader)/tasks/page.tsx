@@ -4,21 +4,23 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { FormEvent, useEffect, useRef, useState } from "react";
 
 import FilterDropdown from "@components/filterDropdown";
-import FilterSelection from "@components/filterSelection";
 import NewTaskRequest from "@annotations/newTaskRequest";
 import PriorityDropdown from "@components/priorityDropdown";
 import Task from "@annotations/task";
 import onNewTask from "@actions/newTask";
-import { Filter } from "@annotations/filter";
+import { TaskView } from "@annotations/taskView";
 import { inputSetter } from "@utils";
-import TaskView from '@components/taskView';
-import getTasks from '@/src/lib/actions/getTasks';
+import TaskDashboard from '@components/taskDashboard';
+import getIncompleteTasks from '@actions/getIncompleteTasks';
+import getCompleteTasks from '@actions/getCompleteTasks';
+import getAllTasks from '@actions/getAllTasks';
+import NewTask from '@/src/lib/annotations/newTasks';
 
 const maxHeight = 4;
 const defaultPriority = 3;
 
 export default function Tasks() {
-  const [filterOption, setFilterOption] = useState<Filter>(Filter.Daily);
+  const [taskViewOption, setTaskViewOption] = useState<TaskView>(TaskView.NoOption);
   const [taskTitle, setTaskTitle] = useState<string>("");
   const [taskDescription, setTaskDescription] = useState<string>("");
   const [showNewTaskInput, setShowNewTaskInput] = useState<boolean>(false);
@@ -33,12 +35,26 @@ export default function Tasks() {
     code: 200
   });
 
+  const getTasks = async () => {
+    switch (taskViewOption) {
+      case (TaskView.Completed):
+        setTasks(await getCompleteTasks());
+      break
+      case (TaskView.Incomplete):
+        setTasks(await getIncompleteTasks());
+      break
+      case (TaskView.All):
+        setTasks(await getAllTasks());
+        break
+      default:
+        setTasks(await getIncompleteTasks());
+        break
+    }
+  };
 
   useEffect(() => {
-    (async () => {
-      setTasks(await getTasks());
-    })();
-  }, []);
+    getTasks();
+  }, [taskViewOption]);
 
   useEffect(() => {
     (titleInputRef.current && showNewTaskInput) && titleInputRef.current.focus();
@@ -50,30 +66,21 @@ export default function Tasks() {
     if (taskTitle.length <= 0) {
       return;
     }
-    const newTask: Task = {
-
+    const newTask: NewTask = {
       title: taskTitle,
       priority: priorityOption || defaultPriority,
       body: taskDescription,
-      ...(dueDate.length > 0 ? { due: dueDate } : { due: null })
+      due: !!dueDate ? dueDate : undefined
     };
+
     onNewTask(newTask, setNewTaskRequest);
     setTaskTitle("");
     setTaskDescription("");
-    (async () => {
-      setTasks(await getTasks());
-    })();
+    getTasks();
   };
 
   return (
     <main className="w-6/12 self-center">
-      <div className='flex w-full flex-row justify-between'>
-        <FilterSelection
-          currFilter={filterOption}
-          setFilterSelection={setFilterOption}
-        />
-        <FilterDropdown setFilterOption={setFilterOption} />
-      </div>
       <div className="mt-11">
         {!showNewTaskInput ? (
           <button
@@ -125,8 +132,15 @@ export default function Tasks() {
           </form>
         )}
       </div>
-      <div className="mb-3" />
-      <TaskView
+      <div className="pb-3" />
+      <div className='my-3 flex w-full flex-row justify-between'>
+        <FilterDropdown
+          taskViewOption={taskViewOption}
+          setTaskView={setTaskViewOption}
+        />
+      </div>
+      <TaskDashboard
+        taskView={taskViewOption}
         tasks={tasks}
         setTasks={setTasks}
       />

@@ -1,4 +1,5 @@
-import completeTask from "../actions/completeTask";
+import markTaskComplete from "../actions/markTaskComplete";
+import markTaskIncomplete from "../actions/markTaskIncomplete";
 import { Priority } from "../annotations/priority";
 
 interface TaskDisplayProps {
@@ -7,8 +8,9 @@ interface TaskDisplayProps {
   title: string,
   priority?: Priority,
   due: string | null,
-  isOverdue?: boolean;
-  onClick?: () => void;
+  isOverdue?: boolean,
+  onClick: () => void,
+  completed: boolean;
 }
 
 const priorityColorMatches = new Map<Priority, string>([
@@ -19,9 +21,17 @@ const priorityColorMatches = new Map<Priority, string>([
   [5, "sky"],
 ]);
 
-export default function TaskDisplay({ title, body, priority = 3, id, onClick }: TaskDisplayProps) {
+export default function TaskDisplay({ title, body, priority = 3, id, onClick, completed }: TaskDisplayProps) {
   const checkboxColor = priorityColorMatches.get(priority);
   // form-xxx allows for the default styles to be overridden
+  const onCheck = () => {
+    onClick();
+    if (completed) {
+      markTaskIncomplete(id);
+    } else {
+      markTaskComplete(id);
+    }
+  };
   return (
     <>
       <div
@@ -30,12 +40,9 @@ export default function TaskDisplay({ title, body, priority = 3, id, onClick }: 
         <div className="flex flex-row place-items-center gap-2">
           <input
             type="checkbox"
-            className={`rounded-full border-${checkboxColor}-400 p-2 bg--50 checked:text-${checkboxColor}-400 bg-${checkboxColor}-50 form-checkbox`}
-            onClick={() => {
-              onClick && onClick();
-              completeTask(id);
-            }
-            }
+            className={`checked:bg-none rounded-full border-${checkboxColor}-400 p-2 bg--50 checked:text-${checkboxColor}-400 bg-${checkboxColor}-50 form-checkbox`}
+            onClick={onCheck}
+            defaultChecked={completed}
           />
           <h2 className="text-md font-bold">
             {title.charAt(0).toUpperCase() + title.slice(1)}

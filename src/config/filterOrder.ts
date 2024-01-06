@@ -1,2 +1,6 @@
-import {Filter} from '../lib/annotations/filter'
-export const filterOrder: Array<Filter> = [Filter.Daily, Filter.Completed, Filter.All];
+import { TaskView } from '@annotations/taskView';
+export const filterOrder: Array<TaskView> = [
+  TaskView.All,
+  TaskView.Incomplete,
+  TaskView.Completed,
+];
