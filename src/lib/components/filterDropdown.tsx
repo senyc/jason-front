@@ -1,19 +1,19 @@
 import { Dispatch } from "react";
-import { Filter } from "@annotations/filter";
+import { TaskView } from "@annotations/taskView";
 import { filterOrder } from "@/src/config/filterOrder";
 import Dropdown from "./dropdown";
 
 interface FilterDropdownProps {
-  setFilterOption: Dispatch<Filter>;
+  setTaskView: Dispatch<TaskView>,
+  taskViewOption: TaskView,
 }
 
-export default function FilterDropdown({ setFilterOption }: FilterDropdownProps) {
+export default function FilterDropdown({ setTaskView: setFilterOption, taskViewOption: currentOption }: FilterDropdownProps) {
   return (
     <Dropdown
-      text="Filter"
+      text={currentOption}
       setter={setFilterOption}
       options={filterOrder}
     />
   );
-
 }

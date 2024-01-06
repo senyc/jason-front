@@ -1,9 +1,9 @@
-import { Filter } from '@annotations/filter';
+import { TaskView } from '@annotations/taskView';
 import { Dispatch } from 'react';
 import { filterOrder } from '@config/filterOrder';
 interface FilterSelectionProps {
-  currFilter: Filter;
-  setFilterSelection: Dispatch<Filter>;
+  currFilter: TaskView;
+  setFilterSelection: Dispatch<TaskView>;
 }
 export default function FilterSelection({ currFilter, setFilterSelection }: FilterSelectionProps) {
 
@@ -13,6 +13,6 @@ export default function FilterSelection({ currFilter, setFilterSelection }: Filt
     setFilterSelection(filterOrder[newIndex]);
   };
   return (
-    <button className="w-24 rounded-lg p-2 text-sm font-normal" onClick={cycleFilterOptions}>{`${currFilter}`}</button>
+    <button className="w-42 rounded-lg p-2 text-sm font-normal" onClick={cycleFilterOptions}>{`${currFilter}`}</button>
   );
 }

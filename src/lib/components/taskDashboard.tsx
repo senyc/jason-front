@@ -2,17 +2,53 @@ import Task from "@annotations/task";
 import TaskDisplay from "./taskDisplay";
 import { Priority } from "@annotations/priority";
 import { Dispatch, SetStateAction, } from "react";
+import { TaskView } from "../annotations/taskView";
 
 type DatedTasks = Map<string, Task[]>;
 const renderTasks = (
   datedTasks: DatedTasks,
-  setTasks: Dispatch<SetStateAction<Task[] | undefined>>) => {
+  setTasks: Dispatch<SetStateAction<Task[] | undefined>>,
+  taskView: TaskView,
+) => {
   const elements = [];
   // Puts items without a due date last (instead of first)
   if (datedTasks.has("")) {
     const nullItems = datedTasks.get("") as Task[];
     datedTasks.delete("");
     datedTasks.set("", nullItems);
+  }
+  let onClick: (taskId: number) => void;
+  let isCompleted: boolean;
+
+  const removeFromTaskDisplay = (taskId: number) => {
+    setTasks(prev => {
+      if (prev === undefined) {
+        return [];
+      }
+      const indexToRemove = prev.findIndex((val) => val.id === taskId);
+      if (indexToRemove !== -1) {
+        // Use slice to create a new array excluding the item to remove
+        return [
+          ...prev.slice(0, indexToRemove),
+          ...prev.slice(indexToRemove + 1) // Start from indexToRemove + 1 to exclude the item
+        ];
+      }
+      return prev; // Return the original array if the task is not found
+    });
+  };
+  switch (taskView) {
+    case (TaskView.Completed):
+      isCompleted = true;
+      onClick = removeFromTaskDisplay;
+      break;
+    case (TaskView.Incomplete):
+      isCompleted = false;
+      onClick = removeFromTaskDisplay;
+      break;
+    case (TaskView.All):
+      isCompleted = false;
+      onClick = (val) => null;
+      break;
   }
 
   for (const [key, tasks] of datedTasks) {
@@ -40,28 +76,14 @@ const renderTasks = (
           {tasks.map(task => (
             <li key={`key-task-${task.id}`}>
               <TaskDisplay
-                onClick={() => {
-                  setTasks((prev) => {
-                    if (prev === undefined) {
-                      return [];
-                    }
-                    const indexToRemove = prev.findIndex((val) => val.id === task.id);
-                    if (indexToRemove !== -1) {
-                      // Use slice to create a new array excluding the item to remove
-
-                      return [
-                        ...prev.slice(0, indexToRemove),
-                        ...prev.slice(indexToRemove + 1) // Start from indexToRemove + 1 to exclude the item
-                      ];
-                    }
-                    return prev; // Return the original array if the task is not found
-                  });
-                }}
+                completed={task.completed || isCompleted}
+                onClick={() => onClick(task.id)}
                 id={task.id as number}
                 title={task.title}
                 priority={task.priority as Priority | undefined}
                 body={task.body}
                 due={task.due}
+
               />
             </li>
           ))}
@@ -72,17 +94,17 @@ const renderTasks = (
   return elements;
 };
 
-interface TaskViewProps {
+interface TaskDashboardProps {
   tasks: Array<Task> | undefined;
   setTasks: Dispatch<SetStateAction<Array<Task> | undefined>>;
+  taskView: TaskView;
 }
-export default function TaskView({ tasks, setTasks }: TaskViewProps) {
+export default function TaskDashboard({ tasks, setTasks, taskView }: TaskDashboardProps) {
+  let datedTasks: DatedTasks = new Map();
 
   if (!tasks) {
     return <> </>;
   }
-
-  let datedTasks: DatedTasks = new Map();
 
   tasks.forEach(task => {
     // Empty string as the key for empty due dates
@@ -104,8 +126,7 @@ export default function TaskView({ tasks, setTasks }: TaskViewProps) {
   });
   return (
     <ul>
-      {tasks && renderTasks(datedTasks, setTasks)}
-
+      {tasks && renderTasks(datedTasks, setTasks, taskView)}
     </ul>
   );
 };
