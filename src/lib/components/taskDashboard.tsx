@@ -49,6 +49,9 @@ const renderTasks = (
       isCompleted = false;
       onClick = (val) => null;
       break;
+    default: 
+      isCompleted = false;
+      onClick = removeFromTaskDisplay;
   }
 
   for (const [key, tasks] of datedTasks) {
