@@ -4,30 +4,31 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { FormEvent, useEffect, useRef, useState } from "react";
 
 import FilterDropdown from "@components/filterDropdown";
+import NewTask from '@annotations/newTasks';
 import NewTaskRequest from "@annotations/newTaskRequest";
 import PriorityDropdown from "@components/priorityDropdown";
 import Task from "@annotations/task";
+import TaskDashboard from '@components/taskDashboard';
+import getAllTasks from '@actions/getAllTasks';
+import getCompleteTasks from '@actions/getCompleteTasks';
+import getIncompleteTasks from '@actions/getIncompleteTasks';
 import onNewTask from "@actions/newTask";
 import { TaskView } from "@annotations/taskView";
-import { inputSetter } from "@utils";
-import TaskDashboard from '@components/taskDashboard';
-import getIncompleteTasks from '@actions/getIncompleteTasks';
-import getCompleteTasks from '@actions/getCompleteTasks';
-import getAllTasks from '@actions/getAllTasks';
-import NewTask from '@/src/lib/annotations/newTasks';
+import { newTaskSetter } from "@utils";
 
-const maxHeight = 4;
-const defaultPriority = 3;
+const MaxHeight = 4;
 
 export default function Tasks() {
+  const [newTask, setNewTask] = useState<NewTask>({
+    due: "",
+    title: "",
+    body: "",
+    priority: undefined
+  });
   const [taskViewOption, setTaskViewOption] = useState<TaskView>(TaskView.NoOption);
-  const [taskTitle, setTaskTitle] = useState<string>("");
-  const [taskDescription, setTaskDescription] = useState<string>("");
   const [showNewTaskInput, setShowNewTaskInput] = useState<boolean>(false);
-  const [priorityOption, setPriorityOption] = useState<number | undefined>(undefined);
-  const [dueDate, setDueDate] = useState<string>("");
-  const titleInputRef = useRef<HTMLInputElement>(null);
   const [tasks, setTasks] = useState<undefined | Array<Task>>(undefined);
+  const titleInputRef = useRef<HTMLInputElement>(null);
 
   const [newTaskRequest, setNewTaskRequest] = useState<NewTaskRequest>({
     completed: false,
@@ -39,16 +40,16 @@ export default function Tasks() {
     switch (taskViewOption) {
       case (TaskView.Completed):
         setTasks(await getCompleteTasks());
-      break
+        break;
       case (TaskView.Incomplete):
         setTasks(await getIncompleteTasks());
-      break
+        break;
       case (TaskView.All):
         setTasks(await getAllTasks());
-        break
+        break;
       default:
         setTasks(await getIncompleteTasks());
-        break
+        break;
     }
   };
 
@@ -63,19 +64,18 @@ export default function Tasks() {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (taskTitle.length <= 0) {
+    if (newTask.title.length <= 0) {
       return;
     }
-    const newTask: NewTask = {
-      title: taskTitle,
-      priority: priorityOption || defaultPriority,
-      body: taskDescription,
-      due: !!dueDate ? dueDate : undefined
-    };
 
     onNewTask(newTask, setNewTaskRequest);
-    setTaskTitle("");
-    setTaskDescription("");
+    // Resets task input
+    setNewTask({
+      due: "",
+      title: "",
+      body: "",
+      priority: undefined,
+    });
     getTasks();
   };
 
@@ -93,28 +93,34 @@ export default function Tasks() {
           <form onSubmit={onSubmit} className="rounded-lg border-[.5px] border-gray-400">
             <input
               ref={titleInputRef}
+              name="title"
               type="text"
-              value={taskTitle}
-              onChange={inputSetter(setTaskTitle)}
+              value={newTask.title}
+              onChange={newTaskSetter(setNewTask)}
               placeholder="New title"
               className="input input-ghost h-10 w-full border-none font-bold focus:outline-none" />
             {/* make sure to change the scrollbar icon*/}
             <TextareaAutosize
-              value={taskDescription}
-              onChange={inputSetter(setTaskDescription)}
-              maxRows={maxHeight}
+              value={newTask.body}
+              onChange={newTaskSetter(setNewTask)}
+              maxRows={MaxHeight}
+              name="body"
               placeholder="Description"
               className="input input-ghost h-10 w-full resize-none overflow-y-auto overflow-x-hidden border-none text-sm focus:outline-none" />
             <div className="m-3 flex h-12 flex-row place-items-center gap-4">
               <input
                 className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
                 type="date"
-                value={dueDate}
-                onChange={inputSetter(setDueDate)}
+                name="due"
+                value={newTask.due}
+                onChange={newTaskSetter(setNewTask)}
               />
               <PriorityDropdown
-                setNewPriority={setPriorityOption}
-                text={`${priorityOption == undefined ? 'Priority' : `${priorityOption}/5`}`}
+                setNewPriority={newPriority => setNewTask(prev => ({
+                  ...prev,
+                  priority: newPriority
+                }))}
+                text={`${newTask.priority == undefined ? 'Priority' : `${newTask.priority}/5`}`}
               />
             </div>
             <div className="border-b-[.5px] border-gray-200" />
@@ -124,7 +130,7 @@ export default function Tasks() {
                 className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
               >Add task</button>
               <button
-                onClick={() => setShowNewTaskInput(() => false)}
+                onClick={() => setShowNewTaskInput(false)}
                 type="button"
                 className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
               >Cancel</button>

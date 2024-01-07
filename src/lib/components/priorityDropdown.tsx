@@ -4,7 +4,7 @@ import Dropdown from "./dropdown";
 const priorityOptions = [1, 2, 3, 4, 5];
 
 interface PriorityDropdownProps {
-  setNewPriority: Dispatch<number>;
+  setNewPriority: (num:number) => void;
   text: string
 }
 
