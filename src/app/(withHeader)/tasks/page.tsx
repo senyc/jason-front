@@ -60,7 +60,18 @@ export default function Tasks() {
     if (newTask.title.length <= 0) {
       return;
     }
-    postNewTask(newTask);
+    // This sanitizes the date to DBs timezone
+    const sanitizedDate = newTask.due ? new Date(newTask.due).toLocaleString('default', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+      timeZone: "UTC"
+    }) : "";
+
+    postNewTask({
+      ...newTask,
+      due: sanitizedDate
+    });
 
     // Resets task input
     setNewTask({

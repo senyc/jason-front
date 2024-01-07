@@ -47,9 +47,9 @@ const renderTasks = (
       break;
     case (TaskView.All):
       isCompleted = false;
-      onClick = (val) => null;
+      onClick = () => null;
       break;
-    default: 
+    default:
       isCompleted = false;
       onClick = removeFromTaskDisplay;
   }
@@ -61,7 +61,11 @@ const renderTasks = (
     } else if (key != "Overdue") {
       const headerDate = new Date(key);
 
-      header = `${headerDate.toLocaleString('default', { month: 'long' })} ${headerDate.getDate()}`;
+      header = headerDate.toLocaleString('default', {
+        day: "numeric",
+        month: 'long',
+        timeZone: "UTC"
+      });
     } else {
       header = "Overdue";
     }
