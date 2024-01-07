@@ -5,14 +5,13 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 
 import FilterDropdown from "@components/filterDropdown";
 import NewTask from '@annotations/newTasks';
-import NewTaskRequest from "@annotations/newTaskRequest";
 import PriorityDropdown from "@components/priorityDropdown";
 import Task from "@annotations/task";
 import TaskDashboard from '@components/taskDashboard';
 import getAllTasks from '@actions/getAllTasks';
 import getCompleteTasks from '@actions/getCompleteTasks';
 import getIncompleteTasks from '@actions/getIncompleteTasks';
-import onNewTask from "@actions/newTask";
+import postNewTask from "@actions/newTask";
 import { TaskView } from "@annotations/taskView";
 import { newTaskSetter } from "@utils";
 
@@ -29,12 +28,6 @@ export default function Tasks() {
   const [showNewTaskInput, setShowNewTaskInput] = useState<boolean>(false);
   const [tasks, setTasks] = useState<undefined | Array<Task>>(undefined);
   const titleInputRef = useRef<HTMLInputElement>(null);
-
-  const [newTaskRequest, setNewTaskRequest] = useState<NewTaskRequest>({
-    completed: false,
-    pending: false,
-    code: 200
-  });
 
   const getTasks = async () => {
     switch (taskViewOption) {
@@ -67,8 +60,8 @@ export default function Tasks() {
     if (newTask.title.length <= 0) {
       return;
     }
+    postNewTask(newTask);
 
-    onNewTask(newTask, setNewTaskRequest);
     // Resets task input
     setNewTask({
       due: "",
