@@ -76,14 +76,16 @@ export default function Tasks() {
     <main className="w-6/12 self-center">
       <div className="mt-11">
         {!showNewTaskInput ? (
-          <button
-            className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
-            onClick={() => {
-              setShowNewTaskInput(true);
-            }}
-          >+ Add task</button>
+          <div className="border-b-[.5px] border-b-gray-100 pb-5">
+            <button
+              className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+              onClick={() => {
+                setShowNewTaskInput(true);
+              }}
+            >+ Add task</button>
+          </div>
         ) : (
-          <form onSubmit={onSubmit} className="rounded-lg border-[.5px] border-gray-400">
+          <form onSubmit={onSubmit} className="rounded-lg border-[.5px] border-gray-300">
             <input
               ref={titleInputRef}
               name="title"
@@ -120,7 +122,8 @@ export default function Tasks() {
             <div className="flex w-full flex-row justify-between p-3">
               <button
                 type="submit"
-                className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+                className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                disabled={newTask.title.length <= 0}
               >Add task</button>
               <button
                 onClick={() => setShowNewTaskInput(false)}
