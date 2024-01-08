@@ -22,7 +22,7 @@ export default function Tasks() {
     due: "",
     title: "",
     body: "",
-    priority: undefined
+    priority: 0
   });
   const [taskViewOption, setTaskViewOption] = useState<TaskView>(TaskView.NoOption);
   const [showNewTaskInput, setShowNewTaskInput] = useState<boolean>(false);
@@ -78,7 +78,7 @@ export default function Tasks() {
       due: "",
       title: "",
       body: "",
-      priority: undefined,
+      priority: 0,
     });
     getTasks();
   };
@@ -126,14 +126,14 @@ export default function Tasks() {
                   ...prev,
                   priority: newPriority
                 }))}
-                text={`${newTask.priority == undefined ? 'Priority' : `${newTask.priority}/5`}`}
+                text={`${newTask.priority == 0 ? 'Priority' : `${newTask.priority}/5`}`}
               />
             </div>
             <div className="border-b-[.5px] border-gray-200" />
             <div className="flex w-full flex-row justify-between p-3">
               <button
                 type="submit"
-                className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                className=" rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={newTask.title.length <= 0}
               >Add task</button>
               <button
@@ -146,7 +146,7 @@ export default function Tasks() {
         )}
       </div>
       <div className="pb-3" />
-      <div className='my-3 flex w-full flex-row justify-between'>
+      <div className='my-3 flex w-full flex-row justify-end'>
         <FilterDropdown
           taskViewOption={taskViewOption}
           setTaskView={setTaskViewOption}

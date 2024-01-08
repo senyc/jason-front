@@ -87,7 +87,7 @@ const renderTasks = (
                 onClick={() => onClick(task.id)}
                 id={task.id as number}
                 title={task.title}
-                priority={task.priority as Priority | undefined}
+                priority={task.priority}
                 body={task.body}
                 due={task.due}
 

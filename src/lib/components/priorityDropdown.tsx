@@ -1,11 +1,11 @@
-import { Dispatch } from "react";
+import { Priority } from "../annotations/priority";
 import Dropdown from "./dropdown";
 
 const priorityOptions = [1, 2, 3, 4, 5];
 
 interface PriorityDropdownProps {
-  setNewPriority: (num:number) => void;
-  text: string
+  setNewPriority: (priority: Priority) => void;
+  text: string;
 }
 
 export default function PriorityDropdown({ setNewPriority, text }: PriorityDropdownProps) {
