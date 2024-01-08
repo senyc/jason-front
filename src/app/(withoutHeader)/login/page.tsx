@@ -23,9 +23,10 @@ export default function Login() {
   });
 
   useEffect(() => {
-    if (getJwtToken() != undefined) {
-      router.replace('/tasks');
-    }
+    // if (getJwtToken() != undefined) {
+    //   router.replace('/tasks');
+    // }
+
     if (userAuthRequest.completed && userAuthRequest.err == undefined) {
       addJwtToCookies(userAuthRequest.jwt as string);
       router.replace('/tasks');
