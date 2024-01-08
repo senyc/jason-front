@@ -1,13 +1,14 @@
 import Task from "@annotations/task";
-import { getJwtToken } from "../auth";
 import { z } from 'zod';
+import { Priority } from "../annotations/priority";
+import { getCookie } from "cookies-next";
 
 const completedTasksResponse = z.array(z.object({
   id: z.number(),
   title: z.string(),
   body: z.string().optional(),
   due: z.string().nullish(),
-  priority: z.number().optional(),
+  priority: z.number(),
   completedDate: z.string().nullish()
 }));
 
@@ -18,7 +19,7 @@ const getCompleteTasks = async (): Promise<Array<Task>> => {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getJwtToken()}`,
+        'Authorization': `Bearer ${getCookie('jwt')}`,
       },
     });
 
@@ -29,7 +30,7 @@ const getCompleteTasks = async (): Promise<Array<Task>> => {
         newData.push({
           id: item.id,
           title: item.title,
-          priority: item.priority,
+          priority: item.priority as Priority,
           body: item.body,
           due: item.due ? new Date(item.due).toJSON() : null
         });

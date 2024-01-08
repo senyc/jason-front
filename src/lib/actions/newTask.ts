@@ -1,4 +1,4 @@
-import { getJwtToken } from "../auth";
+import { getCookie } from "cookies-next";
 import NewTask from "../annotations/newTasks";
 
 const postNewTask = async (task: NewTask) => {
@@ -15,7 +15,7 @@ const postNewTask = async (task: NewTask) => {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getJwtToken()}`,
+        'Authorization': `Bearer ${getCookie('jwt')}`,
       },
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     });

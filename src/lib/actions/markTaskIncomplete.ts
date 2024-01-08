@@ -1,5 +1,4 @@
-import { getJwtToken } from "../auth";
-
+import { getCookie } from "cookies-next";
 const markTaskIncomplete = (id: number) => {
   const makeRequest = async () => {
     try {
@@ -7,7 +6,7 @@ const markTaskIncomplete = (id: number) => {
         method: "PATCH",
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${getJwtToken()}`,
+          'Authorization': `Bearer ${getCookie('jwt')}`,
         },
       });
 
