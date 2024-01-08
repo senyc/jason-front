@@ -6,8 +6,8 @@ import { inputSetter } from '@utils';
 
 import { FormEvent, useEffect, useState } from 'react';
 import UserAuthRequest from '@annotations/userAuthRequest';
-import { addJwtToCookies, getJwtToken } from '@auth';
 import { useRouter } from 'next/navigation';
+import { setCookie } from 'cookies-next';
 
 
 export default function Login() {
@@ -23,12 +23,8 @@ export default function Login() {
   });
 
   useEffect(() => {
-    // if (getJwtToken() != undefined) {
-    //   router.replace('/tasks');
-    // }
-
     if (userAuthRequest.completed && userAuthRequest.err == undefined) {
-      addJwtToCookies(userAuthRequest.jwt as string);
+      setCookie('jwt', userAuthRequest.jwt)
       router.replace('/tasks');
     }
   }, [userAuthRequest]);

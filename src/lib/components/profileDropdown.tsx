@@ -2,8 +2,9 @@
 
 import OutsideClickHandler from "react-outside-click-handler";
 import UserLogoLink from "./userLogoLink";
-import { Code, Home, LogOut, Settings } from "react-feather";
+import { Code, Home, Settings } from "react-feather";
 import ThemeSwitcher from "./themeSwitcher";
+import LogoutButton from "./logoutButton";
 
 export default function ProfileDropdown() {
 
@@ -60,11 +61,7 @@ export default function ProfileDropdown() {
             icon={<Home size={17} />}
           />
           <div className="m-2 border-b-[.5px] border-gray-200" />
-          <UserLogoLink
-            href="/"
-            label="Log out"
-            icon={<LogOut size={17} />}
-          />
+          <LogoutButton />
         </ul>
       </details>
     </OutsideClickHandler>
