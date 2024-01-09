@@ -1,5 +1,5 @@
-import { Priority } from "../annotations/priority";
-import Dropdown from "./dropdown";
+import { Priority } from "@annotations/priority";
+import Dropdown from "@components/dropdown";
 
 const priorityOptions = [1, 2, 3, 4, 5];
 
