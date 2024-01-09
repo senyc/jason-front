@@ -1,14 +1,21 @@
+import { cookies } from "next/headers";
+
 import Task from "@annotations/task";
 import TaskDisplay from "./taskDisplay";
-import { Priority } from "@annotations/priority";
-import { Dispatch, SetStateAction, } from "react";
-import { TaskView } from "../annotations/taskView";
+import getAllTasks from "@actions/getAllTasks";
+import getCompleteTasks from "@actions/getCompleteTasks";
+import getIncompleteTasks from "@actions/getIncompleteTasks";
+
+import { TaskView } from "@annotations/taskView";
 
 type DatedTasks = Map<string, Task[]>;
+
+/*
+  asCompleted: allows for tasks returned from the completed endpoint to be shown that way as completed not returned in that packet
+*/
 const renderTasks = (
+  asCompleted: boolean,
   datedTasks: DatedTasks,
-  setTasks: Dispatch<SetStateAction<Task[] | undefined>>,
-  taskView: TaskView,
 ) => {
   const elements = [];
   // Puts items without a due date last (instead of first)
@@ -17,43 +24,6 @@ const renderTasks = (
     datedTasks.delete("");
     datedTasks.set("", nullItems);
   }
-  let onClick: (taskId: number) => void;
-  let isCompleted: boolean;
-
-  const removeFromTaskDisplay = (taskId: number) => {
-    setTasks(prev => {
-      if (prev === undefined) {
-        return [];
-      }
-      const indexToRemove = prev.findIndex((val) => val.id === taskId);
-      if (indexToRemove !== -1) {
-        // Use slice to create a new array excluding the item to remove
-        return [
-          ...prev.slice(0, indexToRemove),
-          ...prev.slice(indexToRemove + 1) // Start from indexToRemove + 1 to exclude the item
-        ];
-      }
-      return prev; // Return the original array if the task is not found
-    });
-  };
-  switch (taskView) {
-    case (TaskView.Completed):
-      isCompleted = true;
-      onClick = removeFromTaskDisplay;
-      break;
-    case (TaskView.Incomplete):
-      isCompleted = false;
-      onClick = removeFromTaskDisplay;
-      break;
-    case (TaskView.All):
-      isCompleted = false;
-      onClick = () => null;
-      break;
-    default:
-      isCompleted = false;
-      onClick = removeFromTaskDisplay;
-  }
-
   for (const [key, tasks] of datedTasks) {
     let header: string;
     if (key == "") {
@@ -83,14 +53,12 @@ const renderTasks = (
           {tasks.map(task => (
             <li key={`key-task-${task.id}`}>
               <TaskDisplay
-                completed={task.completed || isCompleted}
-                onClick={() => onClick(task.id)}
+                completed={asCompleted || task.completed != undefined && task.completed}
                 id={task.id as number}
                 title={task.title}
                 priority={task.priority}
                 body={task.body}
                 due={task.due}
-
               />
             </li>
           ))}
@@ -101,17 +69,24 @@ const renderTasks = (
   return elements;
 };
 
-interface TaskDashboardProps {
-  tasks: Array<Task> | undefined;
-  setTasks: Dispatch<SetStateAction<Array<Task> | undefined>>;
-  taskView: TaskView;
-}
-export default function TaskDashboard({ tasks, setTasks, taskView }: TaskDashboardProps) {
+const getTasks = async (taskViewOption: TaskView) => {
+  switch (taskViewOption) {
+    case (TaskView.Completed):
+      return getCompleteTasks();
+    case (TaskView.Incomplete):
+      return getIncompleteTasks();
+    case (TaskView.All):
+      return getAllTasks();
+    default:
+      return getIncompleteTasks();
+  }
+};
+
+export default async function TaskDashboard() {
   let datedTasks: DatedTasks = new Map();
 
-  if (!tasks) {
-    return <> </>;
-  }
+  const taskView = cookies().get('taskView')?.value;
+  const tasks = await getTasks(taskView as TaskView);
 
   tasks.forEach(task => {
     // Empty string as the key for empty due dates
@@ -133,7 +108,7 @@ export default function TaskDashboard({ tasks, setTasks, taskView }: TaskDashboa
   });
   return (
     <ul>
-      {tasks && renderTasks(datedTasks, setTasks, taskView)}
+      {tasks && renderTasks(taskView === TaskView.Completed, datedTasks)}
     </ul>
   );
 };

@@ -1,8 +1,6 @@
-import { Priority } from "./priority";
-
 export default interface NewTask {
   title: string,
-  body: string,
-  priority: Priority | null,
+  body?: string,
+  priority: number,
   due?: string;
 }
