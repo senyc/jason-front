@@ -1,7 +1,7 @@
-import HeaderLink from "@components/headerLink";
+import HeaderLink from "./headerLink";
 import Image from "next/image";
-import Logo from "../../../public/jasonLogo.png";
-import ProfileDropdown from "./profileDropdown";
+import Logo from "/public/jasonLogo.png";
+import ProfileDropdown from "./profile/profileDropdown";
 export default function Header() {
   return (
     <nav className="mb-8 h-14 w-full flex-row items-center border-b-[.1px] border-gray-200">

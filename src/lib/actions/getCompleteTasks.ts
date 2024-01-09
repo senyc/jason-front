@@ -1,7 +1,7 @@
 import Task from "@annotations/task";
 import { z } from 'zod';
 import { Priority } from "../annotations/priority";
-import { getCookie } from "cookies-next";
+import { cookies } from "next/headers";
 
 const completedTasksResponse = z.array(z.object({
   id: z.number(),
@@ -19,7 +19,7 @@ const getCompleteTasks = async (): Promise<Array<Task>> => {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getCookie('jwt')}`,
+        'Authorization': `Bearer ${cookies().get('jwt')?.value}`,
       },
     });
 

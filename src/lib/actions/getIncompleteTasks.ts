@@ -1,7 +1,7 @@
-import Task from "@annotations/task";
-import { z } from 'zod';
+import { cookies } from "next/headers";
+import Task from "../annotations/task";
+import { z } from "zod";
 import { Priority } from "../annotations/priority";
-import { getCookie } from "cookies-next";
 
 const incompleteTasksResponse = z.array(z.object({
   id: z.number(),
@@ -11,14 +11,14 @@ const incompleteTasksResponse = z.array(z.object({
   priority: z.number().optional()
 }));
 
-const getIncompleteTasks = async (): Promise<Array<Task>> => {
+export default async function getIncompleteTasks(): Promise<Task[]> {
   const newData: Array<Task> = [];
   try {
     const res = await fetch('http://localhost:8080/site/tasks/incomplete', {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getCookie('jwt')}`,
+        'Authorization': `Bearer ${cookies().get('jwt')?.value}`,
       },
     });
 
@@ -45,5 +45,3 @@ const getIncompleteTasks = async (): Promise<Array<Task>> => {
   }
   return newData;
 };
-
-export default getIncompleteTasks;
