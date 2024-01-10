@@ -1,5 +1,3 @@
-import { cookies } from "next/headers";
-
 import Task from "@annotations/task";
 import TaskDisplay from "./taskDisplay";
 import getAllTasks from "@actions/getAllTasks";
@@ -82,12 +80,10 @@ const getTasks = async (taskViewOption: TaskView) => {
   }
 };
 
-
-export default async function TaskDashboard() {
+export default async function TaskDashboard({ taskView = TaskView.NoOption}: { taskView?: TaskView; }) {
   let datedTasks: DatedTasks = new Map();
 
-  const taskView = cookies().get('taskView')?.value;
-  const tasks = await getTasks(taskView as TaskView);
+  const tasks = await getTasks(taskView);
 
   tasks.forEach(task => {
     // Empty string as the key for empty due dates
