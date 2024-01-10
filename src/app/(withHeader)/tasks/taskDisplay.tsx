@@ -1,7 +1,9 @@
 'use client';
 
+import { PenTool, Trash } from "react-feather";
 import { Priority } from "@annotations/priority";
-import { toggleTaskCompletion } from "@/src/app/(withHeader)/tasks/actions";
+import { deleteTask, toggleTaskCompletion } from "@/src/app/(withHeader)/tasks/actions";
+import { useState } from "react";
 
 interface TaskDisplayProps {
   id: number,
@@ -23,14 +25,19 @@ const priorityColorMatches = new Map<Priority, string>([
 ]);
 
 export default function TaskDisplay({ title, body, priority, id, completed }: TaskDisplayProps) {
+  const [isHovered, setIsHovered] = useState(false);
   const checkboxColor = priorityColorMatches.get(priority);
   // form-xxx allows for the default styles to be overridden
   return (
-    <>
-      <div
-        className="mt-2"
-      >
-        <div className="flex flex-row place-items-center gap-2">
+    <div
+      className="mt-2"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="flex flex-row place-items-center justify-between border-b-[.5px] border-b-gray-100 pb-5">
+        <div
+          className="flex flex-row gap-2"
+        >
           <input
             type="checkbox"
             className={`checked:bg-none rounded-full border-${checkboxColor}-400 p-2 checked:text-${checkboxColor}-400 bg-${checkboxColor}-100 form-checkbox`}
@@ -41,13 +48,31 @@ export default function TaskDisplay({ title, body, priority, id, completed }: Ta
             {title.charAt(0).toUpperCase() + title.slice(1)}
           </h2>
         </div>
-        <p
-          className="pl-6"
-        >
-          {body}
-        </p>
+        <div className={`${!isHovered && 'hidden'} flex flex-row gap-1.5`}>
+          <button
+            type="button"
+          >
+            <PenTool
+              color="gray"
+              size={18}
+            />
+          </button>
+          <button
+            type="button"
+            onClick={() => deleteTask(id)}
+          >
+            <Trash
+              color="gray"
+              size={18}
+            />
+          </button>
+        </div>
       </div>
-      <div className="border-b-[.5px] border-b-gray-100 pb-5" />
-    </>
+      <p
+        className="pl-6"
+      >
+        {body}
+      </p>
+    </div>
   );
 }

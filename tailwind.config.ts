@@ -9,6 +9,7 @@ const config: Config = {
     './node_modules/tailwind-datepicker-react/dist/**/*.js', // <--- Add this line
   ],
   safelist: [
+    'hidden',
     'border-red-400',
     'border-orange-400',
     'border-green-400',

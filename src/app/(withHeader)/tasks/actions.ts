@@ -86,3 +86,28 @@ export async function toggleTaskCompletion(currentlyCompleted: boolean, id: numb
     return { message: message };
   }
 };
+
+export async function deleteTask(id: number) {
+  try {
+    const res = await fetch(`http://localhost:8080/site/tasks/delete?id=${id}`, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cookies().get('jwt')?.value}`,
+      },
+    });
+
+    if (!res.ok) {
+      return { message: 'failure sending request' };
+    }
+
+    revalidatePath("/tasks");
+  } catch (e) {
+    console.log(e);
+    let message = "unknown error";
+    if (e instanceof Error) {
+      message = e.message;
+    }
+    return { message: message };
+  }
+};
