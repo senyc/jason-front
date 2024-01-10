@@ -31,7 +31,7 @@ export default function ProfileDropdown() {
             </div>
           </div>
         </summary>
-        <ul className="dropdown-content bg-base-100 z-20 flex w-48 flex-col rounded-md border-b-[.5px] border-gray-200 pb-1 shadow" >
+        <ul className="dropdown-content bg-base-100 z-50 flex w-48 flex-col rounded-md border-b-[.5px] border-gray-200 pb-1 shadow" >
           <li className="hover:bg-base-100">
             <div className="flex flex-col px-4 py-3.5">
               <h2 className="text-md font-bold ">

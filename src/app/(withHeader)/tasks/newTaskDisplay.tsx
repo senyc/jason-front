@@ -107,7 +107,7 @@ export default function NewTaskDisplay() {
       <div className="flex w-full flex-row justify-end">
         <select
           value={taskView}
-          className="select bg-base-100 min-h-10 z-50 h-10 w-24 border-[.5px] border-gray-300 bg-none pl-2 pr-2 text-center"
+          className="select bg-base-100 min-h-10 h-10 w-24 border-[.5px] border-gray-300 bg-none pl-2 pr-2 text-center"
           onChange={e => setTaskView(e.target.value as TaskView)} // ... and update the state variable on any change!
         >
           <option value={TaskView.NoOption} selected>{TaskView.NoOption}</option>
