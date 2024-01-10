@@ -1,13 +1,13 @@
 import HeaderLink from "./headerLink";
 import Image from "next/image";
-import Logo from "/public/jasonLogo.png";
+import Logo from "/public/jason.svg";
 import ProfileDropdown from "./profile/profileDropdown";
 export default function Header() {
   return (
     <nav className="mb-8 h-14 w-full flex-row items-center border-b-[.1px] border-gray-200">
       <ul className="mx-auto flex h-full w-6/12 flex-row items-center justify-start gap-10">
         <li>
-          <Image quality={100} width="35" src={Logo} alt="" />
+          <Image height="36"quality={100} src={Logo} alt="" />
         </li>
         <div className="w-12" />
         <li>
