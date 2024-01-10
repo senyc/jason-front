@@ -1,6 +1,6 @@
 export enum TaskView {
-  Incomplete = "Incomplete Tasks",
-  Completed = "Completed Tasks",
-  All = "All Tasks",
-  NoOption = "Task View",
+  Incomplete = "incomplete",
+  Completed = "complete",
+  All = "all",
+  NoOption = "",
 }

@@ -3,9 +3,10 @@
 import TextareaAutosize from 'react-textarea-autosize';
 import { useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
+import { useRouter } from 'next/navigation';
 
 import { TaskView } from "@annotations/taskView";
-import { createNewTask, setNewTaskView } from "./actions";
+import { createNewTask } from "./actions";
 
 const MaxHeight = 4;
 
@@ -14,16 +15,14 @@ const initialState = {
   message: ""
 };
 
-export default function NewTaskDisplay() {
-  const [taskView, setTaskView] = useState<TaskView>(TaskView.NoOption);
+export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskView?: TaskView; }) {
+  const router = useRouter();
   const [showNewTaskInput, setShowNewTaskInput] = useState<boolean>(false);
+  const titleInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   //@ts-ignore
   const [state, formAction] = useFormState(createNewTask, initialState);
-
-  useEffect(() => {
-    setNewTaskView(taskView);
-  }, [taskView]);
 
   // Resets form entries on successful submit
   useEffect(() => {
@@ -31,9 +30,6 @@ export default function NewTaskDisplay() {
       formRef.current.reset();
     }
   }, [state]);
-
-  const titleInputRef = useRef<HTMLInputElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     (titleInputRef.current && showNewTaskInput) && titleInputRef.current.focus();
@@ -108,9 +104,9 @@ export default function NewTaskDisplay() {
         <select
           value={taskView}
           className="select bg-base-100 min-h-10 h-10 w-24 border-[.5px] border-gray-300 bg-none pl-2 pr-2 text-center"
-          onChange={e => setTaskView(e.target.value as TaskView)} // ... and update the state variable on any change!
+          onChange={(e) => router.push(`/tasks/${e.target.value}`)}
         >
-          <option value={TaskView.NoOption} selected>{TaskView.NoOption}</option>
+          <option value={TaskView.NoOption} selected>Task view</option>
           <option value={TaskView.Incomplete}>Incomplete</option>
           <option value={TaskView.Completed}>Completed</option>
           <option value={TaskView.All}>All</option>

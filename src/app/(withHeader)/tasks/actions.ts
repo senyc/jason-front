@@ -1,7 +1,6 @@
 'use server';
 
 import NewTask from "@/src/lib/annotations/newTasks";
-import { TaskView } from "@/src/lib/annotations/taskView";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
@@ -87,13 +86,3 @@ export async function toggleTaskCompletion(currentlyCompleted: boolean, id: numb
     return { message: message };
   }
 };
-
-
-export async function setNewTaskView(taskView: TaskView) {
-  try {
-    cookies().set("taskView", taskView);
-    revalidatePath("/tasks");
-  } catch (e) {
-    console.log(e);
-  }
-}
