@@ -63,7 +63,8 @@ export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskV
             maxRows={MaxHeight}
             name="body"
             placeholder="Description"
-            className="input input-ghost h-10 w-full resize-none overflow-y-auto overflow-x-hidden border-none text-sm focus:outline-none" />
+            className="input input-ghost h-10 w-full resize-none overflow-y-auto overflow-x-hidden border-none text-sm focus:outline-none"
+          />
           <div className="m-3 flex h-12 flex-row place-items-center gap-4">
             <input
               className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
@@ -102,11 +103,11 @@ export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskV
       <div className="mb-7 border-b-[.5px] border-gray-200" />
       <div className="flex w-full flex-row justify-end">
         <select
-          value={taskView}
+          defaultValue={taskView}
           className="select bg-base-100 min-h-10 h-10 w-24 border-[.5px] border-gray-300 bg-none pl-2 pr-2 text-center"
           onChange={(e) => router.push(`/tasks/${e.target.value}`)}
         >
-          <option value={TaskView.NoOption} selected>Task view</option>
+          <option value={TaskView.NoOption}>Task view</option>
           <option value={TaskView.Incomplete}>Incomplete</option>
           <option value={TaskView.Completed}>Completed</option>
           <option value={TaskView.All}>All</option>
