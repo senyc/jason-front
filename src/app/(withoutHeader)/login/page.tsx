@@ -1,50 +1,26 @@
 'use client';
 
+import { useFormState } from "react-dom";
+
+import {login} from './actions'
 import Link from 'next/link';
-import onLogin from "@actions/login";
-import { inputSetter } from '@utils';
 
-import { FormEvent, useEffect, useState } from 'react';
-import UserAuthRequest from '@annotations/userAuthRequest';
-import { useRouter } from 'next/navigation';
-import { setCookie } from 'cookies-next';
-
+const initialState = {
+  status: "",
+  message: ""
+};
 
 export default function Login() {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [userAuthRequest, setUserAuthRequest] = useState<UserAuthRequest>({
-    pending: false,
-    completed: false,
-    err: undefined,
-    jwt: undefined,
-    code: 200
-  });
+  //@ts-ignore
+  const [state, formAction] = useFormState(login, initialState);
 
-  useEffect(() => {
-    if (userAuthRequest.completed && userAuthRequest.err == undefined) {
-      setCookie('jwt', userAuthRequest.jwt)
-      router.replace('/tasks');
-    }
-  }, [userAuthRequest]);
-
-
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setPassword("");
-    setEmail("");
-    onLogin(email, password, setUserAuthRequest);
-  };
-
-  const showPasswordFailure = userAuthRequest.completed && userAuthRequest.err != undefined && userAuthRequest.code == 401;
   return (
     <div className='flex h-full flex-col items-center justify-center'>
       <div className="min-w-96">
         <h1 className="mb-4 w-full border-b-[0.2px] pb-2 text-3xl font-bold">
           Login
         </h1>
-        <form onSubmit={onSubmit}>
+        <form action={formAction}>
           <div className="label">
             <label
               className="label-text"
@@ -54,10 +30,9 @@ export default function Login() {
           <input
             type="text"
             id="email-input"
-            value={email}
+            name="email"
             placeholder="Email..."
             className="input input-bordered w-full min-w-full"
-            onChange={inputSetter(setEmail)}
           />
           <div className="label">
             <label
@@ -69,13 +44,12 @@ export default function Login() {
             type="password"
             id="password-input"
             placeholder="password..."
-            value={password}
-            className={`${showPasswordFailure ? 'border-red-500' : ""} input input-bordered w-full min-w-full`}
-            onChange={inputSetter(setPassword)}
+            name="password"
+            className={`${state && state.status != ""  ? 'border-red-500' : ""} input input-bordered w-full min-w-full`}
           />
-          {(showPasswordFailure) && (
+          {(state && state.status != "success") && (
             <span className="ml-1 mt-1 flex items-center text-xs font-medium tracking-wide text-red-500"
-            >{userAuthRequest.err}</span>
+            >{state && state.message}</span>
           )}
           <button
             type="submit"
