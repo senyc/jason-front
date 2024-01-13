@@ -55,7 +55,7 @@ export async function createNewTask(prevState: { message: string, status: string
   } catch (e) {
     if (e instanceof Error) {
       console.log(e);
-      return { message: "Failure adding new task" };
+      return { message: "Failure adding new task", status: "failure" };
     }
 
     return { message: "unknown issue transmitting data", status: "failure" };
@@ -167,7 +167,7 @@ export async function editTask(prevState: { message: string, status: string; }, 
   } catch (e) {
     if (e instanceof Error) {
       console.log(e);
-      return { message: "Failure adding new task" };
+      return { message: "Failure adding new task", status: "failure" };
     }
 
     return { message: "unknown issue transmitting data", status: "failure" };
