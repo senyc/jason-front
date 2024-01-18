@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation';
+import { ACCESS_TOKEN_COOKIE_NAME } from '@/src/config/constants';
 
 const jwtResponse = z.object({
   jwt: z.string(),
@@ -49,7 +50,9 @@ export async function login(prevState: { message: string, status: string; }, for
       console.log(parseJwt.error);
       return { message: "Failure loggin in", status: "failure" };
     }
-    cookies().set("jwt", parseJwt.data.jwt);
+    let monthFromNow = new Date();
+    monthFromNow.setMonth(monthFromNow.getMonth() + 2);
+    cookies().set(ACCESS_TOKEN_COOKIE_NAME, parseJwt.data.jwt, { sameSite: "strict", secure: true, httpOnly: true, expires: monthFromNow });
 
   } catch (e) {
     return { message: "Failure loggin in", status: "failure" };

@@ -1,11 +1,12 @@
 import { LogOut } from "react-feather";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { ACCESS_TOKEN_COOKIE_NAME } from "@/src/config/constants";
 
 export default function LogoutButton() {
   const router = useRouter();
   const logout = () => {
-    deleteCookie('jwt');
+    deleteCookie(ACCESS_TOKEN_COOKIE_NAME);
     router.replace('/login');
   };
   return (

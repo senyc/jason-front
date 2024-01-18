@@ -1,7 +1,8 @@
-'use server'
+'use server';
 import { z } from 'zod';
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation';
+import { ACCESS_TOKEN_COOKIE_NAME } from '@/src/config/constants';
 
 const jwtResponse = z.object({
   jwt: z.string(),
@@ -29,11 +30,11 @@ export async function newUser(prevState: { message: string, status: string; }, f
 
   if (data.password != data.passwordConfirmation) {
     return { message: "Passwords do not match, please try again", status: "passwordConfirmationFailure" };
-  } 
+  }
 
   if (data.password.length <= 5) {
     return { message: "Please try a longer password", status: "passwordLengthError" };
-  } 
+  }
   try {
     const res = await fetch('http://localhost:8080/api/user/new', {
       method: "POST",
@@ -56,7 +57,9 @@ export async function newUser(prevState: { message: string, status: string; }, f
     if (!parseJwt.success) {
       return { message: "Failure making an account, please try again", status: "failure" };
     }
-    cookies().set("jwt", parseJwt.data.jwt);
+    let monthFromNow = new Date();
+    monthFromNow.setMonth(monthFromNow.getMonth() + 2);
+    cookies().set(ACCESS_TOKEN_COOKIE_NAME, parseJwt.data.jwt, { secure: true, httpOnly: true, sameSite: "strict", expires: monthFromNow });
 
   } catch (e) {
     return { message: "Failure loggin in", status: "failure" };

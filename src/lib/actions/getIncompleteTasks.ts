@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import Task from "../annotations/task";
 import { z } from "zod";
 import { Priority } from "../annotations/priority";
+import { redirect } from "next/navigation";
+import { ACCESS_TOKEN_COOKIE_NAME } from "@/src/config/constants";
 
 const incompleteTasksResponse = z.array(z.object({
   id: z.number(),
@@ -12,13 +14,18 @@ const incompleteTasksResponse = z.array(z.object({
 }));
 
 export default async function getIncompleteTasks(): Promise<Task[]> {
+  const jwt = cookies().get(ACCESS_TOKEN_COOKIE_NAME)?.value;
+
+  if (!jwt) {
+    redirect('/login');
+  }
   const newData: Array<Task> = [];
   try {
     const res = await fetch('http://localhost:8080/site/tasks/incomplete', {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${cookies().get('jwt')?.value}`,
+        'Authorization': `Bearer ${jwt}`,
       },
     });
 

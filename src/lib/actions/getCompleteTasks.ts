@@ -2,6 +2,8 @@ import Task from "@annotations/task";
 import { z } from 'zod';
 import { Priority } from "../annotations/priority";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { ACCESS_TOKEN_COOKIE_NAME } from "@/src/config/constants";
 
 const completedTasksResponse = z.array(z.object({
   id: z.number(),
@@ -14,12 +16,18 @@ const completedTasksResponse = z.array(z.object({
 
 const getCompleteTasks = async (): Promise<Array<Task>> => {
   const newData: Array<Task> = [];
+  const jwt = cookies().get(ACCESS_TOKEN_COOKIE_NAME)?.value;
+
+  if (!jwt) {
+    redirect('/login');
+  }
+
   try {
     const res = await fetch('http://localhost:8080/site/tasks/complete', {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${cookies().get('jwt')?.value}`,
+        'Authorization': `Bearer ${jwt}`,
       },
     });
 

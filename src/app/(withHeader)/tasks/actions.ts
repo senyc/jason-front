@@ -1,11 +1,19 @@
 'use server';
 
+import { ACCESS_TOKEN_COOKIE_NAME } from "@/src/config/constants";
 import NewTask from "@/src/lib/annotations/newTasks";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { redirect } from 'next/navigation';
 import { z } from "zod";
 
 export async function createNewTask(prevState: { message: string, status: string; }, formData: FormData) {
+  const jwt = cookies().get(ACCESS_TOKEN_COOKIE_NAME)?.value;
+
+  if (!jwt) {
+    redirect('/login');
+  }
+
   const schema = z.object({
     title: z.string().min(1),
     body: z.string().optional(),
@@ -41,7 +49,7 @@ export async function createNewTask(prevState: { message: string, status: string
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${cookies().get('jwt')?.value}`,
+        'Authorization': `Bearer ${jwt}`,
       },
       body: JSON.stringify(data),
     });
@@ -63,12 +71,17 @@ export async function createNewTask(prevState: { message: string, status: string
 }
 
 export async function toggleTaskCompletion(currentlyCompleted: boolean, id: number) {
+  const jwt = cookies().get(ACCESS_TOKEN_COOKIE_NAME)?.value;
+  if (!jwt) {
+    redirect('/login');
+  }
+
   try {
     const res = await fetch(`http://localhost:8080/site/tasks/${currentlyCompleted ? 'markIncomplete' : 'markComplete'}?id=${id}`, {
       method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${cookies().get('jwt')?.value}`,
+        'Authorization': `Bearer ${jwt}`,
       },
     });
 
@@ -88,12 +101,16 @@ export async function toggleTaskCompletion(currentlyCompleted: boolean, id: numb
 };
 
 export async function deleteTask(id: number) {
+  const jwt = cookies().get(ACCESS_TOKEN_COOKIE_NAME)?.value;
+  if (!jwt) {
+    redirect('/login');
+  }
   try {
     const res = await fetch(`http://localhost:8080/site/tasks/delete?id=${id}`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${cookies().get('jwt')?.value}`,
+        'Authorization': `Bearer ${jwt}`,
       },
     });
 
@@ -114,6 +131,10 @@ export async function deleteTask(id: number) {
 
 
 export async function editTask(prevState: { message: string, status: string; }, formData: FormData) {
+  const jwt = cookies().get(ACCESS_TOKEN_COOKIE_NAME)?.value;
+  if (!jwt) {
+    redirect('/login');
+  }
   const schema = z.object({
     id: z.string(),
     title: z.string().min(1),
@@ -152,7 +173,7 @@ export async function editTask(prevState: { message: string, status: string; }, 
       method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${cookies().get('jwt')?.value}`,
+        'Authorization': `Bearer ${jwt}`,
       },
       body: JSON.stringify(data),
     });
