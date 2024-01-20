@@ -16,7 +16,6 @@ const initialState = {
 };
 
 export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskView?: TaskView; }) {
-  const router = useRouter();
   const [showNewTaskInput, setShowNewTaskInput] = useState<boolean>(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -102,16 +101,6 @@ export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskV
 
       <div className="mb-7 border-b-[.5px] border-gray-200" />
       <div className="flex w-full flex-row justify-end">
-        <select
-          defaultValue={taskView}
-          className="select bg-base-100 min-h-10 h-10 w-24 border-[.5px] border-gray-300 bg-none pl-2 pr-2 text-center"
-          onChange={(e) => router.push(`/tasks/${e.target.value}`)}
-        >
-          <option value={TaskView.NoOption}>Task view</option>
-          <option value={TaskView.Incomplete}>Incomplete</option>
-          <option value={TaskView.Completed}>Completed</option>
-          <option value={TaskView.All}>All</option>
-        </select>
       </div>
     </div>
   );

@@ -4,8 +4,8 @@ import TaskDashboard from "../taskDashboard";
 
 export default function Tasks({ params }: { params: { taskView: TaskView; }; }) {
   return (
-    <main className="w-6/12 self-center">
-      <NewTaskDisplay 
+    <>
+      <NewTaskDisplay
         taskView={params.taskView}
       />
       <div className="pb-3" />
@@ -14,6 +14,6 @@ export default function Tasks({ params }: { params: { taskView: TaskView; }; }) 
       <TaskDashboard
         taskView={params.taskView}
       />
-    </main >
+    </>
   );
 }

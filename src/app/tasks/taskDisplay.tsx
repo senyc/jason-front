@@ -7,7 +7,7 @@ import { useFormState } from "react-dom";
 
 import { Priority } from "@annotations/priority";
 import { editTask } from "./actions";
-import { deleteTask, toggleTaskCompletion } from "@/src/app/(withHeader)/tasks/actions";
+import { deleteTask, toggleTaskCompletion } from "./actions";
 import OutsideClickHandler from 'react-outside-click-handler';
 
 const initialState = {

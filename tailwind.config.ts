@@ -28,10 +28,15 @@ const config: Config = {
     'bg-blue-100',
     'bg-sky-100',
     'bg-gray-100',
+    'bg-gray-300',
+    'bg-gray-200',
+    'hover:bg-gray-200',
+    'hover:bg-gray-300',
   ],
   theme: {
     extend: {
-      backgroundImage: {
+      colors: {
+        'light-header': '#fbfbfa',
       },
     },
   },

@@ -194,3 +194,38 @@ export async function editTask(prevState: { message: string, status: string; }, 
     return { message: "unknown issue transmitting data", status: "failure" };
   }
 }
+
+export async function getCurrentEmailAddress() {
+  const schema = z.object({
+    email: z.string()
+  });
+
+  const jwt = cookies().get(ACCESS_TOKEN_COOKIE_NAME)?.value;
+  if (!jwt) {
+    redirect('/login');
+  }
+
+  try {
+    const res = await fetch('http://localhost:8080/site/tasks/getEmail', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      },
+    });
+
+    if (!res.ok) {
+      return "failure sending";
+    }
+
+    const resData = await res.json();
+    const parse = schema.safeParse(resData);
+    if (!parse.success) {
+      return "failure";
+    }
+
+    return parse.data.email;
+  } catch {
+
+  }
+}

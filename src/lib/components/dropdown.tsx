@@ -1,20 +1,19 @@
-import { Dispatch } from "react";
-
+'use client';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 interface DropdownProps {
-  options: Array<any>;
-  setter: Dispatch<any>;
-  text: string;
+  id: string;
+  summary: React.ReactNode;
+  children: React.ReactNode;
 }
 
-export default function Dropdown({ options, text, setter }: DropdownProps) {
+export default function Dropdown({ id, summary, children }: DropdownProps) {
   /**
   * This can only be solved via event handlers not a controlled component 
   * via: https://github.com/facebook/react/issues/15486 
   */
   const toggleOpen = () => {
-    document.getElementById(text.trim())?.removeAttribute('open');
+    document.getElementById(id)?.removeAttribute('open');
   };
 
   return (
@@ -22,32 +21,18 @@ export default function Dropdown({ options, text, setter }: DropdownProps) {
       onOutsideClick={toggleOpen}
     >
       <details
-        id={text.trim()}
-        className="dropdown"
+        id={id}
+        className="dropdown dropdown-bottom"
       >
         <summary
           role="button"
-          className="list-none rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+          className="list-none"
         >
-          {text}
+          {summary}
         </summary>
-        <ul className="menu dropdown-content bg-base-100">
-          {options.map((val) => (
-            <li
-              key={`key-${val}`}
-            >
-              <button
-                type="button"
-                onClick={() => {
-                  toggleOpen();
-                  setter(val);
-                }}
-              >{val}</button>
-            </li>)
-          )}
-        </ul>
+        {children}
       </details>
-    </OutsideClickHandler>
+    </OutsideClickHandler >
   );
 
 }
