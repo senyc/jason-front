@@ -21,8 +21,8 @@ RUN bun run build
 # Production image, copy all the files and run next
 FROM node:18-slim AS runner
 WORKDIR /app
-ARG CONFIG_FILE
-COPY $CONFIG_FILE /app/.env
+# ARG CONFIG_FILE
+# COPY $CONFIG_FILE /app/.env
 ENV NODE_ENV production
 
 
