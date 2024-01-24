@@ -32,7 +32,6 @@ ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.env.local ./.env.local
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
