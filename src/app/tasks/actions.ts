@@ -45,7 +45,7 @@ export async function createNewTask(prevState: { message: string, status: string
   }
 
   try {
-    const res = await fetch('http://localhost:8080/site/tasks/new', {
+    const res = await fetch(`${process.env.BACKEND_DOMAIN}/site/tasks/new`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export async function toggleTaskCompletion(currentlyCompleted: boolean, id: numb
   }
 
   try {
-    const res = await fetch(`http://localhost:8080/site/tasks/${currentlyCompleted ? 'markIncomplete' : 'markComplete'}?id=${id}`, {
+    const res = await fetch(`${process.env.BACKEND_DOMAIN}/site/tasks/${currentlyCompleted ? 'markIncomplete' : 'markComplete'}?id=${id}`, {
       method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export async function deleteTask(id: number) {
     redirect('/login');
   }
   try {
-    const res = await fetch(`http://localhost:8080/site/tasks/delete?id=${id}`, {
+    const res = await fetch(`${process.env.BACKEND_DOMAIN}/site/tasks/delete?id=${id}`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ export async function editTask(prevState: { message: string, status: string; }, 
     data.due = undefined;
   }
   try {
-    const res = await fetch('http://localhost:8080/site/tasks/edit', {
+    const res = await fetch(`${process.env.BACKEND_DOMAIN}/site/tasks/edit`, {
       method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
@@ -206,7 +206,7 @@ export async function getCurrentEmailAddress() {
   }
 
   try {
-    const res = await fetch('http://localhost:8080/site/tasks/getEmail', {
+    const res = await fetch(`${process.env.BACKEND_DOMAIN}/site/tasks/getEmail`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

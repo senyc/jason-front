@@ -23,7 +23,7 @@ const getCompleteTasks = async (): Promise<Array<Task>> => {
   }
 
   try {
-    const res = await fetch('http://localhost:8080/site/tasks/complete', {
+    const res = await fetch(`${process.env.BACKEND_DOMAIN}/site/tasks/complete`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',

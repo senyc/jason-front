@@ -28,7 +28,7 @@ export async function login(prevState: { message: string, status: string; }, for
   const data = parse.data;
 
   try {
-    const res = await fetch('http://localhost:8080/api/user/login', {
+    const res = await fetch(`${process.env.BACKEND_DOMAIN}/api/user/login`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -55,6 +55,8 @@ export async function login(prevState: { message: string, status: string; }, for
     cookies().set(ACCESS_TOKEN_COOKIE_NAME, parseJwt.data.jwt, { sameSite: "strict", secure: true, httpOnly: true, expires: monthFromNow });
 
   } catch (e) {
+    console.log(e)
+    console.log(process.env.BACKEND_DOMAIN)
     return { message: "Failure loggin in", status: "failure" };
   }
 

@@ -36,7 +36,7 @@ export async function newUser(prevState: { message: string, status: string; }, f
     return { message: "Please try a longer password", status: "passwordLengthError" };
   }
   try {
-    const res = await fetch('http://localhost:8080/api/user/new', {
+    const res = await fetch(`${process.env.BACKEND_DOMAIN}/api/user/new`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -57,11 +57,13 @@ export async function newUser(prevState: { message: string, status: string; }, f
     if (!parseJwt.success) {
       return { message: "Failure making an account, please try again", status: "failure" };
     }
+
     let monthFromNow = new Date();
     monthFromNow.setMonth(monthFromNow.getMonth() + 2);
     cookies().set(ACCESS_TOKEN_COOKIE_NAME, parseJwt.data.jwt, { secure: true, httpOnly: true, sameSite: "strict", expires: monthFromNow });
 
   } catch (e) {
+    console.log(e)
     return { message: "Failure loggin in", status: "failure" };
   }
   redirect("/tasks");

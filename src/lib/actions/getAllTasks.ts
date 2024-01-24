@@ -24,7 +24,7 @@ const getAllTasks = async (): Promise<Task[]> => {
   }
 
   try {
-    const res = await fetch('http://localhost:8080/site/tasks/all', {
+    const res = await fetch(`${process.env.BACKEND_DOMAIN}/site/tasks/all`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ const getAllTasks = async (): Promise<Task[]> => {
       return newData;
     }
   } catch (e) {
-    console.log(e);
+    console.log(e)
     let message = "unknown error";
     if (e instanceof Error) {
       message = e.message;
