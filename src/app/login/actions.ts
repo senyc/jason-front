@@ -47,7 +47,6 @@ export async function login(prevState: { message: string, status: string; }, for
     const parseJwt = jwtResponse.safeParse(resToken);
 
     if (!parseJwt.success) {
-      console.log(parseJwt.error);
       return { message: "Failure loggin in", status: "failure" };
     }
     let monthFromNow = new Date();
@@ -55,8 +54,7 @@ export async function login(prevState: { message: string, status: string; }, for
     cookies().set(ACCESS_TOKEN_COOKIE_NAME, parseJwt.data.jwt, { sameSite: "strict", secure: true, httpOnly: true, expires: monthFromNow });
 
   } catch (e) {
-    console.log(e)
-    console.log(process.env.BACKEND_DOMAIN)
+    console.log(e);
     return { message: "Failure loggin in", status: "failure" };
   }
 
