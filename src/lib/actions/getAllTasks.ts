@@ -24,7 +24,7 @@ const getAllTasks = async (): Promise<Task[]> => {
   }
 
   try {
-    const res = await fetch(`${process.env.BACKEND_DOMAIN}/site/tasks/all`, {
+    const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}/site/tasks/all`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
