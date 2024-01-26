@@ -21,7 +21,7 @@ export default async function getIncompleteTasks(): Promise<Task[]> {
   }
   const newData: Array<Task> = [];
   try {
-    const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}/site/tasks/incomplete`, {
+    const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}:${process.env.JASON_SERVICE_SERVICE_PORT}/site/tasks/incomplete`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',

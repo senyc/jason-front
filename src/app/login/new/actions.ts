@@ -36,7 +36,7 @@ export async function newUser(prevState: { message: string, status: string; }, f
     return { message: "Please try a longer password", status: "passwordLengthError" };
   }
   try {
-    const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}/api/user/new`, {
+    const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}:${process.env.JASON_SERVICE_SERVICE_PORT}/api/user/new`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',

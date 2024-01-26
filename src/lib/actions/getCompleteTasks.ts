@@ -23,7 +23,7 @@ const getCompleteTasks = async (): Promise<Array<Task>> => {
   }
 
   try {
-    const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}/site/tasks/complete`, {
+    const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}:${process.env.JASON_SERVICE_SERVICE_PORT}/site/tasks/complete`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
