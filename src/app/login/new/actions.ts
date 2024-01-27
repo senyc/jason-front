@@ -59,8 +59,8 @@ export async function newUser(prevState: { message: string, status: string; }, f
     }
 
     let monthFromNow = new Date();
-    monthFromNow.setMonth(monthFromNow.getMonth() + 2);
-    cookies().set(ACCESS_TOKEN_COOKIE_NAME, parseJwt.data.jwt, { domain: process.env.SITE_URl, secure: true, httpOnly: true, sameSite: "strict", expires: monthFromNow });
+    monthFromNow.setMonth(monthFromNow.getMonth() + 1);
+    cookies().set(ACCESS_TOKEN_COOKIE_NAME, parseJwt.data.jwt, { domain: process.env.SITE_URl, secure: false, httpOnly: true, sameSite: "lax", expires: monthFromNow });
 
   } catch (e) {
     console.log(e)

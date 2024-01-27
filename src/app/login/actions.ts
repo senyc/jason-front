@@ -50,8 +50,8 @@ export async function login(prevState: { message: string, status: string; }, for
       return { message: "Failure loggin in", status: "failure" };
     }
     let monthFromNow = new Date();
-    monthFromNow.setMonth(monthFromNow.getMonth() + 2);
-    cookies().set(ACCESS_TOKEN_COOKIE_NAME, parseJwt.data.jwt, { domain: process.env.SITE_URL, sameSite: "strict", secure: true, httpOnly: true, expires: monthFromNow });
+    monthFromNow.setMonth(monthFromNow.getMonth() + 1);
+    cookies().set(ACCESS_TOKEN_COOKIE_NAME, parseJwt.data.jwt, { domain: process.env.SITE_URL, sameSite: "lax", secure: false, httpOnly: true, expires: monthFromNow });
 
   } catch (e) {
     console.log(e);
