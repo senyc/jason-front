@@ -1,1 +1,1 @@
-export const ACCESS_TOKEN_COOKIE_NAME: string = "__Host-Access-Token"
+export const ACCESS_TOKEN_COOKIE_NAME: string = "Access-Token"

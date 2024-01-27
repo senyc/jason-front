@@ -51,7 +51,7 @@ export async function login(prevState: { message: string, status: string; }, for
     }
     let monthFromNow = new Date();
     monthFromNow.setMonth(monthFromNow.getMonth() + 2);
-    cookies().set(ACCESS_TOKEN_COOKIE_NAME, parseJwt.data.jwt, { sameSite: "strict", secure: true, httpOnly: true, expires: monthFromNow });
+    cookies().set(ACCESS_TOKEN_COOKIE_NAME, parseJwt.data.jwt, { domain: process.env.SITE_URL, sameSite: "strict", secure: true, httpOnly: true, expires: monthFromNow });
 
   } catch (e) {
     console.log(e);
