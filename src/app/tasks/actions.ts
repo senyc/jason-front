@@ -106,7 +106,7 @@ export async function deleteTask(id: number) {
     redirect('/login');
   }
   try {
-    const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}:${process.env.JASON_SERVICE_SERVICE_PORT} /site/tasks/delete?id=${id}`, {
+    const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}:${process.env.JASON_SERVICE_SERVICE_PORT}/site/tasks/delete?id=${id}`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json',
