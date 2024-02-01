@@ -1,5 +1,6 @@
 'use client';
 import { TaskView } from "@/src/lib/annotations/taskView";
+import Dropdown from "@/src/lib/components/dropdown";
 
 interface TaskMenuProps {
   taskView: TaskView;
@@ -8,20 +9,45 @@ interface TaskMenuProps {
 import { useRouter } from "next/navigation";
 import { Clock } from "react-feather";
 
-export default function TaskHeader({ taskView }: TaskMenuProps) {
+export default function TaskHeader({ taskView=TaskView.Incomplete }: TaskMenuProps) {
   const router = useRouter();
+  const id = "taskModeView";
+  const toggleOpen = () => {
+    document.getElementById(id)?.removeAttribute('open');
+  };
+
+  const contents = [
+    { label: "Incomplete Tasks", value: TaskView.NoOption, hidden:true},
+    { label: "Incomplete Tasks", value: TaskView.Incomplete },
+    { label: "Completed Tasks", value: TaskView.Completed },
+    { label: "All Tasks", value: TaskView.All },
+  ];
   return (
     <header className="flex h-12 w-full flex-row items-center gap-3">
-      <select
-        defaultValue={taskView}
-        className={`select bg-none text-center`}
-        onChange={(e) => router.push(`/tasks/${e.target.value}`)}
+      <Dropdown
+        summaryClassNames={"min-w-24 ml-8 list-none rounded-lg border-[.5px] border-gray-300 p-2 text-center text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"}
+        summary={contents[contents.findIndex((val) => val.value === taskView)].label}
+        id={id}
       >
-        <option hidden value={TaskView.NoOption}>Incomplete Tasks</option>
-        <option value={TaskView.Incomplete}>Incomplete Task</option>
-        <option value={TaskView.Completed}>Completed Task</option>
-        <option value={TaskView.All}>All Tasks</option>
-      </select>
+
+        <ul className="menu dropdown-content bg-light-header left-10 mt-2 rounded-md shadow">
+          {contents.map(currentOption => {
+            return (<li
+              className={currentOption.hidden ? 'hidden' : ''}
+              key={"formitem" + "-" + currentOption.label}
+              onClick={() => {
+                toggleOpen();
+                router.push(`/tasks/${currentOption.value}`);
+              }}
+            >
+              <a>
+                {currentOption.label}
+              </a>
+            </li>
+            );
+          })}
+        </ul>
+      </Dropdown>
       <div className="ml-auto mr-3 flex flex-row items-center gap-1">
         <Clock size={17} />
         <p>

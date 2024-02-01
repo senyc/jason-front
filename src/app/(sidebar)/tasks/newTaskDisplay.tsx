@@ -3,10 +3,9 @@
 import TextareaAutosize from 'react-textarea-autosize';
 import { useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
-import { useRouter } from 'next/navigation';
 
-import { TaskView } from "@annotations/taskView";
 import { createNewTask } from "./actions";
+import FormDropdown from '@/src/lib/components/formDropdown';
 
 const MaxHeight = 4;
 
@@ -15,10 +14,12 @@ const initialState = {
   message: ""
 };
 
-export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskView?: TaskView; }) {
+export default function NewTaskDisplay() {
   const [showNewTaskInput, setShowNewTaskInput] = useState<boolean>(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const [formDropdownItem, setFormDropdownItem] = useState<string>("");
+  const [formTitle, setFormTitle] = useState("");
 
   //@ts-ignore
   const [state, formAction] = useFormState(createNewTask, initialState);
@@ -27,6 +28,8 @@ export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskV
   useEffect(() => {
     if (formRef.current && state?.status === 'success') {
       formRef.current.reset();
+      setFormDropdownItem("");
+      setFormTitle("");
     }
   }, [state]);
 
@@ -50,8 +53,11 @@ export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskV
           action={formAction}
           className="mb-6 rounded-lg border-[.5px] border-gray-300"
           ref={formRef}
+
         >
           <input
+            value={formTitle}
+            onChange={(e) => setFormTitle(e.target.value)}
             ref={titleInputRef}
             name="title"
             type="text"
@@ -70,23 +76,32 @@ export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskV
               type="date"
               name="due"
             />
-            <select
-              name="priority"
-              className="select-ghost select min-h-10 select-bordered h-10 w-16 bg-none pl-2 pr-0"
-              defaultValue={0}
-            >
-              <option value={0}>Priority</option>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
-            </select>
+
+            <input
+              defaultValue={"0"}
+              name={"priority"}
+              type="hidden"
+              value={formDropdownItem}
+            />
+            <FormDropdown
+              id="newTaskPriorityDropdown"
+              selectedValue={formDropdownItem}
+              setSelectedValue={setFormDropdownItem}
+              defaultValue={"0"}
+              options={[
+                { label: "Priority", value: "0", hidden: true },
+                { label: "P1", value: "1" },
+                { label: "P2", value: "2" },
+                { label: "P3", value: "3" },
+                { label: "P4", value: "4" },
+              ]}
+            />
           </div>
           <div className="border-b-[.5px] border-gray-200" />
           <div className="flex w-full flex-row justify-between p-3">
             <button
               type="submit"
+              disabled={formTitle.length <= 0}
               className=" rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
             >Add task</button>
             <button
