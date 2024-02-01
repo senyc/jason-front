@@ -9,7 +9,7 @@ interface TaskMenuProps {
 import { useRouter } from "next/navigation";
 import { Clock } from "react-feather";
 
-export default function TaskHeader({ taskView }: TaskMenuProps) {
+export default function TaskHeader({ taskView=TaskView.Incomplete }: TaskMenuProps) {
   const router = useRouter();
   const id = "taskModeView";
   const toggleOpen = () => {

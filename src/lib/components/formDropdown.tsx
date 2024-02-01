@@ -6,8 +6,8 @@ import OutsideClickHandler from "react-outside-click-handler";
 interface FormDropdownProps {
   defaultValue?: string;
   options: FormDropdownOption[];
-  selectedValue: string;
-  setSelectedValue: Dispatch<SetStateAction<string>>;
+  selectedValue: any;
+  setSelectedValue: Dispatch<SetStateAction<any>>;
   id: string;
 }
 

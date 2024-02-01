@@ -3,9 +3,7 @@
 import TextareaAutosize from 'react-textarea-autosize';
 import { useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
-import { useRouter } from 'next/navigation';
 
-import { TaskView } from "@annotations/taskView";
 import { createNewTask } from "./actions";
 import FormDropdown from '@/src/lib/components/formDropdown';
 
@@ -16,11 +14,12 @@ const initialState = {
   message: ""
 };
 
-export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskView?: TaskView; }) {
+export default function NewTaskDisplay() {
   const [showNewTaskInput, setShowNewTaskInput] = useState<boolean>(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [formDropdownItem, setFormDropdownItem] = useState<string>("");
+  const [formTitle, setFormTitle] = useState("");
 
   //@ts-ignore
   const [state, formAction] = useFormState(createNewTask, initialState);
@@ -30,6 +29,7 @@ export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskV
     if (formRef.current && state?.status === 'success') {
       formRef.current.reset();
       setFormDropdownItem("");
+      setFormTitle("");
     }
   }, [state]);
 
@@ -53,8 +53,11 @@ export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskV
           action={formAction}
           className="mb-6 rounded-lg border-[.5px] border-gray-300"
           ref={formRef}
+
         >
           <input
+            value={formTitle}
+            onChange={(e) => setFormTitle(e.target.value)}
             ref={titleInputRef}
             name="title"
             type="text"
@@ -81,7 +84,7 @@ export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskV
               value={formDropdownItem}
             />
             <FormDropdown
-                id="newTaskPriorityDropdown"
+              id="newTaskPriorityDropdown"
               selectedValue={formDropdownItem}
               setSelectedValue={setFormDropdownItem}
               defaultValue={"0"}
@@ -98,6 +101,7 @@ export default function NewTaskDisplay({ taskView = TaskView.NoOption }: { taskV
           <div className="flex w-full flex-row justify-between p-3">
             <button
               type="submit"
+              disabled={formTitle.length <= 0}
               className=" rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
             >Add task</button>
             <button

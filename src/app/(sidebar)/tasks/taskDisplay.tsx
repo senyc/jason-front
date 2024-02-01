@@ -36,7 +36,8 @@ const priorityColorMatches = new Map<Priority, string>([
 ]);
 
 export default function TaskDisplay({ title, body, priority, id, completed, due }: TaskDisplayProps) {
-  const [formDropdownItem, setFormDropdownItem] = useState<string>("");
+  const [formTitle, setFormTitle] = useState(title);
+  const [formDropdownItem, setFormDropdownItem] = useState(priority);
   const [isHovered, setIsHovered] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -51,7 +52,7 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
     if (formRef.current && state?.status === 'success') {
       formRef.current.reset();
       setIsEditing(false);
-      setFormDropdownItem("");
+      setFormDropdownItem(priority);
     }
   }, [state]);
 
@@ -59,6 +60,14 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
     (titleInputRef.current && isEditing) && titleInputRef.current.focus();
   }, [isEditing]);
 
+
+  const closeAction = () => {
+    setFormDropdownItem(priority);
+    setFormTitle(title);
+    setIsHovered(false);
+    setIsEditing(false);
+
+  };
   // form-xxx allows for the default styles to be overridden
   return !isEditing ? (
     <div
@@ -77,7 +86,7 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
             defaultChecked={completed}
           />
           <h2 className="text-md font-bold">
-            {title.charAt(0).toUpperCase() + title.slice(1)}
+            {title}
           </h2>
         </div>
         <div className={`${!isHovered && 'hidden'} flex flex-row gap-1.5`}>
@@ -109,7 +118,7 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
     </div>
   ) : (
     <OutsideClickHandler
-      onOutsideClick={() => setIsEditing(false)}
+      onOutsideClick={closeAction}
     >
       <div
         className="mb-6 mt-2 rounded-lg border-[.5px] border-gray-300"
@@ -130,7 +139,9 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
             name="title"
             type="text"
             placeholder="New title"
-            defaultValue={title.charAt(0).toUpperCase() + title.slice(1)}
+            defaultValue={title}
+            value={formTitle}
+            onChange={(e) => setFormTitle(e.target.value)}
             ref={titleInputRef}
           />
           <TextareaAutosize
@@ -169,14 +180,14 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
           </div>
           <div className="flex flex-row justify-between p-3">
             <button
-              className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+              className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+              disabled={formTitle.length <= 0}
               type="submit"
             >Submit</button>
             <button
               className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
               type="button"
-              onClick={() => setIsEditing(false)}
-            >Cancel</button>
+              onClick={closeAction} >Cancel</button>
           </div>
         </form>
 
