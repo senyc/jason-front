@@ -12,9 +12,7 @@ export default function Tasks({ params }: { params: { taskView: TaskView; }; }) 
     <section
       className="mx-auto w-6/12"
     >
-      <NewTaskDisplay
-        taskView={params.taskView}
-      />
+      <NewTaskDisplay />
       <div className="pb-3" />
       <div className='my-3 flex w-full flex-row justify-end'>
       </div>
