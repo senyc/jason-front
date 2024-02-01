@@ -9,6 +9,7 @@ import { Priority } from "@annotations/priority";
 import { editTask } from "./actions";
 import { deleteTask, toggleTaskCompletion } from "./actions";
 import OutsideClickHandler from 'react-outside-click-handler';
+import FormDropdown from '@/src/lib/components/formDropdown';
 
 const initialState = {
   status: "",
@@ -35,6 +36,7 @@ const priorityColorMatches = new Map<Priority, string>([
 ]);
 
 export default function TaskDisplay({ title, body, priority, id, completed, due }: TaskDisplayProps) {
+  const [formDropdownItem, setFormDropdownItem] = useState<string>("");
   const [isHovered, setIsHovered] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -48,8 +50,8 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
   useEffect(() => {
     if (formRef.current && state?.status === 'success') {
       formRef.current.reset();
-      console.log(state.message)
       setIsEditing(false);
+      setFormDropdownItem("");
     }
   }, [state]);
 
@@ -145,18 +147,25 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
               name="due"
               defaultValue={due ? new Date(due).toLocaleDateString('en-CA') : ""}
             />
-            <select
-              name="priority"
-              className="select-ghost select min-h-10 select-bordered h-10 w-16 bg-none pl-2 pr-0"
-              defaultValue={priority}
-            >
-              <option value={0}>Priority</option>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
-            </select>
+            <input
+              defaultValue={"0"}
+              name={"priority"}
+              type="hidden"
+              value={formDropdownItem}
+            />
+            <FormDropdown
+              selectedValue={formDropdownItem}
+              setSelectedValue={setFormDropdownItem}
+              defaultValue={"0"}
+              id={`${id}-ExistingTaskPriorityDropdown`}
+              options={[
+                { label: "Priority", value: "0", hidden: true },
+                { label: "P1", value: "1" },
+                { label: "P2", value: "2" },
+                { label: "P3", value: "3" },
+                { label: "P4", value: "4" },
+              ]}
+            />
           </div>
           <div className="flex flex-row justify-between p-3">
             <button
