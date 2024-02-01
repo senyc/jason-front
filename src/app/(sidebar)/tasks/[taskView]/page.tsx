@@ -1,10 +1,17 @@
 import { TaskView } from "@/src/lib/annotations/taskView";
 import NewTaskDisplay from "../newTaskDisplay";
 import TaskDashboard from "../taskDashboard";
+import TaskHeader from "../taskHeader";
 
 export default function Tasks({ params }: { params: { taskView: TaskView; }; }) {
   return (
     <>
+      <TaskHeader
+        taskView={params.taskView}
+      />
+    <section
+      className="mx-auto w-6/12"
+    >
       <NewTaskDisplay
         taskView={params.taskView}
       />
@@ -14,6 +21,7 @@ export default function Tasks({ params }: { params: { taskView: TaskView; }; }) 
       <TaskDashboard
         taskView={params.taskView}
       />
+    </section>
     </>
   );
 }

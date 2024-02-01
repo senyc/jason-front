@@ -1,4 +1,4 @@
-import TaskPageHeader from "./taskPageHeader";
+import Sidebar from "./sidebar";
 import { TaskView } from "@/src/lib/annotations/taskView";
 
 export default async function TaskLayout({
@@ -8,13 +8,9 @@ export default async function TaskLayout({
   params: { taskView: TaskView; };
 }) {
   return (
-    <>
-      <TaskPageHeader
-        taskView={params.taskView}
-      />
-      <main className="w-6/12 self-center">
-        {children}
-      </main >
-    </>
+    <body className="flex h-full w-full flex-row">
+      <Sidebar />
+      {children}
+    </body>
   );
 }
