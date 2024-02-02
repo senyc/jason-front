@@ -41,3 +41,38 @@ export async function getCurrentEmailAddress() {
 
   }
 }
+
+export async function getAccountAge() {
+  const schema = z.object({
+    accountCreationDate: z.string()
+  });
+
+  const jwt = cookies().get(ACCESS_TOKEN_COOKIE_NAME)?.value;
+  if (!jwt) {
+    redirect('/login');
+  }
+
+  try {
+    const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}:${process.env.JASON_SERVICE_SERVICE_PORT}/site/tasks/getAccountCreationDate`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      },
+    });
+
+    if (!res.ok) {
+      return "-1";
+    }
+
+    const resData = await res.json();
+    const parse = schema.safeParse(resData);
+    if (!parse.success) {
+      return "-1";
+    }
+
+    return parse.data.accountCreationDate;
+  } catch {
+    return "-1";
+  }
+}

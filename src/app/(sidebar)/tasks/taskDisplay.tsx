@@ -11,6 +11,9 @@ import { deleteTask, toggleTaskCompletion } from "./actions";
 import OutsideClickHandler from 'react-outside-click-handler';
 import FormDropdown from '@/src/lib/components/formDropdown';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const initialState = {
   status: "",
   message: ""
@@ -44,17 +47,23 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
   const titleInputRef = useRef<HTMLInputElement>(null);
   const checkboxColor = priorityColorMatches.get(priority);
 
+  const notifySuccess = (message: string) => toast.success(message);
+  const notifyFailure = (message: string) => toast.error(message);
+
   //@ts-ignore
-  const [state, formAction] = useFormState(editTask, initialState);
+  const [editTaskState, formAction] = useFormState(editTask, initialState);
 
   // Resets form entries on successful submit
   useEffect(() => {
-    if (formRef.current && state?.status === 'success') {
+    if (formRef.current && editTaskState?.status === 'success') {
       formRef.current.reset();
       setIsEditing(false);
       setFormDropdownItem(priority);
+      notifySuccess(editTaskState.message);
+    } else if (formRef.current && editTaskState?.status === 'failure') {
+      notifyFailure(editTaskState.message);
     }
-  }, [state]);
+  }, [editTaskState]);
 
   useEffect(() => {
     (titleInputRef.current && isEditing) && titleInputRef.current.focus();
@@ -66,8 +75,8 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
     setFormTitle(title);
     setIsHovered(false);
     setIsEditing(false);
-
   };
+
   // form-xxx allows for the default styles to be overridden
   return !isEditing ? (
     <div
@@ -101,7 +110,11 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
           </button>
           <button
             type="button"
-            onClick={() => deleteTask(id)}
+            onClick={() => {
+              // This just assumes that it works
+              notifySuccess("Succsfully deleted task");
+              deleteTask(id);
+            }}
           >
             <Trash
               color="gray"

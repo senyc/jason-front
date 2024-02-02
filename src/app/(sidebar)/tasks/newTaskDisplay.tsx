@@ -7,13 +7,15 @@ import { useFormState } from "react-dom";
 import { createNewTask } from "./actions";
 import FormDropdown from '@/src/lib/components/formDropdown';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const MaxHeight = 4;
 
 const initialState = {
   status: "",
   message: ""
 };
-
 export default function NewTaskDisplay() {
   const [showNewTaskInput, setShowNewTaskInput] = useState<boolean>(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
@@ -23,6 +25,8 @@ export default function NewTaskDisplay() {
 
   //@ts-ignore
   const [state, formAction] = useFormState(createNewTask, initialState);
+  const notifySuccess = (message: string) => toast.success(message);
+  const notifyFailure = (message: string) => toast.error(message);
 
   // Resets form entries on successful submit
   useEffect(() => {
@@ -30,6 +34,10 @@ export default function NewTaskDisplay() {
       formRef.current.reset();
       setFormDropdownItem("");
       setFormTitle("");
+
+      notifySuccess(state.message);
+    } else if (formRef.current && state?.status === 'failure') {
+      notifyFailure(state.message);
     }
   }, [state]);
 
@@ -109,7 +117,6 @@ export default function NewTaskDisplay() {
               type="button"
               className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
             >Cancel</button>
-            {state?.message}
           </div>
         </form>
       )}
@@ -117,6 +124,20 @@ export default function NewTaskDisplay() {
       <div className="mb-7 border-b-[.5px] border-gray-200" />
       <div className="flex w-full flex-row justify-end">
       </div>
+
+      <ToastContainer
+        position="bottom-left"
+        autoClose={1500}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        limit={3}
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="light"
+        closeButton={false}
+      />
     </div>
   );
 }

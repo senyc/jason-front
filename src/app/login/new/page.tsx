@@ -2,6 +2,7 @@
 
 import { useFormState } from "react-dom";
 import { newUser } from './actions';
+import { useEffect, useRef } from "react";
 
 const initialState = {
   status: "",
@@ -9,10 +10,15 @@ const initialState = {
 };
 
 export default function New() {
-  //@ts-ignore
   const [state, formAction] = useFormState(newUser, initialState);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current && inputRef.current.focus();
+  }, [inputRef]);
+
   return (
-    <div className='flex h-full flex-col items-center justify-center'>
+    <body className='flex h-full flex-col items-center justify-center'>
       <div className="min-w-96">
         <h1 className="mb-4 w-full border-b-[0.2px] pb-2 text-3xl font-bold">
           New Account
@@ -22,6 +28,7 @@ export default function New() {
             <label className="label-text" htmlFor="email-input">Email</label>
           </div>
           <input
+            ref={inputRef}
             required
             type="text"
             name="email"
@@ -66,6 +73,6 @@ export default function New() {
           <button type="submit" className="btn btn-s mt-6">Sign up</button>
         </form>
       </div>
-    </div>
+    </body>
   );
 }

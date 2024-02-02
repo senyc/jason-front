@@ -4,12 +4,14 @@ import Dropdown from "@/src/lib/components/dropdown";
 
 interface TaskMenuProps {
   taskView: TaskView;
+  sinceLastSync: React.ReactNode
 }
 
 import { useRouter } from "next/navigation";
 import { Clock } from "react-feather";
+import TimeSinceLastSync from "./timeSinceLastSync";
 
-export default function TaskHeader({ taskView=TaskView.Incomplete }: TaskMenuProps) {
+export default function TaskHeader({ sinceLastSync, taskView = TaskView.Incomplete }: TaskMenuProps) {
   const router = useRouter();
   const id = "taskModeView";
   const toggleOpen = () => {
@@ -17,7 +19,7 @@ export default function TaskHeader({ taskView=TaskView.Incomplete }: TaskMenuPro
   };
 
   const contents = [
-    { label: "Incomplete Tasks", value: TaskView.NoOption, hidden:true},
+    { label: "Incomplete Tasks", value: TaskView.NoOption, hidden: true },
     { label: "Incomplete Tasks", value: TaskView.Incomplete },
     { label: "Completed Tasks", value: TaskView.Completed },
     { label: "All Tasks", value: TaskView.All },
@@ -48,12 +50,7 @@ export default function TaskHeader({ taskView=TaskView.Incomplete }: TaskMenuPro
           })}
         </ul>
       </Dropdown>
-      <div className="ml-auto mr-3 flex flex-row items-center gap-1">
-        <Clock size={17} />
-        <p>
-          last synced: 2 hours
-        </p>
-      </div>
+      {sinceLastSync}
     </header>
   );
 }
