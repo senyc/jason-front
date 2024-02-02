@@ -23,7 +23,7 @@ interface taskDisplayForm {
   title: string,
 }
 
-export default function taskDisplayForm({ shouldDisplay, closeAction, id, body, title, priority, due }: taskDisplayForm) {
+export default function TaskDisplayForm({ shouldDisplay, closeAction, id, body, title, priority, due }: taskDisplayForm) {
   const [formTitle, setFormTitle] = useState(title);
   const [editTaskState, formAction] = useFormState(editTask, initialState);
   const [formDropdownItem, setFormDropdownItem] = useState(priority);
