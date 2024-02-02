@@ -29,7 +29,7 @@ export async function createNewTask(prevState: { message: string, status: string
   });
 
   if (!parse.success) {
-    return { message: `Failed to create task ${parse.error}`, status: "failure" };
+    return { message: `Failed to create task, please try again`, status: "failure" };
   }
 
   const data: NewTask = {
@@ -54,19 +54,18 @@ export async function createNewTask(prevState: { message: string, status: string
       body: JSON.stringify(data),
     });
     if (!res.ok) {
-      return { message: 'Failed to update users tasks', status: "failure" };
+      return { message: 'Failed to update tasks, please try again', status: "failure" };
     }
 
     revalidatePath("/tasks");
-    return { message: '', status: "success" };
+    return { message: 'Synced', status: "success" };
 
   } catch (e) {
     if (e instanceof Error) {
-      console.log(e);
-      return { message: "Failure adding new task", status: "failure" };
+      return { message: "Failure adding new task, please try again", status: "failure" };
     }
 
-    return { message: "unknown issue transmitting data", status: "failure" };
+    return { message: "Failure adding new task, please try again", status: "failure" };
   }
 }
 
@@ -152,7 +151,7 @@ export async function editTask(prevState: { message: string, status: string; }, 
   });
 
   if (!parse.success) {
-    return { message: `Failed to edit task ${parse.error}`, status: "failure" };
+    return { message: `Failed to edit task, please try again`, status: "failure" };
   }
 
   const data = {

@@ -17,7 +17,7 @@ export default function TaskHeader({ taskView=TaskView.Incomplete }: TaskMenuPro
   };
 
   const contents = [
-    { label: "Incomplete Tasks", value: TaskView.NoOption, hidden:true},
+    { label: "Incomplete Tasks", value: TaskView.NoOption, hidden: true },
     { label: "Incomplete Tasks", value: TaskView.Incomplete },
     { label: "Completed Tasks", value: TaskView.Completed },
     { label: "All Tasks", value: TaskView.All },
