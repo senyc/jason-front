@@ -7,14 +7,16 @@ import { CheckCircle, ChevronsLeft, Home, Menu, Settings, Sidebar } from "react-
 import Dropdown from "@/src/lib/components/dropdown";
 import MenuLink from "@/src/lib/components/header/profile/menuLink";
 import ThemeSwitcher from "@/src/lib/components/header/profile/themeSwitcher";
+import AccountAge from "./accountAge";
 
 interface TaskMenuProps {
   AccountName: React.ReactNode,
   AccountPhoto: React.ReactNode,
+  accountCreationDate: string;
   LogOut: React.ReactNode;
 }
 
-export default function SidebarContents({ AccountName, AccountPhoto, LogOut }: TaskMenuProps) {
+export default function SidebarContents({ AccountName, AccountPhoto, LogOut, accountCreationDate }: TaskMenuProps) {
   const [showSlideout, setShowSlideout] = useState(false);
   const [makeSidebar, setMakeSidebar] = useState(false);
   const [showSideBarExitArrow, setShowSidebarExitArrow] = useState(false);
@@ -84,7 +86,9 @@ export default function SidebarContents({ AccountName, AccountPhoto, LogOut }: T
                           <p
                             className="list-disc text-xs opacity-60"
                           >
-                            {"Account age: 2 months"}
+                            <AccountAge
+                              accountAge={accountCreationDate}
+                            />
                           </p>
                         </div>
                       </div>
