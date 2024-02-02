@@ -2,8 +2,9 @@
 
 import { useFormState } from "react-dom";
 
-import {login} from './actions'
+import { login } from './actions';
 import Link from 'next/link';
+import { useEffect, useRef } from "react";
 
 const initialState = {
   status: "",
@@ -12,6 +13,11 @@ const initialState = {
 
 export default function Login() {
   const [state, formAction] = useFormState(login, initialState);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current && inputRef.current.focus();
+  }, [inputRef]);
 
   return (
     <body className='flex h-full flex-col items-center justify-center'>
@@ -27,6 +33,7 @@ export default function Login() {
             >Email</label>
           </div>
           <input
+            ref={inputRef}
             type="text"
             id="email-input"
             name="email"
@@ -44,7 +51,7 @@ export default function Login() {
             id="password-input"
             placeholder="password..."
             name="password"
-            className={`${state && state.status != ""  ? 'border-red-500' : ""} input input-bordered w-full min-w-full`}
+            className={`${state && state.status != "" ? 'border-red-500' : ""} input input-bordered w-full min-w-full`}
           />
           {(state && state.status != "success") && (
             <span className="ml-1 mt-1 flex items-center text-xs font-medium tracking-wide text-red-500"
