@@ -1,22 +1,21 @@
 'use client';
-
-import { useState } from "react";
-import { usePathname } from 'next/navigation';
 import { CheckCircle, ChevronsLeft, Home, Menu, Settings, Sidebar } from "react-feather";
+import { usePathname } from 'next/navigation';
+import { useState } from "react";
 
-import Dropdown from "@/src/lib/components/dropdown";
-import MenuLink from "@/src/lib/components/header/profile/menuLink";
-import ThemeSwitcher from "@/src/lib/components/header/profile/themeSwitcher";
-import AccountAge from "./accountAge";
+import MenuLink from "@/src/lib/components/menuLink";
+import ThemeSwitcher from "@/src/lib/components/themeSwitcher";
+import UserAccountDropdown from "./userAccountDropdown";
+import PopupHeader from "./popupHeader";
 
 interface TaskMenuProps {
-  AccountName: React.ReactNode,
   AccountPhoto: React.ReactNode,
-  accountCreationDate: string;
   LogOut: React.ReactNode;
+  accountCreationDate: string;
+  accountName?: string,
 }
 
-export default function SidebarContents({ AccountName, AccountPhoto, LogOut, accountCreationDate }: TaskMenuProps) {
+export default function SidebarContents({ accountName, AccountPhoto, LogOut, accountCreationDate }: TaskMenuProps) {
   const [showSlideout, setShowSlideout] = useState(false);
   const [makeSidebar, setMakeSidebar] = useState(false);
   const [showSideBarExitArrow, setShowSidebarExitArrow] = useState(false);
@@ -41,9 +40,9 @@ export default function SidebarContents({ AccountName, AccountPhoto, LogOut, acc
       </button>
 
       <nav
-        className={`${showSlideout || makeSidebar || 'invisible -translate-x-full'} bg-light-header duration-300 absolute ${!makeSidebar ? '-left-0 right-0 top-12 ' : 'top-0 '} min-w-64 transition-all delay-75 ease-in-out`}
+        className={`bg-light-header duration-300 absolute min-w-64 transition-all delay-75 ease-in-out ${(showSlideout || makeSidebar) || 'invisible -translate-x-full'} ${!makeSidebar ? '-left-0 right-0 top-12' : 'top-0'}`}
       >
-        <ul className={`flex flex-col ${makeSidebar || 'rounded-md shadow'} pb-1 w-full`} >
+        <ul className={`flex flex-col pb-1 w-full ${makeSidebar || 'rounded-md shadow'}`} >
           <li>
             <div
               className="mx-4 flex flex-row items-center justify-between gap-2 pt-4"
@@ -51,67 +50,18 @@ export default function SidebarContents({ AccountName, AccountPhoto, LogOut, acc
               onMouseLeave={() => setShowSidebarExitArrow(false)}
             >
               {makeSidebar ? (
-                <Dropdown
-                  id="user-info"
-                  summary={
-                    <div
-                      className="flex h-full w-full flex-row items-center gap-1"
-                    >
-                      <div
-                        className="w-6"
-                      >
-                        {AccountPhoto}
-                      </div>
-                      {AccountName}
-                    </div>}
-                >
-                  <div
-                    className="dropdown-content bg-light-header absolute mt-2 w-[17rem] rounded-md shadow"
-                  >
-                    <div
-                      className="m-2 flex flex-row gap-1"
-                    >
-                      <div
-                        className="w-10 rounded-md"
-                      >
-                        {AccountPhoto}
-                      </div>
-                      <div
-                        className="flex h-full w-full flex-col"
-                      >
-                        {AccountName}
-                        <div
-                          className="flex flex-row gap-1"
-                        >
-                          <p
-                            className="list-disc text-xs opacity-60"
-                          >
-                            <AccountAge
-                              accountAge={accountCreationDate}
-                            />
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="mx-2 my-1.5 border-b-[.5px] border-gray-200"
-                    />
-                    {LogOut}
-                  </div>
-                </Dropdown>
+                <UserAccountDropdown
+                  accountName={accountName}
+                  AccountPhoto={AccountPhoto}
+                  accountCreationDate={accountCreationDate}
+                  Logout={LogOut}
+                />
               ) : (
-                <div
-                  className="flex w-full flex-row items-center gap-1"
-                >
-                  <div
-                    className="w-6"
-                  >
-                    {AccountPhoto}
-                  </div>
-                  {AccountName}
-                </div>
-              )
-              }
+                <PopupHeader
+                  accountName={accountName}
+                  AccountPhoto={AccountPhoto}
+                />
+              )}
               {makeSidebar && (
                 <button
                   className={`${!showSideBarExitArrow ? 'opacity-0' : ''}`}
