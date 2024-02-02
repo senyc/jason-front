@@ -11,11 +11,10 @@ const initialState = {
 };
 
 export default function Login() {
-  //@ts-ignore
   const [state, formAction] = useFormState(login, initialState);
 
   return (
-    <div className='flex h-full flex-col items-center justify-center'>
+    <body className='flex h-full flex-col items-center justify-center'>
       <div className="min-w-96">
         <h1 className="mb-4 w-full border-b-[0.2px] pb-2 text-3xl font-bold">
           Login
@@ -60,6 +59,6 @@ export default function Login() {
           <Link className="link " href='/login/new'>Sign up</Link>
         </div>
       </div>
-    </div>
+    </body>
   );
 };

@@ -9,10 +9,9 @@ const initialState = {
 };
 
 export default function New() {
-  //@ts-ignore
   const [state, formAction] = useFormState(newUser, initialState);
   return (
-    <div className='flex h-full flex-col items-center justify-center'>
+    <body className='flex h-full flex-col items-center justify-center'>
       <div className="min-w-96">
         <h1 className="mb-4 w-full border-b-[0.2px] pb-2 text-3xl font-bold">
           New Account
@@ -66,6 +65,6 @@ export default function New() {
           <button type="submit" className="btn btn-s mt-6">Sign up</button>
         </form>
       </div>
-    </div>
+    </body>
   );
 }
