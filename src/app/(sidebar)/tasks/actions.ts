@@ -179,19 +179,54 @@ export async function editTask(prevState: { message: string, status: string; }, 
     });
 
     if (!res.ok) {
-      return { message: 'Failed to edit user tasks', status: "failure" };
+      return { message: 'Failed to edit task, please try again', status: "failure" };
     }
 
     revalidatePath("/tasks");
-    return { message: '', status: "success" };
+    return { message: 'Synced', status: "success" };
 
   } catch (e) {
     if (e instanceof Error) {
       console.log(e);
-      return { message: "Failure adding new task", status: "failure" };
+      return { message: "Failure editing task, please try again", status: "failure" };
     }
 
-    return { message: "unknown issue transmitting data", status: "failure" };
+    return { message: "unknown issue transmitting data, please try again", status: "failure" };
   }
 }
 
+
+export async function getLastAccessedTime(): Promise<string> {
+  const jwt = cookies().get(ACCESS_TOKEN_COOKIE_NAME)?.value;
+  if (!jwt) {
+    redirect('/login');
+  }
+
+  const schema = z.object({
+    syncTime: z.string()
+  });
+
+  try {
+    const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}:${process.env.JASON_SERVICE_SERVICE_PORT}/site/tasks/getSyncTime`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`,
+      },
+    });
+
+    if (!res.ok) {
+      return "";
+    }
+
+    const resData = await res.json();
+    const data = schema.safeParse(resData);
+    if (!data.success) {
+      return "";
+    } else {
+      return data.data.syncTime;
+    }
+  } catch (e) {
+    return "";
+  }
+};
