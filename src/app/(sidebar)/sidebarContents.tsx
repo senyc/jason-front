@@ -7,6 +7,7 @@ import MenuLink from "@/src/lib/components/menuLink";
 import ThemeSwitcher from "@/src/lib/components/themeSwitcher";
 import UserAccountDropdown from "./userAccountDropdown";
 import PopupHeader from "./popupHeader";
+import SettingsButton from "./settingsButton";
 
 interface TaskMenuProps {
   AccountPhoto: React.ReactNode,
@@ -75,11 +76,9 @@ export default function SidebarContents({ accountName, AccountPhoto, LogOut, acc
           </li>
           <div className="m-2 border-b-[.5px] border-gray-200" />
           <ThemeSwitcher />
-          <MenuLink
-            href="/user/settings"
-            label="Settings"
-            Icon={Settings}
-            onPage={pathName.includes("settings")}
+          <SettingsButton
+            profilePhoto={AccountPhoto}
+            emailAddress={accountName}
           />
           {makeSidebar && (
             <>
