@@ -83,7 +83,7 @@ export default function TaskDisplayForm({ shouldDisplay, closeAction, id, body, 
         />
         <div className="m-3 flex h-12 flex-row place-items-center gap-4">
           <input
-            className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+            className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 focus:outline-none"
             type="date"
             name="due"
             defaultValue={due ? new Date(due).toLocaleDateString('en-CA') : ""}

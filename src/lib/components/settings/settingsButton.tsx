@@ -1,8 +1,7 @@
 import { Settings } from "react-feather";
-import { usePathname } from 'next/navigation';
 import { useState } from "react";
-import SettingsContent from "./settingsContent";
 
+import SettingsContent from "./settingsContent";
 
 interface SettingsButtonProps {
   profilePhoto: React.ReactNode;
@@ -10,8 +9,7 @@ interface SettingsButtonProps {
 }
 
 export default function SettingsButton({ profilePhoto, emailAddress }: SettingsButtonProps) {
-  const [showSettingsFloat, setShowSettingsFloat] = useState(false);
-  const pathName = usePathname();
+  const [settingsDisplay, setSettingsDisplay] = useState("account");
 
   return (
     <>
@@ -21,17 +19,20 @@ export default function SettingsButton({ profilePhoto, emailAddress }: SettingsB
           onClick={() => document.getElementById('my_modal_2').showModal()}
         >{"Settings"}
           <Settings
-            color={"black"}
+            color="black"
             size={19}
           />
         </button>
       </li >
       <dialog id="my_modal_2" className="modal">
-        <div className="modal-box min-h-96 max-w-6xl ">
+        <div className="modal-box h-[40%] max-w-6xl p-3 ">
           <div className="flex h-full flex-row">
-            <ul className="flex h-full w-3/12 flex-col border-r-[.5px] border-gray-200 pr-3">
+            <ul className="flex w-3/12 flex-col border-r-[.5px] border-gray-200 pr-3">
               <li className="">
-                <button className="h-10 w-full">
+                <button
+                  className="h-10 w-full"
+                  onClick={() => setSettingsDisplay("account")}
+                >
                   <p>
                     Account settings
                   </p>
@@ -39,7 +40,10 @@ export default function SettingsButton({ profilePhoto, emailAddress }: SettingsB
               </li>
               <div className="mx-2 my-1.5 border-b-[.5px] border-gray-200" />
               <li className="">
-                <button className="h-10 w-full">
+                <button
+                  className="h-10 w-full"
+                  onClick={() => setSettingsDisplay("developer")}
+                >
                   <p>
                     Developer settings
                   </p>
@@ -48,7 +52,10 @@ export default function SettingsButton({ profilePhoto, emailAddress }: SettingsB
 
               <div className="mx-2 my-1.5 border-b-[.5px] border-gray-200" />
               <li className="">
-                <button className="h-10 w-full">
+                <button
+                  className="h-10 w-full"
+                  onClick={() => setSettingsDisplay("display")}
+                >
                   <p>
                     Display settings
                   </p>
@@ -61,7 +68,8 @@ export default function SettingsButton({ profilePhoto, emailAddress }: SettingsB
             <SettingsContent
               emailAddress={emailAddress}
               profilePhoto={profilePhoto}
-              settingsDisplay="account"
+              settingsDisplay={settingsDisplay}
+              setSettingsDisplay={setSettingsDisplay}
             />
           </div>
         </div>

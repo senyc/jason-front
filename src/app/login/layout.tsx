@@ -1,13 +1,11 @@
-import type { Metadata } from 'next';
-
 export default function RootLayout({ children, }: {
   children: React.ReactNode;
 }) {
   return (
     <>
-      <main className="flex-grow">
+      <body className="h-full w-full">
         {children}
-      </main>
+      </body>
     </>
   );
 }

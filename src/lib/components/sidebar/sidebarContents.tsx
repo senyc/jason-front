@@ -7,7 +7,7 @@ import MenuLink from "@/src/lib/components/menuLink";
 import ThemeSwitcher from "@/src/lib/components/themeSwitcher";
 import UserAccountDropdown from "./userAccountDropdown";
 import PopupHeader from "./popupHeader";
-import SettingsButton from "./settingsButton";
+import SettingsButton from "../settings/settingsButton";
 
 interface TaskMenuProps {
   AccountPhoto: React.ReactNode,

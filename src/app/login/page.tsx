@@ -20,7 +20,7 @@ export default function Login() {
   }, [inputRef]);
 
   return (
-    <body className='flex h-full flex-col items-center justify-center'>
+    <main className='flex h-full flex-col items-center justify-center'>
       <div className="min-w-96">
         <h1 className="mb-4 w-full border-b-[0.2px] pb-2 text-3xl font-bold">
           Login
@@ -66,6 +66,6 @@ export default function Login() {
           <Link className="link " href='/login/new'>Sign up</Link>
         </div>
       </div>
-    </body>
+    </main>
   );
 };

@@ -230,3 +230,7 @@ export async function getLastAccessedTime(): Promise<string> {
     return "";
   }
 };
+
+export async function refreshPage() {
+    revalidatePath("/tasks");
+}

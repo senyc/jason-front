@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function Index() {
-  return <p>fdsafds</p>;
+  redirect("/login")
 }
