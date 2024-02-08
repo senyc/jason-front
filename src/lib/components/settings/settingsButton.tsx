@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Settings } from "react-feather";
 import { useState } from "react";
 
@@ -10,13 +11,14 @@ interface SettingsButtonProps {
 
 export default function SettingsButton({ profilePhotoSource, emailAddress }: SettingsButtonProps) {
   const [settingsDisplay, setSettingsDisplay] = useState("account");
-
+  // for dumb typescript
+  const myModal: HTMLDialogElement | null = document.getElementById('my_modal_2') as HTMLDialogElement;
   return (
     <>
       <li className={`h-full w-full transition duration-75 ease-in hover:bg-gray-200 mb-[2px]`}>
         <button
           className={`h-full w-full flex flex-row items-center justify-between px-4 py-1 text-sm`}
-          onClick={() => document.getElementById('my_modal_2').showModal()}
+          onClick={myModal.showModal}
         >{"Settings"}
           <Settings
             color="black"

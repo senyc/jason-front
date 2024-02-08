@@ -214,7 +214,7 @@ export default function GenerateNewApiKey({ cancelAction }: GenerateNewApiKeyPro
                 <button
                   onClick={() => {
                     toast.info("copied to clipboard");
-                    navigator.clipboard.writeText(newApiKeyState.res?.apikey);
+                    navigator.clipboard.writeText(newApiKeyState.res?.apikey as string);
                   }}
                   className="">
                   <Copy
