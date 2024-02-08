@@ -10,13 +10,13 @@ import PopupHeader from "./popupHeader";
 import SettingsButton from "../settings/settingsButton";
 
 interface TaskMenuProps {
-  AccountPhoto: React.ReactNode,
+  profilePhotoSource: string,
   LogOut: React.ReactNode;
   accountCreationDate: string;
   accountName?: string,
 }
 
-export default function SidebarContents({ accountName, AccountPhoto, LogOut, accountCreationDate }: TaskMenuProps) {
+export default function SidebarContents({ accountName, profilePhotoSource, LogOut, accountCreationDate }: TaskMenuProps) {
   const [showSlideout, setShowSlideout] = useState(false);
   const [makeSidebar, setMakeSidebar] = useState(false);
   const [showSideBarExitArrow, setShowSidebarExitArrow] = useState(false);
@@ -53,14 +53,14 @@ export default function SidebarContents({ accountName, AccountPhoto, LogOut, acc
               {makeSidebar ? (
                 <UserAccountDropdown
                   accountName={accountName}
-                  AccountPhoto={AccountPhoto}
+                  profilePhotoSource={profilePhotoSource}
                   accountCreationDate={accountCreationDate}
                   Logout={LogOut}
                 />
               ) : (
                 <PopupHeader
                   accountName={accountName}
-                  AccountPhoto={AccountPhoto}
+                  profilePhotoSource={profilePhotoSource}
                 />
               )}
               {makeSidebar && (
@@ -77,7 +77,7 @@ export default function SidebarContents({ accountName, AccountPhoto, LogOut, acc
           <div className="m-2 border-b-[.5px] border-gray-200" />
           <ThemeSwitcher />
           <SettingsButton
-            profilePhoto={AccountPhoto}
+            profilePhotoSource={profilePhotoSource}
             emailAddress={accountName}
           />
           {makeSidebar && (

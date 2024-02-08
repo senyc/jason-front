@@ -28,7 +28,7 @@ export default function ApiKeyDisplay({ hideKeyId }: ApiKeyDisplay) {
 
   return apiKeys && apiKeys.length == 0 ? (
     <p>
-      You don't have any registered api keys yet, press the <code>Generate new key</code> button to add one.
+      You don't have any registered api keys, press <code>Generate</code> to add one.
     </p>
   ) : apiKeys && apiKeys.map((apiKey) => {
     if (hideKeyId && apiKey.id === hideKeyId) {

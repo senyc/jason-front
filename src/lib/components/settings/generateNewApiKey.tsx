@@ -5,7 +5,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import FormDropdown from "@/src/lib/components/formDropdown";
 import { toast } from "react-toastify";
 import ApiKeyDisplay from "./apiKeyDisplay";
-import { Copy } from "react-feather";
+import { Check, Copy } from "react-feather";
 
 const initialState = {
   status: "",
@@ -169,6 +169,23 @@ export default function GenerateNewApiKey({ cancelAction }: GenerateNewApiKeyPro
       <h1 className="mb-4 mt-4 w-full border-b-[.5px] border-gray-200 pb-2 text-xl font-bold">
         Developer Settings
       </h1>
+      <div 
+          role="alert" 
+          className=" alert alert-info mb-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          className="h-6 w-6 shrink-0 stroke-current">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+          </path>
+        </svg>
+        <span>Make sure to copy your access token now, you won't be able to see it again.</span>
+      </div>
       <div className="flex flex-row justify-between border-b-[.5px] border-gray-200 pb-2">
         <button
           onClick={generateAnotherKey}
@@ -183,11 +200,15 @@ export default function GenerateNewApiKey({ cancelAction }: GenerateNewApiKeyPro
         </button>
       </div>
       <ul>
-        <li className="mt-3">
+        <li className="mt-3 bg-green-100 ">
           <div className="flex flex-col border-[.5px] border-gray-200 p-2">
             <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row gap-2">
-                <h3 className="">
+              <div className=" flex flex-row items-center gap-1 ">
+                  <Check 
+                    color="green"
+                    size={17}
+                  />
+                <h3 >
                   {newApiKeyState.res?.apikey}
                 </h3>
                 <button
@@ -198,7 +219,7 @@ export default function GenerateNewApiKey({ cancelAction }: GenerateNewApiKeyPro
                   className="">
                   <Copy
                     size={15}
-                    color="blue"
+                    color="#338ba8"
                   />
                 </button>
               </div>
@@ -209,9 +230,6 @@ export default function GenerateNewApiKey({ cancelAction }: GenerateNewApiKeyPro
                 Revoke
               </button>
             </div>
-            <p className="mb-3 mt-1">
-              Expires: {addMonthsToDate(Number(expiration)).toLocaleDateString("en-US")}
-            </p>
           </div>
         </li>
         <ApiKeyDisplay

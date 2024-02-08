@@ -37,7 +37,7 @@ export default function TaskHeader({ sinceLastSync, taskView = TaskView.Incomple
           {contents.map(currentOption => {
             return (<li
               className={currentOption.hidden ? 'hidden' : ''}
-              key={"formitem-" + currentOption.label}
+              key={"formitemthing-" + currentOption.value}
               onClick={() => {
                 toggleOpen();
                 router.push(`/tasks/${currentOption.value}`);
@@ -54,6 +54,7 @@ export default function TaskHeader({ sinceLastSync, taskView = TaskView.Incomple
       <button
         onClick={() => {
           toast.success("Synced!");
+          router.refresh();
           router.refresh();
 
         }}

@@ -6,19 +6,19 @@ import DeleteAccount from "./deleteAccount";
 import AccountContent from "./accountContent";
 
 interface SettingsContentProps {
-  profilePhoto: React.ReactNode;
+  profilePhotoSource: string;
   settingsDisplay: string;
   emailAddress?: string;
   setSettingsDisplay: Dispatch<SetStateAction<string>>;
 }
 
 
-export default function SettingsContent({ setSettingsDisplay, settingsDisplay, emailAddress, profilePhoto }: SettingsContentProps) {
+export default function SettingsContent({ setSettingsDisplay, settingsDisplay, emailAddress, profilePhotoSource }: SettingsContentProps) {
   return (
     <div className="w-full overflow-scroll">
       {settingsDisplay === "account" && (
         <AccountContent
-          profilePhoto={profilePhoto}
+          profilePhotoSource={profilePhotoSource}
           emailAddress={emailAddress as string}
           deleteAccount={() => setSettingsDisplay("deleteAccount")}
           changeEmailAddress={() => setSettingsDisplay("updateemail")}

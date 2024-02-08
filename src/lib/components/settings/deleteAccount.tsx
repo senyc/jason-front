@@ -70,7 +70,7 @@ export default function DeleteAccount({ cancelAction, emailAddress }: DeleteAcco
         </div>
         <div className="mt-5 flex flex-row items-center justify-between border-t-[.5px] border-gray-200 pt-2">
           <button
-            className="max-w-36 rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="min-w-10 disabled: mb-[2px] h-10 rounded-lg border-[.5px] border-red-500 p-2 text-center text-sm font-semibold text-red-400 transition duration-75 ease-in enabled:hover:bg-red-400 enabled:hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
             type="submit"
             disabled={deletionConfirmation.length == 0}
           >Delete Account</button>

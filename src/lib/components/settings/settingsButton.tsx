@@ -4,11 +4,11 @@ import { useState } from "react";
 import SettingsContent from "./settingsContent";
 
 interface SettingsButtonProps {
-  profilePhoto: React.ReactNode;
+  profilePhotoSource: string;
   emailAddress?: string;
 }
 
-export default function SettingsButton({ profilePhoto, emailAddress }: SettingsButtonProps) {
+export default function SettingsButton({ profilePhotoSource, emailAddress }: SettingsButtonProps) {
   const [settingsDisplay, setSettingsDisplay] = useState("account");
 
   return (
@@ -24,7 +24,7 @@ export default function SettingsButton({ profilePhoto, emailAddress }: SettingsB
           />
         </button>
       </li >
-      <dialog id="my_modal_2" className="modal">
+      <dialog id="my_modal_2" className="modal z-30 bg-[#0000] transition-none backdrop:opacity-50">
         <div className="modal-box h-[40%] max-w-6xl p-3 ">
           <div className="flex h-full flex-row">
             <ul className="flex w-3/12 flex-col border-r-[.5px] border-gray-200 pr-3">
@@ -50,7 +50,7 @@ export default function SettingsButton({ profilePhoto, emailAddress }: SettingsB
                 </button>
               </li>
 
-              <div className="mx-2 my-1.5 border-b-[.5px] border-gray-200" />
+              {/*              <div className="mx-2 my-1.5 border-b-[.5px] border-gray-200" />
               <li className="">
                 <button
                   className="h-10 w-full"
@@ -62,17 +62,22 @@ export default function SettingsButton({ profilePhoto, emailAddress }: SettingsB
                 </button>
               </li>
               <li className="h-48">
-              </li>
+              </li> */}
             </ul>
             <div className="mx-2 my-1.5 border-b-[.5px] border-gray-200" />
             <SettingsContent
               emailAddress={emailAddress}
-              profilePhoto={profilePhoto}
+              profilePhotoSource={profilePhotoSource}
               settingsDisplay={settingsDisplay}
               setSettingsDisplay={setSettingsDisplay}
             />
           </div>
         </div>
+        <form method="dialog" className="modal-backdrop">
+          <button
+            className="cursor-default"
+          >close</button>
+        </form>
       </dialog>
     </>
   );

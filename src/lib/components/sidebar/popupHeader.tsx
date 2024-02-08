@@ -1,20 +1,25 @@
+import Image from "next/image";
+
 interface SidebarPopupProps {
-  AccountPhoto: React.ReactNode;
+  profilePhotoSource: string;
   accountName?: string;
 }
 
-export default function PopupHeader({ AccountPhoto, accountName }: SidebarPopupProps) {
+export default function PopupHeader({ profilePhotoSource, accountName }: SidebarPopupProps) {
   return (<div
     className="flex w-full flex-row items-center gap-1"
   >
-    <div
-      className="w-6"
-    >
-      {AccountPhoto}
-    </div>
+    <Image
+      quality={100}
+      className="rounded-md"
+      alt="user profile photo"
+      src={profilePhotoSource}
+      width={25}
+      height={35}
+    />
     <div className="bg-light-header max-w-48 select-none text-xs font-semibold">
       {accountName}
     </div>
-  </div>
+  </div >
   );
 }

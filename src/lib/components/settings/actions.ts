@@ -1,7 +1,7 @@
 'use server';
 
 import { ACCESS_TOKEN_COOKIE_NAME } from "@/src/config/constants";
-import apiKey from "@/src/lib/annotations/apiKey";
+import { revalidatePath } from "next/cache";
 
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation';
@@ -255,5 +255,48 @@ export async function deleteAccount(prevState: { message: string, status: string
     return { message: "Successfully removed account", status: "success" };
   } catch {
     return { message: "Failure removing account, please try again", status: "failure" };
+  }
+}
+
+export async function setNewProfilePhoto(profilePhoto: number) {
+  const jwt = cookies().get(ACCESS_TOKEN_COOKIE_NAME)?.value;
+  if (!jwt) {
+    redirect('/login');
+  }
+
+  const schema = z.object({
+    profilePhoto: z.string()
+  });
+
+  try {
+    if (profilePhoto === undefined) {
+      return { message: "Please make a choice", status: "failure" };
+    }
+
+    const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}:${process.env.JASON_SERVICE_SERVICE_PORT}/site/tasks/changeProfilePhoto`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`,
+      },
+      body: JSON.stringify({ profilePhoto: profilePhoto })
+    });
+
+    if (!res.ok) {
+      return { message: "Failure adjusting profile photo", status: "failure" };
+    }
+
+    const resData = await res.json();
+    const parse = schema.safeParse(resData);
+
+    if (!parse.success) {
+      return { message: "Failure adjusting profile photo", status: "failure" };
+    }
+
+    // revalidatePath("/");
+
+    return { message: "Updated user profile", status: "success" };
+  } catch {
+    return { message: "Failure adjusting profile photo, please try again", status: "failure" };
   }
 }

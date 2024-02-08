@@ -1,5 +1,6 @@
 'use server';
 import { Clock } from "react-feather";
+import { getLastAccessedTime } from "./actions";
 import TimeContents from "./timeContents";
 
 export default async function TimeSinceLastSync() {
@@ -11,7 +12,7 @@ export default async function TimeSinceLastSync() {
         size={17} 
 
       />
-  e   <TimeContents
+      <TimeContents
         startTime={await getLastAccessedTime()}
       />
     </div>
