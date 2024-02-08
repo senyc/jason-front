@@ -49,7 +49,7 @@ export default function TimeContents({ startTime }: TimeContentsProps) {
   return (
     <div>
       {timeElapsed !== null ? (
-        <p className="min-w-16 text-gray-400">{formatTime(timeElapsed)}</p>
+        <p className=" min-w-16 text-left text-gray-400">{formatTime(timeElapsed)}</p>
       ) : (
         <div className="min-w-16"/>
       )}

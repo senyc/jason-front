@@ -37,6 +37,7 @@ export async function newUser(prevState: { message: string, status: string; }, f
   }
   try {
     const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}:${process.env.JASON_SERVICE_SERVICE_PORT}/api/user/new`, {
+      cache: "no-cache",
       method: "POST",
       headers: {
         'Content-Type': 'application/json',

@@ -1,4 +1,4 @@
-import Sidebar from "./sidebar";
+import Sidebar from "@/src/lib/components/sidebar/sidebar";
 import { TaskView } from "@/src/lib/annotations/taskView";
 
 export default async function TaskLayout({

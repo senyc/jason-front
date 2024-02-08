@@ -69,11 +69,10 @@ export default function NewTaskForm({ shouldDisplay, closeAction }: NewTaskFormP
       />
       <div className="m-3 flex h-12 flex-row place-items-center gap-4">
         <input
-          className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+          className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 focus:outline-none"
           type="date"
           name="due"
         />
-
         <input
           defaultValue={"0"}
           name={"priority"}

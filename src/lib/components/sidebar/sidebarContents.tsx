@@ -7,15 +7,16 @@ import MenuLink from "@/src/lib/components/menuLink";
 import ThemeSwitcher from "@/src/lib/components/themeSwitcher";
 import UserAccountDropdown from "./userAccountDropdown";
 import PopupHeader from "./popupHeader";
+import SettingsButton from "../settings/settingsButton";
 
 interface TaskMenuProps {
-  AccountPhoto: React.ReactNode,
+  profilePhotoSource: string,
   LogOut: React.ReactNode;
   accountCreationDate: string;
   accountName?: string,
 }
 
-export default function SidebarContents({ accountName, AccountPhoto, LogOut, accountCreationDate }: TaskMenuProps) {
+export default function SidebarContents({ accountName, profilePhotoSource, LogOut, accountCreationDate }: TaskMenuProps) {
   const [showSlideout, setShowSlideout] = useState(false);
   const [makeSidebar, setMakeSidebar] = useState(false);
   const [showSideBarExitArrow, setShowSidebarExitArrow] = useState(false);
@@ -52,14 +53,14 @@ export default function SidebarContents({ accountName, AccountPhoto, LogOut, acc
               {makeSidebar ? (
                 <UserAccountDropdown
                   accountName={accountName}
-                  AccountPhoto={AccountPhoto}
+                  profilePhotoSource={profilePhotoSource}
                   accountCreationDate={accountCreationDate}
                   Logout={LogOut}
                 />
               ) : (
                 <PopupHeader
                   accountName={accountName}
-                  AccountPhoto={AccountPhoto}
+                  profilePhotoSource={profilePhotoSource}
                 />
               )}
               {makeSidebar && (
@@ -75,11 +76,9 @@ export default function SidebarContents({ accountName, AccountPhoto, LogOut, acc
           </li>
           <div className="m-2 border-b-[.5px] border-gray-200" />
           <ThemeSwitcher />
-          <MenuLink
-            href="/user/settings"
-            label="Settings"
-            Icon={Settings}
-            onPage={pathName.includes("settings")}
+          <SettingsButton
+            profilePhotoSource={profilePhotoSource}
+            emailAddress={accountName}
           />
           {makeSidebar && (
             <>

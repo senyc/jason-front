@@ -1,5 +1,4 @@
-'use client';
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import FormDropdownOption from "../annotations/formDropdownOption";
 import OutsideClickHandler from "react-outside-click-handler";
 
@@ -11,7 +10,7 @@ interface FormDropdownProps {
   id: string;
 }
 
-export default function FormDropdown({ id,defaultValue = "", options, selectedValue, setSelectedValue }: FormDropdownProps) {
+export default function FormDropdown({ id, defaultValue = "", options, selectedValue, setSelectedValue }: FormDropdownProps) {
   const toggleOpen = () => {
     document.getElementById(id)?.removeAttribute('open');
   };
@@ -29,7 +28,7 @@ export default function FormDropdown({ id,defaultValue = "", options, selectedVa
           {options.map(currentOption => {
             return (<li
               className={currentOption.hidden ? 'text-gray-400' : ''}
-              key={"formitem" + "-" + currentOption.label}
+              key={"formitemdropdown-" + currentOption.label}
               onClick={() => {
                 toggleOpen();
                 setSelectedValue(currentOption.value);

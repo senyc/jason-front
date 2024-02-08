@@ -29,6 +29,7 @@ export async function login(prevState: { message: string, status: string; }, for
 
   try {
     const res = await fetch(`http://${process.env.JASON_SERVICE_SERVICE_HOST}:${process.env.JASON_SERVICE_SERVICE_PORT}/api/user/login`, {
+      cache: "no-cache",
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
