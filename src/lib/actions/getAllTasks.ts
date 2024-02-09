@@ -13,7 +13,7 @@ const allTasksResponse = z.array(z.object({
   priority: z.number().optional(),
   completed: z.boolean(),
   completedDate: z.string().optional(),
-}));
+})).nullish();
 
 const getAllTasks = async (): Promise<Task[]> => {
   const newData: Array<Task> = [];
@@ -35,21 +35,26 @@ const getAllTasks = async (): Promise<Task[]> => {
     if (res.ok) {
       const resData = await res.json();
       const data = allTasksResponse.parse(resData);
-      data.forEach(item => {
-        newData.push({
-          id: item.id,
-          title: item.title,
-          priority: item.priority as Priority,
-          body: item.body,
-          due: item.due ? new Date(item.due).toJSON() : null,
-          completed: item.completed,
-          completedDate: item.completedDate ? new Date(item.completedDate).toJSON() : undefined,
+      if (data != null) {
+        data.forEach(item => {
+          if (item) {
+            newData.push({
+              id: item.id,
+              title: item.title,
+              priority: item.priority as Priority,
+              body: item.body,
+              due: item.due ? new Date(item.due).toJSON() : null,
+              completed: item.completed,
+              completedDate: item.completedDate ? new Date(item.completedDate).toJSON() : undefined,
+            });
+          }
         });
-      });
+      }
+
       return newData;
     }
   } catch (e) {
-    console.log(e)
+    console.log(e);
     let message = "unknown error";
     if (e instanceof Error) {
       message = e.message;

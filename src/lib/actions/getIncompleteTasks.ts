@@ -11,7 +11,7 @@ const incompleteTasksResponse = z.array(z.object({
   body: z.string().optional(),
   due: z.string().nullish(),
   priority: z.number().optional()
-}));
+})).nullish();
 
 export default async function getIncompleteTasks(): Promise<Task[]> {
   const jwt = cookies().get(ACCESS_TOKEN_COOKIE_NAME)?.value;
@@ -32,16 +32,20 @@ export default async function getIncompleteTasks(): Promise<Task[]> {
     if (res.ok) {
       const resData = await res.json();
       const data = incompleteTasksResponse.parse(resData);
-      data.forEach(item => {
-        newData.push({
-          id: item.id,
-          title: item.title,
-          priority: item.priority as Priority,
-          body: item.body,
-          due: item.due ? new Date(item.due).toJSON() : null
+      if (data != null) {
+        data.forEach(item => {
+          if (item) {
+            newData.push({
+              id: item.id,
+              title: item.title,
+              priority: item.priority as Priority,
+              body: item.body,
+              due: item.due ? new Date(item.due).toJSON() : null
+            });
+          }
         });
-      });
-      return newData;
+        return newData;
+      }
     }
   } catch (e) {
     console.log(e);

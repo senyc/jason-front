@@ -80,29 +80,30 @@ const getTasks = async (taskViewOption: TaskView) => {
   }
 };
 
-export default async function TaskDashboard({ taskView = TaskView.NoOption}: { taskView?: TaskView; }) {
+export default async function TaskDashboard({ taskView = TaskView.NoOption }: { taskView?: TaskView; }) {
   let datedTasks: DatedTasks = new Map();
 
   const tasks = await getTasks(taskView);
-
-  tasks.forEach(task => {
-    // Empty string as the key for empty due dates
-    if (!task.due) {
-      const newElement = datedTasks.get("") || [];
-      newElement.push(task);
-      datedTasks.set("", newElement);
-    } else {
-      if (new Date(task.due) < new Date()) {
-        const newElement = datedTasks.get("Overdue") || [];
+  if (tasks != null) {
+    tasks.forEach(task => {
+      // Empty string as the key for empty due dates
+      if (!task.due) {
+        const newElement = datedTasks.get("") || [];
         newElement.push(task);
-        datedTasks.set("Overdue", newElement);
+        datedTasks.set("", newElement);
       } else {
-        const newElement = datedTasks.get(task.due) || [];
-        newElement.push(task);
-        datedTasks.set(task.due, newElement);
+        if (new Date(task.due) < new Date()) {
+          const newElement = datedTasks.get("Overdue") || [];
+          newElement.push(task);
+          datedTasks.set("Overdue", newElement);
+        } else {
+          const newElement = datedTasks.get(task.due) || [];
+          newElement.push(task);
+          datedTasks.set(task.due, newElement);
+        }
       }
-    }
-  });
+    });
+  }
   return (
     <ul>
       {tasks && renderTasks(taskView === TaskView.Completed, datedTasks)}

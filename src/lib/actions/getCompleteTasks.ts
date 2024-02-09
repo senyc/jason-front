@@ -12,7 +12,7 @@ const completedTasksResponse = z.array(z.object({
   due: z.string().nullish(),
   priority: z.number(),
   completedDate: z.string().nullish()
-}));
+})).nullish();
 
 const getCompleteTasks = async (): Promise<Array<Task>> => {
   const newData: Array<Task> = [];
@@ -34,16 +34,20 @@ const getCompleteTasks = async (): Promise<Array<Task>> => {
     if (res.ok) {
       const resData = await res.json();
       const data = completedTasksResponse.parse(resData);
-      data.forEach(item => {
-        newData.push({
-          id: item.id,
-          title: item.title,
-          priority: item.priority as Priority,
-          body: item.body,
-          due: item.due ? new Date(item.due).toJSON() : null
+      if (data != null) {
+        data.forEach(item => {
+          if (item) {
+            newData.push({
+              id: item.id,
+              title: item.title,
+              priority: item.priority as Priority,
+              body: item.body,
+              due: item.due ? new Date(item.due).toJSON() : null
+            });
+          }
         });
-      });
-      return newData;
+        return newData;
+      }
     }
   } catch (e) {
     console.log(e);
