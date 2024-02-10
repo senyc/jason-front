@@ -3,6 +3,7 @@
 import { useFormState } from "react-dom";
 import { newUser } from './actions';
 import { useEffect, useRef } from "react";
+import PasswordInput from "../passwordInput";
 
 const initialState = {
   status: "",
@@ -30,7 +31,7 @@ export default function New() {
           <input
             ref={inputRef}
             required
-            type="text"
+            type="email"
             name="email"
             id="email-input"
             placeholder="Email..."
@@ -43,9 +44,8 @@ export default function New() {
           <div className="label">
             <label className="label-text" htmlFor="password-input">Password</label>
           </div>
-          <input
+          <PasswordInput
             required
-            type="password"
             id="password-input"
             placeholder="Password..."
             name="password"
@@ -58,9 +58,8 @@ export default function New() {
           <div className="label">
             <label className="label-text" htmlFor="password-confirmation-input">Confirm password</label>
           </div>
-          <input
+          <PasswordInput
             required
-            type="password"
             id="password-confirmation-input"
             placeholder="Confirm password..."
             name="passwordConfirmation"

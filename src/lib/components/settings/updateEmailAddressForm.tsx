@@ -1,7 +1,7 @@
-import { useFormState } from "react-dom";
 import { changeEmailAddress } from "./actions";
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
 
 const initialState = {
@@ -16,10 +16,11 @@ interface UpdateEmailAddressProps {
 export default function UpdateEmailAddress({ cancelAction }: UpdateEmailAddressProps) {
   const [newEmail, setNewEmail] = useState("");
   const [changeEmailState, formAction] = useFormState(changeEmailAddress, initialState);
-  const router = useRouter();
+
   const notifyFailure = (message: string) => toast.error(message);
   const notifySuccess = (message: string) => toast.success(message);
 
+  const router = useRouter();
   useEffect(() => {
     if (changeEmailState.status == "failure") {
       notifyFailure(changeEmailState.message);
@@ -54,7 +55,7 @@ export default function UpdateEmailAddress({ cancelAction }: UpdateEmailAddressP
             autoFocus
             value={newEmail}
             onChange={e => setNewEmail(e.target.value)}
-            type="text"
+            type="email"
             placeholder="New Email"
           />
         </div>
