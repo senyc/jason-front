@@ -18,13 +18,12 @@ export default function SettingsButton({ profilePhotoSource, emailAddress }: Set
 
   return (
     <>
-      <li className={`h-full w-full transition duration-75 ease-in hover:bg-gray-200 mb-[2px]`}>
+      <li className={`transition duration-75 ease-in hover:bg-gray-200 dark:hover:bg-gray-500 mb-[2px]`}>
         <button
-          className={`h-full w-full flex flex-row items-center justify-between px-4 py-1 text-sm`}
+          className={`w-full flex flex-row items-center justify-between px-4 py-1 text-sm`}
           onClick={() => myModalRef.current?.showModal()}
         >{"Settings"}
           <Settings
-            color="black"
             size={19}
           />
         </button>

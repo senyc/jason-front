@@ -17,9 +17,9 @@ export default function PopupHeader({ profilePhotoSource, accountName }: Sidebar
       width={25}
       height={35}
     />
-    <div className="bg-light-header max-w-48 select-none text-xs font-semibold">
+    <p className="max-w-48 select-none text-xs font-semibold">
       {accountName}
-    </div>
+    </p>
   </div >
   );
 }

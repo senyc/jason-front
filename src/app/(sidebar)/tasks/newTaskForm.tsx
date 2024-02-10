@@ -69,7 +69,7 @@ export default function NewTaskForm({ shouldDisplay, closeAction }: NewTaskFormP
       />
       <div className="m-3 flex h-12 flex-row place-items-center gap-4">
         <input
-          className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 focus:outline-none"
+          className="rounded-lg border-[.5px] border-gray-200 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 focus:outline-none dark:hover:bg-gray-700"
           type="date"
           name="due"
         />
@@ -98,12 +98,12 @@ export default function NewTaskForm({ shouldDisplay, closeAction }: NewTaskFormP
         <button
           type="submit"
           disabled={formTitle.length <= 0}
-          className=" rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg border-[.5px] border-gray-200 p-2 text-sm font-normal transition duration-75 ease-in enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 enabled:dark:hover:bg-gray-700"
         >Add task</button>
         <button
           onClick={onCancel}
           type="button"
-          className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+          className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 dark:hover:bg-gray-700"
         >Cancel</button>
       </div>
     </form>

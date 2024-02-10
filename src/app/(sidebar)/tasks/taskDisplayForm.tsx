@@ -56,7 +56,7 @@ export default function TaskDisplayForm({ shouldDisplay, closeAction, id, body, 
       onOutsideClick={onCancel}
     >
       <form
-        className="mb-6 mt-2 w-full rounded-lg border-[.5px] border-gray-300"
+        className="mb-6 mt-2 w-full rounded-lg border-[.5px] border-gray-200"
         action={formAction}
       >
         <input
@@ -83,7 +83,7 @@ export default function TaskDisplayForm({ shouldDisplay, closeAction, id, body, 
         />
         <div className="m-3 flex h-12 flex-row place-items-center gap-4">
           <input
-            className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 focus:outline-none"
+            className="rounded-lg border-[.5px] border-gray-200 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 focus:outline-none dark:hover:bg-gray-700"
             type="date"
             name="due"
             defaultValue={due ? new Date(due).toLocaleDateString('en-CA') : ""}
@@ -110,12 +110,12 @@ export default function TaskDisplayForm({ shouldDisplay, closeAction, id, body, 
         </div>
         <div className="flex flex-row justify-between p-3">
           <button
-            className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-lg border-[.5px] border-gray-200 p-2 text-sm font-normal transition duration-75 ease-in enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 enabled:dark:hover:bg-gray-700"
             disabled={formTitle.length <= 0}
             type="submit"
           >Submit</button>
           <button
-            className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+            className="rounded-lg border-[.5px] border-gray-200 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 dark:hover:bg-gray-700"
             type="button"
             onClick={onCancel}
           >Cancel</button>

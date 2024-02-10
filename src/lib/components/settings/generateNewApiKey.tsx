@@ -152,12 +152,12 @@ export default function GenerateNewApiKey({ cancelAction }: GenerateNewApiKeyPro
         </div>
         <div className="mt-5 flex flex-row items-center justify-between border-t-[.5px] border-gray-200 pt-2">
           <button
-            className="max-w-36 rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="max-w-26 rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-700 enabled:dark:hover:bg-gray-700"
             type="submit"
             disabled={label.length == 0}
           >Generate new key</button>
           <button
-            className=" max-w-36 rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+            className=" max-w-36 rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 dark:hover:bg-gray-700"
             type="button"
             onClick={cancelAction}
           >Cancel</button>
@@ -169,9 +169,9 @@ export default function GenerateNewApiKey({ cancelAction }: GenerateNewApiKeyPro
       <h1 className="mb-4 mt-4 w-full border-b-[.5px] border-gray-200 pb-2 text-xl font-bold">
         Developer Settings
       </h1>
-      <div 
-          role="alert" 
-          className=" alert alert-info mb-4">
+      <div
+        role="alert"
+        className=" alert alert-info mb-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -189,26 +189,26 @@ export default function GenerateNewApiKey({ cancelAction }: GenerateNewApiKeyPro
       <div className="flex flex-row justify-between border-b-[.5px] border-gray-200 pb-2">
         <button
           onClick={generateAnotherKey}
-          className="min-w-10 mb-[2px] rounded-lg border-[.5px] border-gray-300  p-2 text-center text-sm font-normal transition duration-75 ease-in hover:bg-gray-200">
+          className="min-w-10 mb-[2px] rounded-lg border-[.5px] border-gray-300  p-2 text-center text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 dark:hover:bg-gray-700">
           Generate new key
         </button>
         <button
-          className="min-w-10 rounded-sm border-[.5px] border-red-500 p-2 text-center text-sm font-normal text-red-500 transition duration-75 ease-in hover:bg-red-200"
+          className="min-w-10 mb-[2px] h-10 rounded-lg border-[.5px] border-red-500 p-2 text-center text-sm font-semibold text-red-400 transition duration-75 ease-in hover:bg-red-400 hover:text-white"
           onClick={async () => setApiKeyRevokeRequest(await revokeAllApiKeys())}
         >
           Revoke all keys
         </button>
       </div>
       <ul>
-        <li className="mt-3 bg-green-100 ">
-          <div className="flex flex-col border-[.5px] border-gray-200 p-2">
+        <li className="mt-3 ">
+          <div className="flex flex-col rounded-lg border-[.5px] border-gray-200 bg-green-200 p-2">
             <div className="flex flex-row items-center justify-between">
               <div className=" flex flex-row items-center gap-1 ">
-                  <Check 
-                    color="green"
-                    size={17}
-                  />
-                <h3 >
+                <Check
+                  color="green"
+                  size={17}
+                />
+                <h3 className="text-gray-600">
                   {newApiKeyState.res?.apikey}
                 </h3>
                 <button
@@ -224,7 +224,7 @@ export default function GenerateNewApiKey({ cancelAction }: GenerateNewApiKeyPro
                 </button>
               </div>
               <button
-                className="min-w-10 rounded-sm border-[.5px] border-red-500 p-2 text-center text-sm font-normal text-red-500 transition duration-75 ease-in hover:bg-red-200"
+                className="min-w-10 mb-[2px] h-10 rounded-lg border-[.5px] border-red-500 p-2 text-center text-sm font-semibold text-red-400 transition duration-75 ease-in hover:bg-red-400 hover:text-white"
                 onClick={async () => setApiKeyRevokeRequest(await revokeApiKey(newApiKeyState.res?.id as any))}
               >
                 Revoke

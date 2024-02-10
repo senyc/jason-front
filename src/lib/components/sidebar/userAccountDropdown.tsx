@@ -23,13 +23,13 @@ export default function UserAccountDropdown({ Logout, profilePhotoSource, accoun
           width={25}
           height={35}
         />
-        <div className="bg-light-header max-w-48 select-none text-xs font-semibold">
+        <p className="max-w-48 select-none text-xs font-semibold">
           {accountName}
-        </div>
+        </p>
       </div>}
   >
     <div
-      className="dropdown-content bg-light-header absolute mt-2 w-[17rem] rounded-md shadow"
+      className="dropdown-content dark:bg-dark-header bg-light-header absolute mt-2 w-[17rem] rounded-md shadow"
     >
       <div
         className="m-2 flex flex-row gap-1"
@@ -45,9 +45,9 @@ export default function UserAccountDropdown({ Logout, profilePhotoSource, accoun
         <div
           className="flex h-full w-full flex-col"
         >
-          <div className="bg-light-header max-w-48 select-none text-xs font-semibold">
+          <p className="max-w-48 select-none text-xs font-semibold">
             {accountName}
-          </div>
+          </p>
           <div
             className="flex flex-row gap-1"
           >

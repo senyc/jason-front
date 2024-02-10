@@ -21,7 +21,7 @@ export default function ChangePhoto() {
       >
         <summary
           role="button"
-          className="min-w-10 mb-[2px] h-10 list-none rounded-lg border-[.5px] border-gray-300 p-2 text-center text-sm font-normal transition duration-75 ease-in hover:bg-gray-200"
+          className="min-w-10 mb-[2px] h-10 list-none rounded-lg border-[.5px] border-gray-300 p-2 text-center text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 dark:hover:bg-gray-700"
         >
           <p className="select-none">
             Change Photo

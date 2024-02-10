@@ -16,13 +16,13 @@ export default function AccountContent({ profilePhotoSource, emailAddress, chang
   const action = setNewProfilePhoto.bind(null, 0);
   return (
     <div className="flex flex-col">
-      <h1 className="mb-4 mt-4 w-full border-b-[.5px] border-gray-200 text-xl font-bold">
+      <h1 className="mb-4 mt-4 w-full border-b-[.5px] border-gray-200 pb-2 text-xl font-bold">
         Account Settings
       </h1>
       <ul>
         <li className="flex flex-col pb-4">
           <h2 className="mb-2 mt-3 border-b-[.5px] border-gray-200 pb-1 text-lg font-semibold">
-            Photo
+            Profile Photo
           </h2>
           <div className="flex flex-row gap-4">
             <Image
@@ -60,7 +60,7 @@ export default function AccountContent({ profilePhotoSource, emailAddress, chang
             <div className="flex flex-row gap-5">
               <button
                 onClick={changeEmailAddress}
-                className="min-w-10 mb-[2px] rounded-lg border-[.5px] border-gray-300  p-2 text-center text-sm font-normal transition duration-75 ease-in hover:bg-gray-200">
+                className="min-w-10 mb-[2px] rounded-lg border-[.5px] border-gray-300  p-2 text-center text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 dark:hover:bg-gray-700">
                 Change Email Address
               </button>
             </div>

@@ -60,12 +60,12 @@ export default function UpdateEmailAddress({ cancelAction }: UpdateEmailAddressP
         </div>
         <div className="mt-5 flex flex-row items-center justify-between border-t-[.5px] border-gray-200 pt-2">
           <button
-            className="max-w-36 rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="min-w-36 rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in enabled:hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 enabled:dark:hover:bg-gray-700"
             type="submit"
             disabled={newEmail.length == 0}
           >Change Email Address</button>
           <button
-            className=" max-w-36 rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+            className=" max-w-36 rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 dark:hover:bg-gray-700"
             type="button"
             onClick={cancelAction}
           >Cancel</button>
