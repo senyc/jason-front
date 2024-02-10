@@ -4,7 +4,7 @@ import { useFormState } from "react-dom";
 
 import { login } from './actions';
 import Link from 'next/link';
-import { useEffect, useRef } from "react";
+import PasswordInput from "./passwordInput";
 
 const initialState = {
   status: "",
@@ -13,11 +13,6 @@ const initialState = {
 
 export default function Login() {
   const [state, formAction] = useFormState(login, initialState);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    inputRef.current && inputRef.current.focus();
-  }, [inputRef]);
 
   return (
     <main className='flex h-full flex-col items-center justify-center'>
@@ -33,8 +28,8 @@ export default function Login() {
             >Email</label>
           </div>
           <input
-            ref={inputRef}
-            type="text"
+            autoFocus
+            type="email"
             id="email-input"
             name="email"
             placeholder="Email..."
@@ -46,11 +41,11 @@ export default function Login() {
               htmlFor="password-input"
             >Password</label>
           </div>
-          <input
-            type="password"
+          <PasswordInput
             id="password-input"
             placeholder="password..."
             name="password"
+            required
             className={`${state && state.status != "" ? 'border-red-500' : ""} input input-bordered w-full min-w-full`}
           />
           {(state && state.status != "success") && (
