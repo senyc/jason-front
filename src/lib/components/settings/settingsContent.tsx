@@ -15,7 +15,7 @@ interface SettingsContentProps {
 
 export default function SettingsContent({ setSettingsDisplay, settingsDisplay, emailAddress, profilePhotoSource }: SettingsContentProps) {
   return (
-    <div className="w-full overflow-scroll">
+    <div className="w-full overflow-y-auto">
       {settingsDisplay === "account" && (
         <AccountContent
           profilePhotoSource={profilePhotoSource}

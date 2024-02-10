@@ -75,7 +75,7 @@ export default function DeleteAccount({ cancelAction, emailAddress }: DeleteAcco
             disabled={deletionConfirmation.length == 0}
           >Delete Account</button>
           <button
-            className=" max-w-36 rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
+            className=" max-w-36 dark:hover-bg-gray-700 rounded-lg border-[.5px] border-gray-200 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"
             type="button"
             onClick={cancelAction}
           >Cancel</button>

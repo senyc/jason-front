@@ -37,13 +37,13 @@ export default function ApiKeyDisplay({ hideKeyId }: ApiKeyDisplay) {
 
     return (
       <li className="mt-3">
-        <div className="flex flex-col border-[.5px] border-gray-200 p-2">
+        <div className="flex flex-col rounded-lg border-[.5px] border-gray-200 p-2">
           <div className="flex flex-row items-center justify-between">
             <h3 className="font-semibold">
               {apiKey.label}
             </h3>
             <button
-              className="min-w-10 rounded-sm border-[.5px] border-red-500 p-2 text-center text-sm font-normal text-red-500 transition duration-75 ease-in hover:bg-red-200"
+              className="min-w-10 mb-[2px] h-10 rounded-lg border-[.5px] border-red-500 p-2 text-center text-sm font-semibold text-red-400 transition duration-75 ease-in hover:bg-red-400 hover:text-white"
               onClick={async () => setApiKeyRevokeRequest(await revokeApiKey(apiKey.id))}
             >
               Revoke

@@ -50,11 +50,11 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
         >
           <div className="flex flex-row place-items-center justify-between pb-1">
             <div
-              className="flex flex-row gap-2"
+              className="flex flex-row items-center gap-2"
             >
               <input
                 type="checkbox"
-                className={`checked:bg-none rounded-full border-${checkboxColor}-400 p-2 checked:text-${checkboxColor}-400 bg-${checkboxColor}-100 form-checkbox`}
+                className={`checked:bg-none rounded-full dark:checked:text-${checkboxColor}-700 border-${checkboxColor}-400 p-2 checked:text-${checkboxColor}-400 dark:bg-${checkboxColor}-300 bg-${checkboxColor}-100 form-checkbox`}
                 onClick={() => toggleTaskCompletion(completed, id)}
                 defaultChecked={completed}
               />

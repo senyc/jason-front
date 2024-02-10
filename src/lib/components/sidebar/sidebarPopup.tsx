@@ -12,9 +12,9 @@ export default function PopupHeader({ AccountPhoto, accountName }: SidebarPopupP
     >
       {AccountPhoto}
     </div>
-    <div className="bg-light-header max-w-48 select-none text-xs font-semibold">
+    <p className="max-w-48 select-none text-xs font-semibold">
       {accountName}
-    </div>
+    </p>
   </div>
   );
 }

@@ -1,5 +1,5 @@
 'use client';
-import { CheckCircle, ChevronsLeft, Home, Menu, Settings, Sidebar } from "react-feather";
+import { CheckCircle, ChevronsLeft, Home, Menu, Sidebar } from "react-feather";
 import { usePathname } from 'next/navigation';
 import { useState } from "react";
 
@@ -25,7 +25,7 @@ export default function SidebarContents({ accountName, profilePhotoSource, LogOu
 
   return (
     <section
-      className={`${makeSidebar && 'bg-light-header min-w-64 translate-x-0' || "min-w-24"} h-full duration-300 transition-all delay-75 ease-in-out relative`}
+      className={`${makeSidebar && 'dark:bg-dark-header bg-light-header min-w-64 translate-x-0' || "min-w-24"} h-full duration-300 transition-all delay-75 ease-in-out relative`}
       onMouseEnter={() => setShowSlideout(true)}
       onMouseLeave={() => setShowSlideout(false)}
     >
@@ -41,7 +41,7 @@ export default function SidebarContents({ accountName, profilePhotoSource, LogOu
       </button>
 
       <nav
-        className={`bg-light-header duration-300 absolute min-w-64 transition-all delay-75 ease-in-out ${(showSlideout || makeSidebar) || 'invisible -translate-x-full'} ${!makeSidebar ? '-left-0 right-0 top-12' : 'top-0'}`}
+        className={`dark:bg-dark-header bg-light-header duration-300 absolute min-w-64 transition-all delay-75 ease-in-out ${(showSlideout || makeSidebar) || 'invisible -translate-x-full'} ${!makeSidebar ? '-left-0 right-0 top-12' : 'top-0'}`}
       >
         <ul className={`flex flex-col pb-1 w-full ${makeSidebar || 'rounded-md shadow'}`} >
           <li>

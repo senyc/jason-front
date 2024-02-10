@@ -29,11 +29,11 @@ export default function TaskHeader({ sinceLastSync, taskView = TaskView.Incomple
   return (
     <header className="mx-auto flex h-12 w-full flex-row items-center gap-3">
       <Dropdown
-        summaryClassNames={"min-w-24 ml-8 list-none rounded-lg border-[.5px] border-gray-300 p-2 text-center text-sm font-normal transition duration-75 ease-in hover:bg-gray-100"}
+        summaryClassNames={"min-w-24 ml-8 list-none rounded-lg border-[.5px] border-gray-200 p-2 text-center text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 dark:hover:bg-gray-700"}
         summary={contents[contents.findIndex((val) => val.value === taskView)].label}
         id={id}
       >
-        <ul className="menu dropdown-content bg-light-header left-10 mt-2 rounded-md shadow">
+        <ul className="menu dropdown-content dark:bg-dark-header light:light:bg-light-header left-10 mt-2 rounded-md shadow">
           {contents.map(currentOption => {
             return (<li
               className={currentOption.hidden ? 'hidden' : ''}
