@@ -63,14 +63,23 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      height: {
+        '128': '32rem',
+      },
+      width: {
+        '128': '32rem',
+      },
       colors: {
         'dark-header': '#1f2327',
         'light-header': '#fbfbfa',
       },
+      screens: {
+        'xs': '500px',
+      },
     },
   },
   plugins: [require('daisyui'), require("@tailwindcss/forms")({
-  themes: ["light", "dark"],
+    themes: ["light", "dark"],
     strategy: 'class', // only generate classes don't add opinions
   })],
 };

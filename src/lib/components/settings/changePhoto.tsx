@@ -28,7 +28,7 @@ export default function ChangePhoto() {
           </p>
         </summary>
         <div
-          className="bg-base-100 dropdown-content absolute grid h-72 w-72 grid-cols-3 gap-2 border-black pl-2 shadow"
+          className="bg-base-100 dropdown-content absolute -right-36 grid h-72 w-72 grid-cols-3 gap-2 border-black pl-2 shadow sm:-right-full"
         >
           {[1, 2, 3, 4, 5, 6, 7, 8,9].map(imageNum => {
             const action = setNewProfilePhoto.bind(null, imageNum);

@@ -15,7 +15,7 @@ export default function AccountContent({ profilePhotoSource, emailAddress, chang
 
   const action = setNewProfilePhoto.bind(null, 0);
   return (
-    <div className="flex flex-col">
+    <div className="flex h-full flex-col">
       <h1 className="mb-4 mt-4 w-full border-b-[.5px] border-gray-200 pb-2 text-xl font-bold">
         Account Settings
       </h1>
