@@ -19,13 +19,12 @@ interface TaskMenuProps {
 export default function SidebarContents({ accountName, profilePhotoSource, LogOut, accountCreationDate }: TaskMenuProps) {
   const [showSlideout, setShowSlideout] = useState(false);
   const [makeSidebar, setMakeSidebar] = useState(false);
-  const [showSideBarExitArrow, setShowSidebarExitArrow] = useState(false);
 
   const pathName = usePathname();
 
   return (
     <section
-      className={`${makeSidebar && 'dark:bg-dark-header bg-light-header min-w-64 translate-x-0' || "min-w-24"} h-full duration-300 transition-all delay-75 ease-in-out relative`}
+      className={`${makeSidebar ? 'dark:bg-dark-header bg-light-header xs:min-w-64 min-h-full min-w-full translate-x-0 ' : 'lg:min-w-24 '} h-fit xs:h-full duration-300 transition-all delay-75 ease-in-out relative`}
       onMouseEnter={() => setShowSlideout(true)}
       onMouseLeave={() => setShowSlideout(false)}
     >
@@ -41,14 +40,12 @@ export default function SidebarContents({ accountName, profilePhotoSource, LogOu
       </button>
 
       <nav
-        className={`dark:bg-dark-header bg-light-header duration-300 absolute min-w-64 transition-all delay-75 ease-in-out ${(showSlideout || makeSidebar) || 'invisible -translate-x-full'} ${!makeSidebar ? '-left-0 right-0 top-12' : 'top-0'}`}
+        className={`dark:bg-dark-header bg-light-header xs:duration-300 absolute xs:transition-all xs:delay-75 xs:ease-in-out ${showSlideout && !makeSidebar ? 'invisible sm:visible' : ''} ${(showSlideout || makeSidebar) || 'invisible -translate-x-full'} ${!makeSidebar ? 'min-w-64 -left-0 right-0 top-12' : 'xs:min-w-64 top-0 min-w-full '}`}
       >
         <ul className={`flex flex-col pb-1 w-full ${makeSidebar || 'rounded-md shadow'}`} >
           <li>
             <div
               className="mx-4 flex flex-row items-center justify-between gap-2 pt-4"
-              onMouseEnter={() => setShowSidebarExitArrow(true)}
-              onMouseLeave={() => setShowSidebarExitArrow(false)}
             >
               {makeSidebar ? (
                 <UserAccountDropdown
@@ -63,23 +60,18 @@ export default function SidebarContents({ accountName, profilePhotoSource, LogOu
                   profilePhotoSource={profilePhotoSource}
                 />
               )}
-              {makeSidebar && (
-                <button
-                  className={`${!showSideBarExitArrow ? 'opacity-0' : ''}`}
-                  onClick={() => setMakeSidebar(prev => !prev)} >
-                  <ChevronsLeft
-                    color="grey"
-                  />
-                </button>
-              )}
+              {(makeSidebar && (<button
+                onClick={() => setMakeSidebar(prev => !prev)} >
+                <ChevronsLeft
+                  color="grey"
+                />
+              </button>
+              ))}
             </div>
           </li>
           <div className="m-2 border-b-[.5px] border-gray-200" />
           <ThemeSwitcher />
-          <SettingsButton
-            profilePhotoSource={profilePhotoSource}
-            emailAddress={accountName}
-          />
+          <SettingsButton />
           {makeSidebar && (
             <>
               <div className="mx-2 my-1.5 border-b-[.5px] border-gray-200" />

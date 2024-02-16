@@ -8,7 +8,7 @@ export default async function TaskLayout({
   params: { taskView: TaskView; };
 }) {
   return (
-    <body className="flex h-full w-full flex-row">
+    <body className="xs:flex-row flex h-full w-full flex-col">
       <Sidebar />
       {children}
     </body>
