@@ -1,12 +1,12 @@
 'use client';
 
 import { PenTool, Trash } from "react-feather";
-import { toast } from 'react-toastify';
 import { useState } from "react";
 
 import TaskDisplayForm from "./taskDisplayForm";
 import { Priority } from "@annotations/priority";
 import { deleteTask, toggleTaskCompletion } from "./actions";
+import notifySuccess from "@/src/lib/actions/notifySuccess";
 
 interface TaskDisplayProps {
   body?: string,
@@ -31,8 +31,6 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
   const [isHovered, setIsHovered] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const checkboxColor = priorityColorMatches.get(priority);
-
-  const notifySuccess = (message: string) => toast.success(message);
 
   const closeAction = () => {
     setIsHovered(false);
@@ -76,7 +74,7 @@ export default function TaskDisplay({ title, body, priority, id, completed, due 
                 type="button"
                 onClick={() => {
                   // This just assumes that it works
-                  notifySuccess("Succsfully deleted task");
+                  notifySuccess("Successfully deleted task");
                   deleteTask(id);
                 }}
               >

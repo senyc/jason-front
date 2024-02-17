@@ -1,12 +1,12 @@
 'use client';
 
 import { Clock } from "react-feather";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 import Dropdown from "@/src/lib/components/dropdown";
 import TimeContents from "./timeContents";
 import { TaskView } from "@/src/lib/annotations/taskView";
+import notifySuccess from "@/src/lib/actions/notifySuccess";
 
 interface TaskMenuProps {
   taskView: TaskView;
@@ -55,7 +55,7 @@ export default function TaskHeader({ sinceLastSync, taskView = TaskView.Incomple
         onClick={() => {
           router.refresh();
           router.refresh();
-          toast.success("Synced!");
+          notifySuccess("Synced!");
 
         }}
         className="ml-auto mr-3 flex flex-row items-center gap-1 ">

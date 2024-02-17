@@ -3,9 +3,11 @@ import { useFormState } from "react-dom";
 import { generateNewApiKeyFormAction, revokeAllApiKeys, revokeApiKey } from "./actions";
 import TextareaAutosize from "react-textarea-autosize";
 import FormDropdown from "@/src/lib/components/formDropdown";
-import { toast } from "react-toastify";
 import ApiKeyDisplay from "./apiKeyDisplay";
 import { Check, Copy } from "react-feather";
+import notifyFailure from "../../actions/notifyFailure";
+import notifyInfo from "../../actions/notifyInfo";
+import notifySuccess from "../../actions/notifySuccess";
 
 const initialState = {
   status: "",
@@ -26,8 +28,6 @@ export default function GenerateNewApiKey({ cancelAction }: GenerateNewApiKeyPro
   const [description, setDescription] = useState("");
   const [expiration, setExpiration] = useState("1");
 
-  const notifyFailure = (message: string) => toast.error(message);
-  const notifySuccess = (message: string) => toast.success(message);
 
   const [apiKeyRevokeRequest, setApiKeyRevokeRequest] = useState({ message: "", state: "" });
 
@@ -213,7 +213,7 @@ export default function GenerateNewApiKey({ cancelAction }: GenerateNewApiKeyPro
                 </h3>
                 <button
                   onClick={() => {
-                    toast.info("copied to clipboard");
+                    notifyInfo("copied to clipboard");
                     navigator.clipboard.writeText(newApiKeyState.res?.apikey as string);
                   }}
                   className="">

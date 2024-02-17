@@ -1,8 +1,8 @@
-
 import { useEffect, useState } from "react";
 import { revokeAllApiKeys } from "./actions";
 import ApiKeyDisplay from "./apiKeyDisplay";
-import { toast } from "react-toastify";
+import notifyFailure from "../../actions/notifyFailure";
+import notifySuccess from "../../actions/notifySuccess";
 
 interface ApiKeyContentProps {
   generateNewApiKey: () => void;
@@ -10,9 +10,6 @@ interface ApiKeyContentProps {
 
 export default function ApiKeyContent({ generateNewApiKey }: ApiKeyContentProps) {
   const [apiKeyRevokeRequest, setApiKeyRevokeRequest] = useState({ message: "", state: "" });
-
-  const notifySuccess = (message: string) => toast.success(message);
-  const notifyFailure = (message: string) => toast.error(message);
 
   useEffect(() => {
     if (apiKeyRevokeRequest.state == "failure") {

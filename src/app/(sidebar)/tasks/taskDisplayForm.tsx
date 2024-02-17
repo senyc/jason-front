@@ -1,12 +1,13 @@
 import OutsideClickHandler from "react-outside-click-handler";
 import TextareaAutosize from 'react-textarea-autosize';
-import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 
 import FormDropdown from '@/src/lib/components/formDropdown';
 import { Priority } from "@/src/lib/annotations/priority";
 import { editTask } from "./actions";
+import notifySuccess from "@/src/lib/actions/notifySuccess";
+import notifyFailure from "@/src/lib/actions/notifyFailure";
 
 const initialState = {
   status: "",
@@ -27,9 +28,6 @@ export default function TaskDisplayForm({ shouldDisplay, closeAction, id, body, 
   const [formTitle, setFormTitle] = useState(title);
   const [editTaskState, formAction] = useFormState(editTask, initialState);
   const [formDropdownItem, setFormDropdownItem] = useState(priority);
-
-  const notifySuccess = (message: string) => toast.success(message);
-  const notifyFailure = (message: string) => toast.error(message);
 
   const clearInputs = () => {
     setFormDropdownItem(priority);

@@ -1,9 +1,9 @@
 'use client';
-import { useEffect, useState } from "react";
+import { useEffect, } from "react";
 import { ToastContainer } from "react-toastify";
 
 export default function InitializeColorScheme() {
-  const [currentTheme, setCurrentTheme] = useState("");
+
   useEffect(() => {
     let theme = localStorage.getItem("theme");
     // If dark mode
@@ -19,12 +19,10 @@ export default function InitializeColorScheme() {
     document.documentElement.classList.add(theme);
     document.documentElement.classList.remove("hidden");
 
-    setCurrentTheme(theme);
-
-  }, [localStorage.getItem("theme")]);
+  }, []);
 
   return (
-    currentTheme && <ToastContainer
+    <ToastContainer
       position="bottom-left"
       autoClose={1500}
       hideProgressBar={true}
@@ -34,7 +32,6 @@ export default function InitializeColorScheme() {
       rtl={false}
       pauseOnFocusLoss
       pauseOnHover
-      theme={currentTheme}
       closeButton={false}
     />
   );

@@ -1,10 +1,11 @@
 import { deleteAccount } from "./actions";
-import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { ACCESS_TOKEN_COOKIE_NAME } from "@/src/config/constants";
+import notifyFailure from "../../actions/notifyFailure";
+import notifySuccess from "../../actions/notifySuccess";
 
 interface DeleteAccountProps {
   cancelAction: () => void;
@@ -20,8 +21,6 @@ export default function DeleteAccount({ cancelAction, emailAddress }: DeleteAcco
   const [deletionConfirmation, setDeletionConfirmation] = useState("");
   const [deleteAccountState, formAction] = useFormState(deleteAccount, initialState);
   const router = useRouter()
-  const notifyFailure = (message: string) => toast.error(message);
-  const notifySuccess = (message: string) => toast.success(message);
 
   useEffect(() => {
     if (deleteAccountState.status == "failure") {

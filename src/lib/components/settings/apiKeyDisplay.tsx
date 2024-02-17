@@ -1,7 +1,8 @@
 import apiKey from "@/src/lib/annotations/apiKey";
 import { getAllApiKeys, revokeApiKey } from "./actions";
-import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
+import notifyFailure from "../../actions/notifyFailure";
+import notifySuccess from "../../actions/notifySuccess";
 
 interface ApiKeyDisplay {
   hideKeyId?: string;
@@ -11,8 +12,6 @@ export default function ApiKeyDisplay({ hideKeyId }: ApiKeyDisplay) {
   const [apiKeyRevokeRequest, setApiKeyRevokeRequest] = useState({ message: "", state: "" });
   const [apiKeys, setApiKeys] = useState<apiKey[] | never | undefined>();
 
-  const notifySuccess = (message: string) => toast.success(message);
-  const notifyFailure = (message: string) => toast.error(message);
 
   useEffect(() => {
     if (apiKeyRevokeRequest.state == "failure") {

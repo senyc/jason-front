@@ -1,8 +1,9 @@
 import { changeEmailAddress } from "./actions";
-import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
+import notifyFailure from "../../actions/notifyFailure";
+import notifySuccess from "../../actions/notifySuccess";
 
 const initialState = {
   status: "",
@@ -17,8 +18,6 @@ export default function UpdateEmailAddress({ cancelAction }: UpdateEmailAddressP
   const [newEmail, setNewEmail] = useState("");
   const [changeEmailState, formAction] = useFormState(changeEmailAddress, initialState);
 
-  const notifyFailure = (message: string) => toast.error(message);
-  const notifySuccess = (message: string) => toast.success(message);
 
   const router = useRouter();
   useEffect(() => {

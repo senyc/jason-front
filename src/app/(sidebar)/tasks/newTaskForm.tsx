@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 
 import TextareaAutosize from "react-textarea-autosize";
-import { toast } from 'react-toastify';
 
 import { createNewTask } from "./actions";
 import FormDropdown from '@/src/lib/components/formDropdown';
+import notifySuccess from "@/src/lib/actions/notifySuccess";
+import notifyFailure from "@/src/lib/actions/notifyFailure";
 
 const initialState = {
   status: "",
@@ -20,9 +21,6 @@ interface NewTaskFormProps {
 export default function NewTaskForm({ shouldDisplay, closeAction }: NewTaskFormProps) {
   const [formDropdownItem, setFormDropdownItem] = useState("");
   const [formTitle, setFormTitle] = useState("");
-
-  const notifySuccess = (message: string) => toast.success(message);
-  const notifyFailure = (message: string) => toast.error(message);
 
   const [state, formAction] = useFormState(createNewTask, initialState);
 
