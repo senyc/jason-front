@@ -5,8 +5,8 @@ import { ToastContainer } from "react-toastify";
 export default function InitializeColorScheme() {
   const [currentTheme, setCurrentTheme] = useState("");
   useEffect(() => {
-    // If dark mode
     let theme = localStorage.getItem("theme");
+    // If dark mode
     if (!theme) {
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         theme = "dark";
@@ -18,8 +18,11 @@ export default function InitializeColorScheme() {
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.classList.add(theme);
     document.documentElement.classList.remove("hidden");
+
     setCurrentTheme(theme);
-  }, []);
+
+  }, [localStorage.getItem("theme")]);
+
   return (
     currentTheme && <ToastContainer
       position="bottom-left"

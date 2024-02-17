@@ -53,9 +53,9 @@ export default function TaskHeader({ sinceLastSync, taskView = TaskView.Incomple
       </Dropdown>
       <button
         onClick={() => {
+          router.refresh();
+          router.refresh();
           toast.success("Synced!");
-          router.refresh();
-          router.refresh();
 
         }}
         className="ml-auto mr-3 flex flex-row items-center gap-1 ">

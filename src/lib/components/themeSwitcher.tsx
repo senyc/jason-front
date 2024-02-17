@@ -1,12 +1,16 @@
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ThemeSwitcher() {
   const [currentTheme, setCurrentTheme] = useState<string>();
+  const router = useRouter();
 
   useEffect(() => {
     setCurrentTheme(document.documentElement.classList.contains("dark") ? "dark" : "light");
   }, []);
   const swapTheme = () => {
+
+    router.refresh();
     if (currentTheme) {
       const newTheme = currentTheme == "light" ? "dark" : "light";
       localStorage.setItem("theme", newTheme);
