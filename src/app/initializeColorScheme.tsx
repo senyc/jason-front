@@ -22,17 +22,17 @@ export default function InitializeColorScheme() {
   }, []);
 
   return (
-    <ToastContainer
-      position="bottom-left"
-      autoClose={1500}
-      hideProgressBar={true}
-      newestOnTop={false}
-      closeOnClick
-      limit={3}
-      rtl={false}
-      pauseOnFocusLoss
-      pauseOnHover
-      closeButton={false}
-    />
+    // <ToastContainer
+    //   position="bottom-left"
+    //   autoClose={1500}
+    //   hideProgressBar={true}
+    //   newestOnTop={false}
+    //   closeOnClick
+    //   limit={3}
+    //   rtl={false}
+    //   pauseOnFocusLoss
+    //   pauseOnHover
+    //   closeButton={false}
+    // />
   );
 }
