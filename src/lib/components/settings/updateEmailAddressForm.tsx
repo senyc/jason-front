@@ -4,6 +4,7 @@ import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
 import notifyFailure from "../../actions/notifyFailure";
 import notifySuccess from "../../actions/notifySuccess";
+import { ToastContainer } from "react-toastify";
 
 const initialState = {
   status: "",
@@ -71,6 +72,18 @@ export default function UpdateEmailAddress({ cancelAction }: UpdateEmailAddressP
           >Cancel</button>
         </div>
       </form>
+      <ToastContainer
+        position='bottom-left'
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        limit={3}
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        closeButton={false}
+      />
     </div>
   );
 

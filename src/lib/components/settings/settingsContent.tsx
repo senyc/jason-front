@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import ApiKeyContent from "./apiKeyContent";
+import ApiKeyContent from './apiKeyContent';
 import GenerateNewApiKey from "./generateNewApiKey";
 import UpdateEmailAddress from "./updateEmailAddressForm";
 import DeleteAccount from "./deleteAccount";

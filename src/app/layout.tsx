@@ -1,9 +1,10 @@
 import './globals.css';
 
 import type { Viewport } from 'next';
+import InitializeColorScheme from './initializeColorScheme';
 
 export const viewport: Viewport = {
-  colorScheme: "light dark"
+  colorScheme: 'light dark',
 };
 
 export default function RootLayout({
@@ -13,7 +14,8 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <html lang="en" className="h-full w-full">
+      <html lang='en' className='h-full w-full'>
+        <InitializeColorScheme />
         {children}
       </html>
     </>
