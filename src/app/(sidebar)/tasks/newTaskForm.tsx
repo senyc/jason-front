@@ -7,6 +7,7 @@ import { createNewTask } from "./actions";
 import FormDropdown from '@/src/lib/components/formDropdown';
 import notifySuccess from "@/src/lib/actions/notifySuccess";
 import notifyFailure from "@/src/lib/actions/notifyFailure";
+import { ToastContainer } from "react-toastify";
 
 const initialState = {
   status: "",
@@ -104,6 +105,18 @@ export default function NewTaskForm({ shouldDisplay, closeAction }: NewTaskFormP
           className="rounded-lg border-[.5px] border-gray-300 p-2 text-sm font-normal transition duration-75 ease-in hover:bg-gray-100 dark:hover:bg-gray-700"
         >Cancel</button>
       </div>
+      <ToastContainer
+        position='bottom-left'
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        limit={3}
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        closeButton={false}
+      />
     </form>
   );
 }

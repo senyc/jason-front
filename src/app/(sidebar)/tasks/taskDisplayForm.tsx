@@ -8,6 +8,7 @@ import { Priority } from "@/src/lib/annotations/priority";
 import { editTask } from "./actions";
 import notifySuccess from "@/src/lib/actions/notifySuccess";
 import notifyFailure from "@/src/lib/actions/notifyFailure";
+import { ToastContainer } from "react-toastify";
 
 const initialState = {
   status: "",
@@ -119,6 +120,30 @@ export default function TaskDisplayForm({ shouldDisplay, closeAction, id, body, 
           >Cancel</button>
         </div>
       </form>
+      <ToastContainer
+        position='bottom-left'
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        limit={3}
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        closeButton={false}
+      />
+      <ToastContainer
+        position='bottom-left'
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        limit={3}
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        closeButton={false}
+      />
     </OutsideClickHandler>
   );
 }
